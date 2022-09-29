@@ -6,6 +6,7 @@
     "type": "git",
     "url": "https://github.com/NicksPatties/megaresume"
   },
+  "packageManager": "pnpm@7.12.2",
   "scripts": {
     "prepare": "husky install",
     "dev": "vite dev",
