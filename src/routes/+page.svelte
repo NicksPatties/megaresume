@@ -1,2 +1,19 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+  import Intro from '../components/intro.svelte';
+  import Link from '../components/link.svelte';
+  import type { DataShape } from '../data/data';
+  import { data } from '../data/data';
+  import { onMount } from 'svelte';
+
+  let name = 'default value';
+  let url = 'default value';
+
+  onMount(async () => {
+    let myData: DataShape = await data;
+    name = myData.name;
+    url = myData.url;
+  });
+</script>
+
+<Intro {name} />
+<Link href={url} />
