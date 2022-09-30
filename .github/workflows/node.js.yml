@@ -30,3 +30,4 @@ jobs:
     - run: pnpm install --frozen-lockfile
     - run: npx playwright install
     - run: pnpm test
+    - run: pnpm e2e

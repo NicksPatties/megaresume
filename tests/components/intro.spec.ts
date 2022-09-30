@@ -1,5 +1,9 @@
-import { expect, test } from '@playwright/test';
+import { describe, expect, it } from 'vitest';
+import { render } from '@testing-library/svelte';
+import Link from '../../src/components/link.svelte';
 
-test('js behaves as expected', () => {
-  expect(1 + 1).toEqual(2);
-});
+describe('Intro component tests', () => {
+  it('should be a true test', () => {
+    expect(true).toBeTruthy()
+  })
+})
