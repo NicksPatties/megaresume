@@ -5,8 +5,8 @@
   import { data } from '../data/data';
   import { onMount } from 'svelte';
 
-  let name: string = 'default value';
-  let url: string = 'default value';
+  let name = 'default value';
+  let url = 'default value';
 
   onMount(async () => {
     let myData: DataShape = await data;
