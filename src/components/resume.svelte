@@ -6,7 +6,13 @@
   <div class="resume">
     <!-- This is where the theme information will be placed in the future -->
     <div class="resume-basic-info-container">
-      <input class="resume-name" type="text" placeholder="Firstname Lastname" bind:value={name} />
+      <input
+        id="name"
+        class="resume-name"
+        type="text"
+        placeholder="Firstname Lastname"
+        bind:value={name}
+      />
     </div>
   </div>
 </div>
