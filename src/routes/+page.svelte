@@ -1,19 +1,9 @@
 <script lang="ts">
-  import Intro from '../components/intro.svelte';
-  import Link from '../components/link.svelte';
-  import type { DataShape } from '../data/data';
-  import { data } from '../data/data';
-  import { onMount } from 'svelte';
+  import Menu from '../components/menu.svelte';
+  import Resume from '../components/resume.svelte';
 
-  let name = 'default value';
-  let url = 'default value';
-
-  onMount(async () => {
-    let myData: DataShape = await data;
-    name = myData.name;
-    url = myData.url;
-  });
+  let name = '';
 </script>
 
-<Intro {name} />
-<Link href={url} />
+<Menu bind:name />
+<Resume bind:name />
