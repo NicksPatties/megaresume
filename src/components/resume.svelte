@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { update } from '../data/data';
+
   export let name: string;
 </script>
 
@@ -12,6 +14,7 @@
         type="text"
         placeholder="Firstname Lastname"
         bind:value={name}
+        on:keyup={() => update(name)}
       />
     </div>
   </div>

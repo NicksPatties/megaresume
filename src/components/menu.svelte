@@ -1,5 +1,8 @@
 <script lang="ts">
+  import { update } from '../data/data';
+
   let open = false;
+
   export let name: string;
 </script>
 
@@ -26,7 +29,7 @@
     <label for="basic-info-menu">Basic info</label>
     <div class="basic-info-content">
       <label for="name">Name</label>
-      <input id="name" type="text" bind:value={name} />
+      <input id="name" type="text" bind:value={name} on:keyup={() => update(name)} />
     </div>
   </li>
 </div>
