@@ -1,21 +1,66 @@
 <script lang="ts">
-  import { update } from '../data/data';
-
-  export let name: string;
+  import type { RealResumeData } from '../data/data';
+  export let resume: RealResumeData;
 </script>
 
 <div class="resume-container">
   <div class="resume">
     <!-- This is where the theme information will be placed in the future -->
-    <div class="resume-basic-info-container">
+    <div class="basicInformation">
       <input
-        id="name"
-        class="resume-name"
+        id="basic_information-name"
+        class="name"
         type="text"
         placeholder="Firstname Lastname"
-        bind:value={name}
-        on:keyup={() => update(name)}
+        value={resume.basicInformation.name}
       />
+      <input
+        id="title"
+        class="subname"
+        type="text"
+        placeholder="Job Title"
+        value={resume.basicInformation.title}
+      />
+      <input
+        id="contact"
+        class="subname"
+        type="text"
+        placeholder="+15555555555"
+        value={resume.basicInformation.contact}
+      />
+      <input
+        id="location"
+        class="subname"
+        type="text"
+        placeholder="Location"
+        value={resume.basicInformation.location}
+      />
+    </div>
+    <div class="experience">
+      <h3>Work Experience</h3>
+      <ul>
+        {#each resume.experience as exp}
+          <li>{exp.title}, {exp.company} <i>{exp.startDate}-{exp.endDate}</i></li>
+          <ul>
+            {#each exp.highlights as highlight}
+              <li>{highlight}</li>
+            {/each}
+          </ul>
+        {/each}
+      </ul>
+    </div>
+    <div class="education">
+      <h3>Education</h3>
+      <ul>
+        {#each resume.education as edu}
+          <li>{edu.degree}: {edu.institution} {edu.startDate}-{edu.endDate}</li>
+          <ul>
+            {#each edu.highlights as highlight}
+              <li>{highlight}</li>
+            {/each}
+          </ul>
+        {/each}
+      </ul>
     </div>
   </div>
 </div>
@@ -46,13 +91,22 @@
     font-family: 'Times New Roman', Times, serif;
   }
 
-  .resume-basic-info-container {
+  .basicInformation {
     display: flex;
     flex-direction: column;
     width: 75%;
+    margin-bottom: 0.25in;
   }
 
-  .resume-name {
+  .name {
     font-size: 24px;
+  }
+
+  .subname {
+    font-size: 18px;
+  }
+
+  ul {
+    font-size: 18px;
   }
 </style>
