@@ -23,39 +23,46 @@ export const update = (name: string) => {
   }, delayMillis);
 };
 
-class BasicInformation {
+class Basics {
   name = '';
-  title = '';
-  contact = '';
-  location = '';
+  label = '';
+  image = '';
+  phone = '';
+  email = '';
+  summary = '';
 }
 
-class Experience {
-  company = '';
-  title = '';
+class Work {
+  name = '';
+  position = '';
+  url = '';
   startDate = '';
   endDate = '';
+  summary = '';
   highlights = [];
 }
 
 class Education {
-  degree = '';
+  studyType = '';
   institution = '';
+  area = '';
+  url = '';
   startDate = '';
   endDate = '';
-  highlights = [];
+  score = '';
+  courses = [];
 }
 
 export class RealResumeData {
   fromJSON(resume: string) {
     const resumeData = JSON.parse(resume);
-    this.basicInformation = resumeData['basic_information'];
-    this.experience = resumeData['experience'];
+    this.basics = resumeData['basics'];
+    this.work = resumeData['work'];
     this.education = resumeData['education'];
   }
 
-  basicInformation: BasicInformation = new BasicInformation();
-  experience: [Experience] = [new Experience()];
+  basics: Basics = new Basics();
+  work: [Work] = [new Work()];
   education: [Education] = [new Education()];
 }
 

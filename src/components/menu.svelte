@@ -1,9 +1,11 @@
 <script lang="ts">
   import type { RealResumeData } from '../data/data';
+  import type { Writable } from 'svelte/store';
 
   let open = false;
 
   export let resume: RealResumeData;
+  export let name: Writable<string>;
 </script>
 
 <button
@@ -30,43 +32,16 @@
     <label for="basic-info-menu">Basic info</label>
     <div class="menu-content">
       <label for="name">Name</label>
-      <input id="name" type="text" value={resume.basicInformation.name} />
+      <input id="name" type="text" value={$name} on:input={(e) => name.set(e.target.value)} />
 
       <label for="title">Title</label>
-      <input id="title" type="text" value={resume.basicInformation.title} />
+      <input id="title" type="text" value={resume.basics.label} />
 
-      <label for="contact">Contact</label>
-      <input id="contact" type="text" value={resume.basicInformation.contact} />
+      <label for="contact">Phone</label>
+      <input id="contact" type="text" value={resume.basics.phone} />
 
-      <label for="location">Location</label>
-      <input id="location" type="text" value={resume.basicInformation.location} />
-    </div>
-  </li>
-
-  <!-- Experience -->
-  <li>
-    <input id="experience-menu" type="checkbox" />
-    <label for="experience-menu">Experience</label>
-    <div id="experience-content" class="menu-content">
-      {#each resume.experience as exp}
-        <label for="company">Company</label>
-        <input id="company" type="text" value={exp.company} />
-
-        <label for="title">Title</label>
-        <input id="title" type="text" value={exp.title} />
-
-        <label for="start_date">Start date</label>
-        <input id="start_date" type="date" value={exp.startDate} />
-
-        <label for="end_date">End date</label>
-        <input id="end_date" type="date" value={exp.endDate} />
-
-        <label for="highlight">Highlights</label>
-        {#each exp.highlights as highlight, i}
-          <input id="highlight[{i}]" type="text" value={highlight} />
-        {/each}
-        <input id="highlight" type="text" value="" placeholder="New highlight" />
-      {/each}
+      <label for="location">Email</label>
+      <input id="location" type="text" value={resume.basics.email} />
     </div>
   </li>
 </div>

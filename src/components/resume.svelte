@@ -1,46 +1,44 @@
 <script lang="ts">
   import type { RealResumeData } from '../data/data';
+  import type { Writable } from 'svelte/store';
   export let resume: RealResumeData;
+  export let name: Writable<string>;
 </script>
 
 <div class="resume-container">
   <div class="resume">
     <!-- This is where the theme information will be placed in the future -->
-    <div class="basicInformation">
+    <div class="basics">
       <input
         id="basic_information-name"
         class="name"
         type="text"
         placeholder="Firstname Lastname"
-        value={resume.basicInformation.name}
+        value={$name}
+        on:change={(e) => {
+          name.set(e.target.value);
+        }}
       />
       <input
         id="title"
         class="subname"
         type="text"
         placeholder="Job Title"
-        value={resume.basicInformation.title}
+        value={resume.basics.label}
       />
       <input
         id="contact"
         class="subname"
         type="text"
         placeholder="+15555555555"
-        value={resume.basicInformation.contact}
-      />
-      <input
-        id="location"
-        class="subname"
-        type="text"
-        placeholder="Location"
-        value={resume.basicInformation.location}
+        value={resume.basics.phone}
       />
     </div>
     <div class="experience">
       <h3>Work Experience</h3>
       <ul>
-        {#each resume.experience as exp}
-          <li>{exp.title}, {exp.company} <i>{exp.startDate}-{exp.endDate}</i></li>
+        {#each resume.work as exp}
+          <li>{exp.position}, {exp.name} <i>{exp.startDate}-{exp.endDate}</i></li>
           <ul>
             {#each exp.highlights as highlight}
               <li>{highlight}</li>
@@ -53,10 +51,10 @@
       <h3>Education</h3>
       <ul>
         {#each resume.education as edu}
-          <li>{edu.degree}: {edu.institution} {edu.startDate}-{edu.endDate}</li>
+          <li>{edu.studyType}: {edu.institution} {edu.startDate}-{edu.endDate}</li>
           <ul>
-            {#each edu.highlights as highlight}
-              <li>{highlight}</li>
+            {#each edu.courses as course}
+              <li>{course}</li>
             {/each}
           </ul>
         {/each}
@@ -91,7 +89,7 @@
     font-family: 'Times New Roman', Times, serif;
   }
 
-  .basicInformation {
+  .basics {
     display: flex;
     flex-direction: column;
     width: 75%;

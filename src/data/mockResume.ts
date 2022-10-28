@@ -1,17 +1,37 @@
+/* 
+  https://jsonresume.org/schema/
+  Don't forget to add quote ticks when you're done editing
+*/
 export const mockResume = `{
-  "basic_information": {
+  "basics": {
     "name": "Nicholas Patti",
-    "title": "Frontend Engineer",
-    "contact": "+19253897100",
+    "label": "Software Engineer",
+    "image": "",
+    "phone": "(925) 389-7100",
     "email": "nickspatties@gmail.com",
-    "location": "Colorado, USA"
+    "url": "",
+    "summary": "A frontend developer with a desire to create interesting applications",
+    "location": {
+      "address": "123 Apple Ln",
+      "postalCode": "CA 94506",
+      "city": "Lego City",
+      "countryCode": "US",
+      "region": "California"
+    }
   },
-  "experience": [
+  "profiles": [{
+    "network": "LinkedIn",
+    "username": "NicksPatties",
+    "url": "https://www.linkedin.com/in/nick-patti-34675053/"
+  }],
+  "work": [
     {
-      "company": "Self employed",
-      "title": "Development lead",
-      "start_date": "2021-10-1",
-      "end_date": "2022-10-01",
+      "name": "Self employed",
+      "position": "Development lead",
+      "url": "",
+      "startDate": "2021-10-01",
+      "endDate": "2022-10-01",
+      "summary": "Leading mulitple projects of my own choosing",
       "highlights": [
         "Made a couple apps",
         "Published app on the app store",
@@ -20,10 +40,12 @@ export const mockResume = `{
       ]
     },
     {
-      "company": "Amazon Fulfillment Technologies, Amazon.com Inc",
-      "title": "Software Engineer",
-      "start_date": "2016-06-01",
-      "end_date": "2019-08-01",
+      "name": "Amazon Fulfillment Technologies, Amazon.com Inc",
+      "position": "Software Engineer",
+      "url": "",
+      "startDate": "2016-06-01",
+      "endDate": "2019-08-01",
+      "summary": "Created software for Amazon Fulfillment Technologies, supporting products such as Prime Now, Whole Foods Instant Delivery, and more.",
       "highlights": [
         "Designed and wrote a production-ready, multi-platform, frontend framework using ReactJS and CSS that currently supports five separate fulfillment businesses worldwide",
         "Designed, implemented, and released multiple associate-facing process workflows based on UI mockups and feedback from stakeholders",
@@ -35,10 +57,12 @@ export const mockResume = `{
       ]
     },
     {
-      "company": "Oomba. Inc",
-      "title": "Software Engineer and Founder",
-      "start_date": "2014-11-1",
-      "end_date":"2016-3-1",
+      "name": "Oomba. Inc",
+      "position": "Software Engineer and Founder",
+      "url": "",
+      "startDate": "2014-11-1",
+      "endDate":"2016-3-1",
+      "summary": "Created tournament management software",
       "highlights": [
         "Developed a robust tournament management system with software engineers and UX designers",
         "Developed software that was used to manage major tournaments, including a National Championship for Legendary, a deck building game",
@@ -48,26 +72,86 @@ export const mockResume = `{
       ]
     }
   ],
-  "education" : [
-    {
-      "degree": "Master of Science",
-      "instituiton": "University of California, Santa Cruz",
-      "startDate": "",
-      "endDate": "",
-      "highlights": [
-        "Games and Playable Media – Department of Computer Science, Baskin School of Engineering",
-        "Cumulative GPA: 3.6"
-      ]
-    },
-    {
-      "degree": "Bachelor of Science",
-      "instituiton": "University of California, Santa Cruz",
-      "startDate": "",
-      "endDate": "",
-      "highlights": [
-        "Computer Game Design – Department of Computer Science, Baskin School of Engineering",
-        "Graduated with Honors"
-      ]
-    }
-  ]
+  "volunteer": [{
+    "organization": "Game Developer's Conference",
+    "position": "",
+    "url": "",
+    "startDate": "",
+    "endDate": "",
+    "summary": "Worked as a conference associate to ensure attendees are having a fun time.",
+    "highlights": []
+  }],
+  "education" : [{
+    "studyType": "Master of Science",
+    "instituiton": "University of California, Santa Cruz",
+    "area": "Games and Playable Media – Department of Computer Science, Baskin School of Engineering",
+    "url": "",
+    "startDate": "",
+    "endDate": "",
+    "score": "3.6",
+    "courses": []
+  },
+  {
+    "studyType": "Bachelor of Science",
+    "instituiton": "University of California, Santa Cruz",
+    "area": "Computer Game Design – Department of Computer Science, Baskin School of Engineering",
+    "url": "",
+    "startDate": "",
+    "endDate": "",
+    "score": "",
+    "courses": []
+  }],
+  "awards": [{
+    "title": "",
+    "date": "",
+    "awarder": "",
+    "summary": ""
+  }],
+  "certificates": [{
+    "name": "",
+    "date": "",
+    "issuer": "",
+    "url": ""
+  }],
+  "publications": [{
+    "name": "",
+    "publisher": "",
+    "releaseDate": "",
+    "url": "",
+    "summary": ""
+  }],
+  "skills": [{
+    "name": "",
+    "level": "",
+    "keywords": [""]
+  }],
+  "languages": [{
+    "language": "",
+    "fluency": ""
+  }],
+  "interests": [{
+    "name": "",
+    "keywords": [""] 
+  }],
+  "references": [{
+    "name": "",
+    "reference": ""
+  }],
+  "projects": [{
+    "name": "",
+    "description": "",
+    "highlights": [],
+    "keywords": [],
+    "startDate": "",
+    "endDate": "",
+    "url": "",
+    "roles": [""],
+    "entity": "",
+    "type": ""
+  }],
+  "meta": {
+    "canonical": "",
+    "version": "",
+    "lastModified": ""
+  }
 }`;

@@ -4,6 +4,7 @@
   import { mockResume } from '../data/mockResume';
   import Menu from '../components/menu.svelte';
   import Resume from '../components/resume.svelte';
+  import { writable } from 'svelte/store';
 
   // TODO: need to figure out how to import mockResume json from another file
   // const mockResume = `{
@@ -82,10 +83,12 @@
 
   let realData = resumeJSONToData(mockResume);
 
+  let nameStore = writable('');
+
   onMount(() => {
     // TODO load real data from memory
   });
 </script>
 
-<Menu resume={realData} />
-<Resume resume={realData} />
+<Menu resume={realData} name={nameStore} />
+<Resume resume={realData} name={nameStore} />
