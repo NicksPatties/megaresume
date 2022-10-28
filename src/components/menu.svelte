@@ -1,11 +1,12 @@
 <script lang="ts">
-  import type { RealResumeData } from '../data/data';
+  import type { Basics, ResumeData } from '../data/data';
+  import { updateBasics } from '../data/store';
   import type { Writable } from 'svelte/store';
 
   let open = false;
 
-  export let resume: RealResumeData;
-  export let name: Writable<string>;
+  export let resume: ResumeData;
+  export let basics: Writable<Basics>;
 </script>
 
 <button
@@ -32,7 +33,12 @@
     <label for="basic-info-menu">Basic info</label>
     <div class="menu-content">
       <label for="name">Name</label>
-      <input id="name" type="text" value={$name} on:input={(e) => name.set(e.target.value)} />
+      <input
+        id="name"
+        type="text"
+        value={$basics.name}
+        on:input={(e) => updateBasics(e.target.value)}
+      />
 
       <label for="title">Title</label>
       <input id="title" type="text" value={resume.basics.label} />

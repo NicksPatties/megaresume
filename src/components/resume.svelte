@@ -1,8 +1,9 @@
 <script lang="ts">
-  import type { RealResumeData } from '../data/data';
+  import type { Basics, ResumeData } from '../data/data';
+  import { updateBasics } from '../data/store';
   import type { Writable } from 'svelte/store';
-  export let resume: RealResumeData;
-  export let name: Writable<string>;
+  export let resume: ResumeData;
+  export let basics: Writable<Basics>;
 </script>
 
 <div class="resume-container">
@@ -14,9 +15,9 @@
         class="name"
         type="text"
         placeholder="Firstname Lastname"
-        value={$name}
-        on:change={(e) => {
-          name.set(e.target.value);
+        value={$basics.name}
+        on:input={(e) => {
+          updateBasics(e.target.value);
         }}
       />
       <input
