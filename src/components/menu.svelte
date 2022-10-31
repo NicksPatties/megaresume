@@ -1,12 +1,15 @@
 <script lang="ts">
-  import type { Basics, ResumeData } from '../data/data';
-  import { updateBasics } from '../data/store';
-  import type { Writable } from 'svelte/store';
+  import type { BasicsStore } from '../data/data';
+  import { onInput } from '../util/eventListeners';
 
   let open = false;
 
-  export let resume: ResumeData;
-  export let basics: Writable<Basics>;
+  export let basics: BasicsStore;
+
+  const name = basics.name;
+  const label = basics.label;
+  const phone = basics.phone;
+  const email = basics.email;
 </script>
 
 <button
@@ -33,21 +36,16 @@
     <label for="basic-info-menu">Basic info</label>
     <div class="menu-content">
       <label for="name">Name</label>
-      <input
-        id="name"
-        type="text"
-        value={$basics.name}
-        on:input={(e) => updateBasics(e.target.value)}
-      />
+      <input id="name" type="text" value={$name} on:input={(e) => onInput(e, name)} />
 
       <label for="title">Title</label>
-      <input id="title" type="text" value={resume.basics.label} />
+      <input id="title" type="text" value={$label} on:input={(e) => onInput(e, label)} />
 
       <label for="contact">Phone</label>
-      <input id="contact" type="text" value={resume.basics.phone} />
+      <input id="contact" type="text" value={$phone} on:input={(e) => onInput(e, phone)} />
 
       <label for="location">Email</label>
-      <input id="location" type="text" value={resume.basics.email} />
+      <input id="location" type="text" value={$email} on:input={(e) => onInput(e, email)} />
     </div>
   </li>
 </div>

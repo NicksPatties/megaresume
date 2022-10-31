@@ -1,10 +1,21 @@
-export class Basics {
-  name = '';
-  label = '';
-  image = '';
-  phone = '';
-  email = '';
-  summary = '';
+import { writable } from 'svelte/store';
+
+export class BasicsStore {
+  name = writable('The first name');
+  label = writable('');
+  image = writable('');
+  phone = writable('');
+  email = writable('');
+  summary = writable('');
+
+  constructor(n: string, l: string, i: string, p: string, e: string, s: string) {
+    this.name.set(n);
+    this.label.set(l);
+    this.image.set(i);
+    this.phone.set(p);
+    this.email.set(e);
+    this.summary.set(s);
+  }
 }
 
 class Work {
@@ -36,7 +47,7 @@ export class ResumeData {
     this.education = resumeData['education'];
   }
 
-  basics: Basics = new Basics();
+  basics: Basics = blankBasics();
   work: [Work] = [new Work()];
   education: [Education] = [new Education()];
 }

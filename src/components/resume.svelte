@@ -1,9 +1,13 @@
 <script lang="ts">
-  import type { Basics, ResumeData } from '../data/data';
-  import { updateBasics } from '../data/store';
-  import type { Writable } from 'svelte/store';
+  import type { BasicsStore, ResumeData } from '../data/data';
+  import { onInput } from '../util/eventListeners';
   export let resume: ResumeData;
-  export let basics: Writable<Basics>;
+  export let basics: BasicsStore;
+
+  const name = basics.name;
+  const label = basics.label;
+  const phone = basics.phone;
+  const email = basics.email;
 </script>
 
 <div class="resume-container">
@@ -15,24 +19,32 @@
         class="name"
         type="text"
         placeholder="Firstname Lastname"
-        value={$basics.name}
-        on:input={(e) => {
-          updateBasics(e.target.value);
-        }}
+        value={$name}
+        on:input={(e) => onInput(e, name)}
       />
       <input
-        id="title"
+        id="label"
         class="subname"
         type="text"
         placeholder="Job Title"
-        value={resume.basics.label}
+        value={$label}
+        on:input={(e) => onInput(e, label)}
       />
       <input
-        id="contact"
+        id="phone"
         class="subname"
         type="text"
         placeholder="+15555555555"
-        value={resume.basics.phone}
+        value={$phone}
+        on:input={(e) => onInput(e, phone)}
+      />
+      <input
+        id="email"
+        class="subname"
+        type="text"
+        placeholder="placeholder@email.com"
+        value={$email}
+        on:input={(e) => onInput(e, email)}
       />
     </div>
     <div class="experience">

@@ -1,20 +1,24 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { Basics, resumeJSONToData } from '../data/data';
   import { mockResume } from '../data/mockResume';
   import Menu from '../components/menu.svelte';
   import Resume from '../components/resume.svelte';
-  import { basicsStore } from '../data/store';
+  import { BasicsStore } from '../data/data';
 
-  let realData = resumeJSONToData(mockResume);
-  let coolBasics = new Basics();
-  coolBasics.name = 'cool';
-  basicsStore.set(coolBasics);
+  let realData = JSON.parse(mockResume);
+  let basicsStore = new BasicsStore(
+    realData.basics.name,
+    realData.basics.label,
+    realData.basics.image,
+    realData.basics.phone,
+    realData.basics.email,
+    realData.basics.summary
+  );
 
   onMount(() => {
     // TODO load real data from memory
   });
 </script>
 
-<Menu resume={realData} basics={basicsStore} />
+<Menu basics={basicsStore} />
 <Resume resume={realData} basics={basicsStore} />
