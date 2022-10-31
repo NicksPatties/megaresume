@@ -1,15 +1,25 @@
 <script lang="ts">
-  import type { BasicsStore } from '../data/data';
-  import { onInput } from '../util/eventListeners';
+  import type { BasicsStore, WorkStore } from '../data/data';
+  import { onInput, onArrayInput } from '../util/eventListeners';
+  import { get } from 'svelte/store';
 
   let open = false;
 
   export let basics: BasicsStore;
+  export let work: WorkStore;
 
   const name = basics.name;
   const label = basics.label;
   const phone = basics.phone;
   const email = basics.email;
+
+  const workName = work.name;
+  const workPosition = work.position;
+  const workUrl = work.url;
+  const workStartDate = work.startDate;
+  const workEndDate = work.endDate;
+  const workSummary = work.summary;
+  const workHighlights = work.highlights;
 </script>
 
 <button
@@ -29,7 +39,6 @@
     <h1>MegaResume</h1>
   </div>
 
-  <p>Prototype for data import</p>
   <!-- Basic information -->
   <li>
     <input id="basic-info-menu" type="checkbox" />
@@ -46,6 +55,59 @@
 
       <label for="location">Email</label>
       <input id="location" type="text" value={$email} on:input={(e) => onInput(e, email)} />
+    </div>
+  </li>
+
+  <li>
+    <input id="work-menu" type="checkbox" />
+    <label for="work-menu">Work</label>
+    <div class="menu-content">
+      <label for="name">Name</label>
+      <input id="name" type="text" value={$workName} on:input={(e) => onInput(e, workName)} />
+
+      <label for="title">Position</label>
+      <input
+        id="title"
+        type="text"
+        value={$workPosition}
+        on:input={(e) => onInput(e, workPosition)}
+      />
+
+      <label for="contact">Start Date</label>
+      <input
+        id="contact"
+        type="text"
+        value={$workStartDate}
+        on:input={(e) => onInput(e, workStartDate)}
+      />
+
+      <label for="location">End Date</label>
+      <input
+        id="location"
+        type="text"
+        value={$workEndDate}
+        on:input={(e) => onInput(e, workEndDate)}
+      />
+
+      <label for="location">Summary</label>
+      <input
+        id="location"
+        type="text"
+        value={$workSummary}
+        on:input={(e) => onInput(e, workSummary)}
+      />
+
+      <label for="location">Highlights</label>
+      {#each $workHighlights as highlight, i}
+        <input
+          id="highlight[{i}]"
+          type="text"
+          value={highlight}
+          on:input={(e) => {
+            onArrayInput(e, workHighlights, i);
+          }}
+        />
+      {/each}
     </div>
   </li>
 </div>
@@ -88,5 +150,10 @@
 
   .menu.open {
     left: 0;
+  }
+
+  .menu-content {
+    display: flex;
+    flex-direction: column;
   }
 </style>

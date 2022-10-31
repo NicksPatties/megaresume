@@ -1,7 +1,7 @@
-import { writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 
 export class BasicsStore {
-  name = writable('The first name');
+  name = writable('');
   label = writable('');
   image = writable('');
   phone = writable('');
@@ -18,14 +18,32 @@ export class BasicsStore {
   }
 }
 
-class Work {
-  name = '';
-  position = '';
-  url = '';
-  startDate = '';
-  endDate = '';
-  summary = '';
-  highlights = [];
+export class WorkStore {
+  name = writable('');
+  position = writable('');
+  url = writable('');
+  startDate = writable('');
+  endDate = writable('');
+  summary = writable('');
+  highlights = writable(['']);
+
+  constructor(
+    n: string,
+    p: string,
+    u: string,
+    sd: string,
+    ed: string,
+    s: string,
+    h: Array<string>
+  ) {
+    this.name.set(n);
+    this.position.set(p);
+    this.url.set(u);
+    this.startDate.set(sd);
+    this.endDate.set(ed);
+    this.summary.set(s);
+    this.highlights.set(h);
+  }
 }
 
 class Education {
