@@ -1,24 +1,17 @@
 <script lang="ts">
   import type { BasicsStore, ResumeData, WorkStore } from '../data/data';
   import { onInput } from '../util/eventListeners';
-  import { get } from 'svelte/store';
+  import type { Writable } from 'svelte/store';
+  import WorkResume from './workResume.svelte';
 
   export let resume: ResumeData;
   export let basics: BasicsStore;
-  export let work: WorkStore;
+  export let work: Writable<WorkStore[]>;
 
   const name = basics.name;
   const label = basics.label;
   const phone = basics.phone;
   const email = basics.email;
-
-  const workName = work.name;
-  const workPosition = work.position;
-  const workUrl = work.url;
-  const workStartDate = work.startDate;
-  const workEndDate = work.endDate;
-  const workSummary = work.summary;
-  const workHighlights = work.highlights;
 </script>
 
 <div class="resume-container">
@@ -61,12 +54,15 @@
     <div class="experience">
       <h3>Work Experience</h3>
       <ul>
-        <li>{$workPosition}, {$workName} <i>{$workStartDate} - {$workEndDate}</i></li>
-        <ul>
-          {#each $workHighlights as highlight}
-            <li>{highlight}</li>
-          {/each}
-        </ul>
+        {#each $work as w}
+          <WorkResume
+            name={w.name}
+            position={w.position}
+            startDate={w.startDate}
+            endDate={w.endDate}
+            highlights={w.highlights}
+          />
+        {/each}
       </ul>
     </div>
     <div class="education">

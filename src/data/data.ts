@@ -1,4 +1,4 @@
-import { writable, type Writable } from 'svelte/store';
+import { writable } from 'svelte/store';
 
 export class BasicsStore {
   name = writable('');
@@ -17,6 +17,16 @@ export class BasicsStore {
     this.summary.set(s);
   }
 }
+
+export type Work = {
+  name: string;
+  position: string;
+  url: string;
+  startDate: string;
+  endDate: string;
+  summary: string;
+  highlights: string[];
+};
 
 export class WorkStore {
   name = writable('');
