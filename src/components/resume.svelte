@@ -1,12 +1,13 @@
 <script lang="ts">
-  import type { BasicsStore, ResumeData, WorkStore } from '../data/data';
+  import type { BasicsStore, WorkStore, EducationStore } from '../data/data';
   import { onInput } from '../util/eventListeners';
   import type { Writable } from 'svelte/store';
   import WorkResume from './workResume.svelte';
+  import EducationResume from './educationResume.svelte';
 
-  export let resume: ResumeData;
   export let basics: BasicsStore;
   export let work: Writable<WorkStore[]>;
+  export let education: Writable<EducationStore[]>;
 
   const name = basics.name;
   const label = basics.label;
@@ -68,13 +69,16 @@
     <div class="education">
       <h3>Education</h3>
       <ul>
-        {#each resume.education as edu}
-          <li>{edu.studyType}: {edu.institution} {edu.startDate}-{edu.endDate}</li>
-          <ul>
-            {#each edu.courses as course}
-              <li>{course}</li>
-            {/each}
-          </ul>
+        {#each $education as edu}
+          <EducationResume
+            studyType={edu.studyType}
+            institution={edu.institution}
+            area={edu.area}
+            startDate={edu.startDate}
+            endDate={edu.endDate}
+            score={edu.score}
+            courses={edu.courses}
+          />
         {/each}
       </ul>
     </div>

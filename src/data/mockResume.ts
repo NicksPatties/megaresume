@@ -83,22 +83,22 @@ export const mockResume = `{
   }],
   "education" : [{
     "studyType": "Master of Science",
-    "instituiton": "University of California, Santa Cruz",
+    "institution": "University of California, Santa Cruz",
     "area": "Games and Playable Media – Department of Computer Science, Baskin School of Engineering",
     "url": "",
-    "startDate": "",
-    "endDate": "",
-    "score": "3.6",
+    "startDate": "2013",
+    "endDate": "2014",
+    "score": "Cumulative GPA: 3.6",
     "courses": []
   },
   {
     "studyType": "Bachelor of Science",
-    "instituiton": "University of California, Santa Cruz",
+    "institution": "University of California, Santa Cruz",
     "area": "Computer Game Design – Department of Computer Science, Baskin School of Engineering",
     "url": "",
-    "startDate": "",
-    "endDate": "",
-    "score": "",
+    "startDate": "2008",
+    "endDate": "2013",
+    "score": "Graduated with Honors",
     "courses": []
   }],
   "awards": [{

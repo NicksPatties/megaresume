@@ -56,32 +56,44 @@ export class WorkStore {
   }
 }
 
-class Education {
-  studyType = '';
-  institution = '';
-  area = '';
-  url = '';
-  startDate = '';
-  endDate = '';
-  score = '';
-  courses = [];
-}
-
-export class ResumeData {
-  fromJSON(resume: string) {
-    const resumeData = JSON.parse(resume);
-    this.basics = resumeData['basics'];
-    this.work = resumeData['work'];
-    this.education = resumeData['education'];
-  }
-
-  basics: Basics = blankBasics();
-  work: [Work] = [new Work()];
-  education: [Education] = [new Education()];
-}
-
-export const resumeJSONToData = (resumeJSON: string): ResumeData => {
-  const data = new ResumeData();
-  data.fromJSON(resumeJSON);
-  return data;
+export type Education = {
+  studyType: string;
+  institution: string;
+  area: string;
+  url: string;
+  startDate: string;
+  endDate: string;
+  score: string;
+  courses: string[];
 };
+
+export class EducationStore {
+  studyType = writable('');
+  institution = writable('');
+  area = writable('');
+  url = writable('');
+  startDate = writable('');
+  endDate = writable('');
+  score = writable('');
+  courses = writable(['']);
+
+  constructor(
+    st: string,
+    i: string,
+    a: string,
+    u: string,
+    sd: string,
+    ed: string,
+    s: string,
+    c: Array<string>
+  ) {
+    this.studyType.set(st);
+    this.institution.set(i);
+    this.area.set(a);
+    this.url.set(u);
+    this.startDate.set(sd);
+    this.endDate.set(ed);
+    this.score.set(s);
+    this.courses.set(c);
+  }
+}

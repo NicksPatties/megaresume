@@ -3,7 +3,7 @@
   import { mockResume } from '../data/mockResume';
   import Menu from '../components/menu.svelte';
   import Resume from '../components/resume.svelte';
-  import { BasicsStore, WorkStore, type Work } from '../data/data';
+  import { BasicsStore, WorkStore, type Work, EducationStore, type Education } from '../data/data';
   import { writable } from 'svelte/store';
 
   let realData = JSON.parse(mockResume);
@@ -30,13 +30,29 @@
       )
     );
   });
-
   const workStores = writable(workStoresArray);
+
+  const educationStoreArray: Array<EducationStore> = [];
+  realData.education.forEach((elem: Education) => {
+    educationStoreArray.push(
+      new EducationStore(
+        elem.studyType,
+        elem.institution,
+        elem.area,
+        elem.url,
+        elem.startDate,
+        elem.endDate,
+        elem.score,
+        elem.courses
+      )
+    );
+  });
+  const educationStores = writable(educationStoreArray);
 
   onMount(() => {
     // TODO load real data from memory
   });
 </script>
 
-<Menu basics={basicsStore} work={workStores} />
-<Resume resume={realData} basics={basicsStore} work={workStores} />
+<Menu basics={basicsStore} work={workStores} education={educationStores} />
+<Resume basics={basicsStore} work={workStores} education={educationStores} />

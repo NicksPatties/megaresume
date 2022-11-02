@@ -1,13 +1,15 @@
 <script lang="ts">
-  import type { BasicsStore, WorkStore } from '../data/data';
+  import type { BasicsStore, WorkStore, EducationStore } from '../data/data';
   import { onInput } from '../util/eventListeners';
   import type { Writable } from 'svelte/store';
   import WorkMenu from '../components/workMenu.svelte';
+  import EducationMenu from './educationMenu.svelte';
 
   let open = false;
 
   export let basics: BasicsStore;
   export let work: Writable<WorkStore[]>;
+  export let education: Writable<EducationStore[]>;
 
   const name = basics.name;
   const label = basics.label;
@@ -62,6 +64,24 @@
           endDate={w.endDate}
           summary={w.summary}
           highlights={w.highlights}
+        />
+      {/each}
+    </div>
+  </li>
+
+  <li>
+    <input id="education-menu" type="checkbox" />
+    <label for="education-menu">Work</label>
+    <div class="menu-content">
+      {#each $education as edu}
+        <EducationMenu
+          studyType={edu.studyType}
+          institution={edu.institution}
+          area={edu.area}
+          startDate={edu.startDate}
+          endDate={edu.endDate}
+          score={edu.score}
+          courses={edu.courses}
         />
       {/each}
     </div>
