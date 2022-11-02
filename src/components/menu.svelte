@@ -71,7 +71,7 @@
 
   <li>
     <input id="education-menu" type="checkbox" />
-    <label for="education-menu">Work</label>
+    <label for="education-menu">Education</label>
     <div class="menu-content">
       {#each $education as edu}
         <EducationMenu
