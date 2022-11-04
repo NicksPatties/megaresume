@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { BasicsStore, WorkStore, EducationStore } from '../data/data';
-  import { onInput } from '../util/eventListeners';
+  import type { BasicsStore, WorkStore, EducationStore } from '@src/data/data';
+  import { onInput } from '@src/util/eventListeners';
   import type { Writable } from 'svelte/store';
   import WorkResume from './workResume.svelte';
   import EducationResume from './educationResume.svelte';

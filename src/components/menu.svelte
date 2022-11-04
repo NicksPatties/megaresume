@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { BasicsStore, WorkStore, EducationStore } from '../data/data';
-  import { onInput } from '../util/eventListeners';
+  import type { BasicsStore, WorkStore, EducationStore } from '@src/data/data';
+  import { onInput } from '@src/util/eventListeners';
   import type { Writable } from 'svelte/store';
-  import WorkMenu from '../components/workMenu.svelte';
+  import WorkMenu from '@src/components/workMenu.svelte';
   import EducationMenu from './educationMenu.svelte';
 
   let open = false;

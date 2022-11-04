@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { mockResume } from '../data/mockResume';
-  import Menu from '../components/menu.svelte';
-  import Resume from '../components/resume.svelte';
-  import { BasicsStore, WorkStore, EducationStore, loadResumeData } from '../data/data';
+  import { mockResume } from '@src/data/mockResume';
+  import Menu from '@src/components/menu.svelte';
+  import Resume from '@src/components/resume.svelte';
+  import { BasicsStore, WorkStore, EducationStore, loadResumeData } from '@src/data/data';
   import { writable, type Writable } from 'svelte/store';
 
   let basicsStore: BasicsStore = new BasicsStore();
