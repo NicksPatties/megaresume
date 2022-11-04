@@ -7,7 +7,7 @@ export const mockResume = `{
     "name": "Nicholas Patti",
     "label": "Software Engineer",
     "image": "",
-    "phone": "(925) 389-7100",
+    "phone": "(555) 555-5555",
     "email": "nickspatties@gmail.com",
     "url": "",
     "summary": "A frontend developer with a desire to create interesting applications",
