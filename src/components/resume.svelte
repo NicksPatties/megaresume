@@ -13,6 +13,15 @@
   const label = basics.label;
   const phone = basics.phone;
   const email = basics.email;
+
+  onresize = () => {
+    console.log(`window height: ${window.innerHeight}`);
+    const resumeHeight = 1056; // 11in
+    const margin = 42;
+    const fittedResumeHeight = window.innerHeight - margin * 2;
+    const scale = fittedResumeHeight / resumeHeight;
+    console.log(scale);
+  };
 </script>
 
 <div class="resume-container">
@@ -86,6 +95,12 @@
 </div>
 
 <style>
+  :root {
+    --A4height: 1056px; /* 11in */
+    --A4width: 816px; /* 8.5in */
+    --pointFiveIn: 48px;
+  }
+
   .resume-container {
     z-index: -1;
     overflow-y: scroll;
@@ -93,8 +108,8 @@
 
   .resume {
     transform-origin: center top;
-    height: 11in;
-    width: 8.5in;
+    height: var(--A4height);
+    width: var(--A4width);
     background: white;
     box-shadow: 0px 0px 9px black;
     transform: scale(1);
@@ -103,7 +118,9 @@
 
   /* Theme classes and such */
   .resume {
-    padding: 0.5in;
+    padding: var(--pointFiveIn);
+    width: calc(var(--A4width) - 2 * var(--pointFiveIn));
+    height: calc(var(--A4height) - 2 * var(--pointFiveIn));
   }
 
   .resume input {
