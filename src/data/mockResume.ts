@@ -1,0 +1,157 @@
+/* 
+  https://jsonresume.org/schema/
+  Don't forget to add quote ticks when you're done editing
+*/
+export const mockResume = `{
+  "basics": {
+    "name": "Nicholas Patti",
+    "label": "Software Engineer",
+    "image": "",
+    "phone": "(555) 555-5555",
+    "email": "nickspatties@gmail.com",
+    "url": "",
+    "summary": "A frontend developer with a desire to create interesting applications",
+    "location": {
+      "address": "123 Apple Ln",
+      "postalCode": "CA 94506",
+      "city": "Lego City",
+      "countryCode": "US",
+      "region": "California"
+    }
+  },
+  "profiles": [{
+    "network": "LinkedIn",
+    "username": "NicksPatties",
+    "url": "https://www.linkedin.com/in/nick-patti-34675053/"
+  }],
+  "work": [
+    {
+      "name": "Self employed",
+      "position": "Development lead",
+      "url": "",
+      "startDate": "2021-10-01",
+      "endDate": "2022-10-01",
+      "summary": "Leading mulitple projects of my own choosing",
+      "highlights": [
+        "Made a couple apps",
+        "Published app on the app store",
+        "Designed, planned, and developed the app",
+        "Took feedback and implemented it to improved features"
+      ]
+    },
+    {
+      "name": "Amazon Fulfillment Technologies, Amazon.com Inc",
+      "position": "Software Engineer",
+      "url": "",
+      "startDate": "2016-06-01",
+      "endDate": "2019-08-01",
+      "summary": "Created software for Amazon Fulfillment Technologies, supporting products such as Prime Now, Whole Foods Instant Delivery, and more.",
+      "highlights": [
+        "Designed and wrote a production-ready, multi-platform, frontend framework using ReactJS and CSS that currently supports five separate fulfillment businesses worldwide",
+        "Designed, implemented, and released multiple associate-facing process workflows based on UI mockups and feedback from stakeholders",
+        "Promptly addressed customer feedback of components to improve their experience, including word-based truncation, progress bar completion rate, manager-to-associate messaging, content-aware notifications, and more",
+        "Created a process to test any changes to components or associate workflows directly on the expected hand-scanner devices within a secure, corporate network",
+        "Removed cross site request forgery threats from associate-facing website. Increased the speed of completion by four times by creating a tool to find vulnerable forms",
+        "Removed end-of-life build software by designing and implementing a new build system, which simultaneously permitted package owners to more simply upgrade other dependent packages",
+        "Collaborated with UX Designers to create Fulfillment Human Interactive Guidelines, coaching SDEs the best ways to craft excellent customer experiences for fulfillment associates"
+      ]
+    },
+    {
+      "name": "Oomba. Inc",
+      "position": "Software Engineer and Founder",
+      "url": "",
+      "startDate": "2014-11-1",
+      "endDate":"2016-3-1",
+      "summary": "Created tournament management software",
+      "highlights": [
+        "Developed a robust tournament management system with software engineers and UX designers",
+        "Developed software that was used to manage major tournaments, including a National Championship for Legendary, a deck building game",
+        "Improved the ease of development and site performance by replacing previous JS implementation with AngularJS. Translated the paths for tournament, event, and game creation to Angular",
+        "Implementing drag and drop player assignments in our tournament management tool, improving user experience for tournament organizers",
+        "Utilized Pusher Javascript Client to implement live, updating leaderboard, match assignments, email notifications, and more"
+      ]
+    }
+  ],
+  "volunteer": [{
+    "organization": "Game Developer's Conference",
+    "position": "",
+    "url": "",
+    "startDate": "",
+    "endDate": "",
+    "summary": "Worked as a conference associate to ensure attendees are having a fun time.",
+    "highlights": []
+  }],
+  "education" : [{
+    "studyType": "Master of Science",
+    "institution": "University of California, Santa Cruz",
+    "area": "Games and Playable Media – Department of Computer Science, Baskin School of Engineering",
+    "url": "",
+    "startDate": "2013",
+    "endDate": "2014",
+    "score": "Cumulative GPA: 3.6",
+    "courses": []
+  },
+  {
+    "studyType": "Bachelor of Science",
+    "institution": "University of California, Santa Cruz",
+    "area": "Computer Game Design – Department of Computer Science, Baskin School of Engineering",
+    "url": "",
+    "startDate": "2008",
+    "endDate": "2013",
+    "score": "Graduated with Honors",
+    "courses": []
+  }],
+  "awards": [{
+    "title": "",
+    "date": "",
+    "awarder": "",
+    "summary": ""
+  }],
+  "certificates": [{
+    "name": "",
+    "date": "",
+    "issuer": "",
+    "url": ""
+  }],
+  "publications": [{
+    "name": "",
+    "publisher": "",
+    "releaseDate": "",
+    "url": "",
+    "summary": ""
+  }],
+  "skills": [{
+    "name": "",
+    "level": "",
+    "keywords": [""]
+  }],
+  "languages": [{
+    "language": "",
+    "fluency": ""
+  }],
+  "interests": [{
+    "name": "",
+    "keywords": [""] 
+  }],
+  "references": [{
+    "name": "",
+    "reference": ""
+  }],
+  "projects": [{
+    "name": "",
+    "description": "",
+    "highlights": [],
+    "keywords": [],
+    "startDate": "",
+    "endDate": "",
+    "url": "",
+    "roles": [""],
+    "entity": "",
+    "type": ""
+  }],
+  "meta": {
+    "canonical": "",
+    "version": "",
+    "lastModified": ""
+  }
+}`;
