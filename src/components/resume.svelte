@@ -23,7 +23,7 @@
     const margin = 42;
     const fittedResumeHeight = window.innerHeight - margin * 2;
     const scale = fittedResumeHeight / resumeHeight;
-    const resumeNode: HTMLElement | null = document.querySelector('.resume');
+    const resumeNode: HTMLElement | null = document.querySelector('.resume-container');
     if (resumeNode != undefined) resumeNode.style.transform = `scale(${scale * scaleControl})`;
   }
 
@@ -114,10 +114,77 @@
       </ul>
     </div>
   </div>
-  <div class="controls-container">
-    <button id="zoom-in">+</button>
-    <button id="zoom-out">-</button>
+  <div class="resume-overflow-warning">
+    <!-- This is where the theme information will be placed in the future -->
+    <div class="basics">
+      <input
+        id="basic_information-name"
+        class="name"
+        type="text"
+        placeholder="Firstname Lastname"
+        value={$name}
+        on:input={(e) => onInput(e, name)}
+      />
+      <input
+        id="label"
+        class="subname"
+        type="text"
+        placeholder="Job Title"
+        value={$label}
+        on:input={(e) => onInput(e, label)}
+      />
+      <input
+        id="phone"
+        class="subname"
+        type="text"
+        placeholder="+15555555555"
+        value={$phone}
+        on:input={(e) => onInput(e, phone)}
+      />
+      <input
+        id="email"
+        class="subname"
+        type="text"
+        placeholder="placeholder@email.com"
+        value={$email}
+        on:input={(e) => onInput(e, email)}
+      />
+    </div>
+    <div class="experience">
+      <h3>Work Experience</h3>
+      <ul>
+        {#each $work as w}
+          <WorkResume
+            name={w.name}
+            position={w.position}
+            startDate={w.startDate}
+            endDate={w.endDate}
+            highlights={w.highlights}
+          />
+        {/each}
+      </ul>
+    </div>
+    <div class="education">
+      <h3>Education</h3>
+      <ul>
+        {#each $education as edu}
+          <EducationResume
+            studyType={edu.studyType}
+            institution={edu.institution}
+            area={edu.area}
+            startDate={edu.startDate}
+            endDate={edu.endDate}
+            score={edu.score}
+            courses={edu.courses}
+          />
+        {/each}
+      </ul>
+    </div>
   </div>
+</div>
+<div class="controls-container">
+  <button id="zoom-in">+</button>
+  <button id="zoom-out">-</button>
 </div>
 
 <style>
@@ -128,11 +195,6 @@
   }
 
   .resume-container {
-    z-index: -1;
-    overflow-y: scroll;
-  }
-
-  .resume {
     transform-origin: center top;
     height: var(--A4height);
     width: var(--A4width);
@@ -142,14 +204,29 @@
     margin: 42px auto;
   }
 
-  /* Theme classes and such */
   .resume {
-    padding: var(--pointFiveIn);
+    position: absolute;
+    overflow: hidden;
+    top: 0;
+    z-index: 5;
+    margin: var(--pointFiveIn);
     width: calc(var(--A4width) - 2 * var(--pointFiveIn));
     height: calc(var(--A4height) - 2 * var(--pointFiveIn));
+    background: white;
   }
 
-  .resume input {
+  /* Theme classes and such */
+
+  .resume-overflow-warning {
+    position: absolute;
+    top: 0;
+    width: calc(var(--A4width) - 2 * var(--pointFiveIn));
+    z-index: 0;
+    margin: var(--pointFiveIn);
+    color: red;
+  }
+
+  .resume-container input {
     border: none;
     font-family: 'Times New Roman', Times, serif;
   }
