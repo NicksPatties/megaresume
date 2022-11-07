@@ -18,7 +18,6 @@
   let scaleControl = 1;
 
   function scaleResume() {
-    console.log(`window height: ${window.innerHeight}`);
     const resumeHeight = 1056; // 11in
     const margin = 42;
     const fittedResumeHeight = window.innerHeight - margin * 2;
