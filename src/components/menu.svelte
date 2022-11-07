@@ -1,6 +1,7 @@
 <script lang="ts">
   import Input from '@src/components/input.svelte';
-  import type { BasicsStore, WorkStore, EducationStore } from '@src/data/data';
+  import AddEntryButton from '@src/components/addEntryButton.svelte';
+  import { type BasicsStore, WorkStore, EducationStore } from '@src/data/data';
   import type { Writable } from 'svelte/store';
   import WorkMenu from '@src/components/workMenu.svelte';
   import EducationMenu from './educationMenu.svelte';
@@ -31,17 +32,20 @@
         open = false;
       }}>Close</button
     >
-    <h1>MegaResume</h1>
+    <h1>Mega Resume</h1>
   </div>
+
+  <h2>Basic Information</h2>
 
   <Input label={'Name'} value={name} />
   <Input label={'Title'} value={label} />
   <Input label={'Phone'} value={phone} />
   <Input label={'Email'} value={email} />
 
-  <h3>Work Experience</h3>
+  <h2>Work Experience</h2>
   <div class="menu-content">
-    {#each $work as w}
+    {#each $work as w, i}
+      <h3>Work {i + 1}</h3>
       <WorkMenu
         name={w.name}
         position={w.position}
@@ -51,11 +55,22 @@
         highlights={w.highlights}
       />
     {/each}
+    <AddEntryButton
+      text={'Add new work entry'}
+      click={() => {
+        work.update((w) => {
+          w.push(new WorkStore());
+          return w;
+        });
+        return null;
+      }}
+    />
   </div>
 
-  <h3>Education</h3>
+  <h2>Education</h2>
   <div class="menu-content">
-    {#each $education as edu}
+    {#each $education as edu, i}
+      <h3>Education {i + 1}</h3>
       <EducationMenu
         studyType={edu.studyType}
         institution={edu.institution}
@@ -65,6 +80,16 @@
         score={edu.score}
       />
     {/each}
+    <AddEntryButton
+      text={'Add new education entry'}
+      click={() => {
+        education.update((edu) => {
+          edu.push(new EducationStore());
+          return edu;
+        });
+        return null;
+      }}
+    />
   </div>
 </div>
 
@@ -113,6 +138,10 @@
 
   .menu.open {
     left: 0;
+  }
+
+  h2 {
+    margin-bottom: 12px;
   }
 
   h3 {

@@ -1,5 +1,6 @@
 <script lang="ts">
   import Input from '@src/components/input.svelte';
+  import AddEntryButton from '@src/components/addEntryButton.svelte';
   import type { Writable } from 'svelte/store';
   import { onArrayInput } from '@src/util/eventListeners';
 
@@ -29,6 +30,16 @@
     }}>{highlight}</textarea
   >
 {/each}
+<AddEntryButton
+  text={'Add new highlight'}
+  click={() => {
+    highlights.update((h) => {
+      h.push('');
+      return h;
+    });
+    return null;
+  }}
+/>
 
 <style>
   label {
