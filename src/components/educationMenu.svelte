@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Writable } from 'svelte/store';
-  import { onInput, onArrayInput } from '../util/eventListeners';
+  import { onInput, onArrayInput } from '@src/util/eventListeners';
 
   export let studyType: Writable<string>;
   export let institution: Writable<string>;
