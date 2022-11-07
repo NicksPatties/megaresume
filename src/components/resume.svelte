@@ -4,6 +4,7 @@
   import type { Writable } from 'svelte/store';
   import WorkResume from './workResume.svelte';
   import EducationResume from './educationResume.svelte';
+  import { onMount } from 'svelte';
 
   export let basics: BasicsStore;
   export let work: Writable<WorkStore[]>;
@@ -14,14 +15,21 @@
   const phone = basics.phone;
   const email = basics.email;
 
-  onresize = () => {
+  function scaleResume() {
     console.log(`window height: ${window.innerHeight}`);
     const resumeHeight = 1056; // 11in
     const margin = 42;
     const fittedResumeHeight = window.innerHeight - margin * 2;
     const scale = fittedResumeHeight / resumeHeight;
-    console.log(scale);
-  };
+    const resumeNode: HTMLElement | null = document.querySelector('.resume')
+    if (resumeNode != undefined) resumeNode.style.transform = `scale(${scale})`
+  }
+
+  onMount(() => {
+    scaleResume()
+    onresize = scaleResume
+  })
+  
 </script>
 
 <div class="resume-container">
