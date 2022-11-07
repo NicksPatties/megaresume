@@ -15,21 +15,35 @@
   const phone = basics.phone;
   const email = basics.email;
 
+  let scaleControl = 1;
+
   function scaleResume() {
     console.log(`window height: ${window.innerHeight}`);
     const resumeHeight = 1056; // 11in
     const margin = 42;
     const fittedResumeHeight = window.innerHeight - margin * 2;
     const scale = fittedResumeHeight / resumeHeight;
-    const resumeNode: HTMLElement | null = document.querySelector('.resume')
-    if (resumeNode != undefined) resumeNode.style.transform = `scale(${scale})`
+    const resumeNode: HTMLElement | null = document.querySelector('.resume');
+    if (resumeNode != undefined) resumeNode.style.transform = `scale(${scale * scaleControl})`;
   }
 
   onMount(() => {
-    scaleResume()
-    onresize = scaleResume
-  })
-  
+    scaleResume();
+    onresize = scaleResume;
+    // zoom controls
+    const zoomIn = document.getElementById('zoom-in');
+    if (zoomIn != undefined)
+      zoomIn.onclick = () => {
+        scaleControl += 0.1;
+        scaleResume();
+      };
+    const zoomOut = document.getElementById('zoom-out');
+    if (zoomOut != undefined)
+      zoomOut.onclick = () => {
+        scaleControl -= 0.1;
+        scaleResume();
+      };
+  });
 </script>
 
 <div class="resume-container">
@@ -100,6 +114,10 @@
       </ul>
     </div>
   </div>
+  <div class="controls-container">
+    <button id="zoom-in">+</button>
+    <button id="zoom-out">-</button>
+  </div>
 </div>
 
 <style>
@@ -153,5 +171,17 @@
 
   ul {
     font-size: 18px;
+  }
+
+  .controls-container {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    bottom: 20px;
+    right: 20px;
+  }
+
+  .controls-container button {
+    margin-top: 8px;
   }
 </style>
