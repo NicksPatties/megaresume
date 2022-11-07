@@ -1,6 +1,7 @@
 <script lang="ts">
+  import Input from '@src/components/input.svelte';
   import type { Writable } from 'svelte/store';
-  import { onInput, onArrayInput } from '@src/util/eventListeners';
+  import { onArrayInput } from '@src/util/eventListeners';
 
   export let name: Writable<string>;
   export let position: Writable<string>;
@@ -11,31 +12,34 @@
   export let highlights: Writable<Array<string>>;
 </script>
 
-<label for="name">Name</label>
-<input id="name" type="text" value={$name} on:input={(e) => onInput(e, name)} />
-
-<label for="title">Position</label>
-<input id="title" type="text" value={$position} on:input={(e) => onInput(e, position)} />
-
-<label for="contact">Start Date</label>
-<input id="contact" type="text" value={$startDate} on:input={(e) => onInput(e, startDate)} />
-
-<label for="location">End Date</label>
-<input id="location" type="text" value={$endDate} on:input={(e) => onInput(e, endDate)} />
-
-<label for="location">Summary</label>
-<input id="location" type="text" value={$summary} on:input={(e) => onInput(e, summary)} />
+<Input label={'Name'} value={name} />
+<Input label={'Position'} value={position} />
+<Input label={'Start Date'} value={startDate} />
+<Input label={'End Date'} value={endDate} />
+<Input label={'Summary'} value={summary} />
 
 <label for="location">Highlights</label>
 {#each $highlights as highlight, i}
-  <input
+  <textarea
     id="highlight[{i}]"
-    type="text"
-    value={highlight}
+    placeholder="A cool highlight"
+    rows="3"
     on:input={(e) => {
       onArrayInput(e, highlights, i);
-    }}
-  />
+    }}>{highlight}</textarea
+  >
 {/each}
 
-<style></style>
+<style>
+  label {
+    display: block;
+  }
+
+  textarea {
+    margin-top: 8px;
+    font-family: serif;
+    font-size: 16px;
+    resize: none;
+    width: 100%;
+  }
+</style>

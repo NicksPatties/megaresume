@@ -1,0 +1,24 @@
+<script lang="ts">
+  import { onInput } from '@src/util/eventListeners';
+  import type { Writable } from 'svelte/store';
+
+  export let label: string;
+  export let value: Writable<string>;
+</script>
+
+<label for={label.toLowerCase()}>{label}</label>
+<input id={label.toLowerCase()} type="text" value={$value} on:input={(e) => onInput(e, value)} />
+
+<style>
+  label {
+    display: block;
+  }
+
+  input[type='text'] {
+    font-family: serif;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 6px;
+    margin-bottom: 14px;
+  }
+</style>
