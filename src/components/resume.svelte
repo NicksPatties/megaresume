@@ -1,14 +1,12 @@
 <script lang="ts">
-  import type { BasicsStore, WorkStore, EducationStore } from '@src/data/data';
+  import type { BasicsStore, WorkStore } from '@src/data/data';
   import { onInput } from '@src/util/eventListeners';
   import type { Writable } from 'svelte/store';
   import WorkResume from './workResume.svelte';
-  import EducationResume from './educationResume.svelte';
   import { onMount } from 'svelte';
 
   export let basics: BasicsStore;
   export let work: Writable<WorkStore[]>;
-  export let education: Writable<EducationStore[]>;
 
   const name = basics.name;
   const label = basics.label;
@@ -96,22 +94,6 @@
         {/each}
       </ul>
     </div>
-    <div class="education">
-      <h3>Education</h3>
-      <ul>
-        {#each $education as edu}
-          <EducationResume
-            studyType={edu.studyType}
-            institution={edu.institution}
-            area={edu.area}
-            startDate={edu.startDate}
-            endDate={edu.endDate}
-            score={edu.score}
-            courses={edu.courses}
-          />
-        {/each}
-      </ul>
-    </div>
   </div>
   <div class="resume-overflow-warning">
     <!-- This is where the theme information will be placed in the future -->
@@ -159,22 +141,6 @@
             startDate={w.startDate}
             endDate={w.endDate}
             highlights={w.highlights}
-          />
-        {/each}
-      </ul>
-    </div>
-    <div class="education">
-      <h3>Education</h3>
-      <ul>
-        {#each $education as edu}
-          <EducationResume
-            studyType={edu.studyType}
-            institution={edu.institution}
-            area={edu.area}
-            startDate={edu.startDate}
-            endDate={edu.endDate}
-            score={edu.score}
-            courses={edu.courses}
           />
         {/each}
       </ul>

@@ -12,5 +12,5 @@
   [basicsStore, workStores, educationStores] = loadResumeData(mockResume);
 </script>
 
-<Menu basics={basicsStore} work={workStores} education={educationStores} />
-<Resume basics={basicsStore} work={workStores} education={educationStores} />
+<Menu basics={basicsStore} work={workStores} />
+<Resume basics={basicsStore} work={workStores} />

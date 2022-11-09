@@ -1,6 +1,9 @@
 <script lang="ts">
+  import Input from '@src/components/input.svelte';
+  import Textarea from '@src/components/textarea.svelte';
+  import AddEntryButton from '@src/components/addEntryButton.svelte';
   import type { Writable } from 'svelte/store';
-  import { onInput, onArrayInput } from '@src/util/eventListeners';
+  import { onArrayInput } from '@src/util/eventListeners';
 
   export let name: Writable<string>;
   export let position: Writable<string>;
@@ -9,33 +12,66 @@
   export let endDate: Writable<string>;
   export let summary: Writable<string>;
   export let highlights: Writable<Array<string>>;
+
+  function removeHighlight(i: number) {
+    highlights.update((h) => {
+      h.splice(i, 1);
+      return h;
+    });
+  }
+
+  function hideHighlight(i: number) {
+    console.log(`hide highlight at i=${i}, but doesn't do anything yet...`);
+  }
 </script>
 
-<label for="name">Name</label>
-<input id="name" type="text" value={$name} on:input={(e) => onInput(e, name)} />
+<Input label={'Name'} value={name} />
+<Input label={'Position'} value={position} />
+<Input label={'Start Date'} value={startDate} />
+<Input label={'End Date'} value={endDate} />
+<Input label={'Summary'} value={summary} />
 
-<label for="title">Position</label>
-<input id="title" type="text" value={$position} on:input={(e) => onInput(e, position)} />
-
-<label for="contact">Start Date</label>
-<input id="contact" type="text" value={$startDate} on:input={(e) => onInput(e, startDate)} />
-
-<label for="location">End Date</label>
-<input id="location" type="text" value={$endDate} on:input={(e) => onInput(e, endDate)} />
-
-<label for="location">Summary</label>
-<input id="location" type="text" value={$summary} on:input={(e) => onInput(e, summary)} />
-
-<label for="location">Highlights</label>
 {#each $highlights as highlight, i}
-  <input
-    id="highlight[{i}]"
-    type="text"
-    value={highlight}
-    on:input={(e) => {
-      onArrayInput(e, highlights, i);
+  <label for="highlight[{i}]">
+    Highlight {i + 1}
+    <div class="label-controls">
+      <button
+        on:click={() => {
+          hideHighlight(i);
+        }}>Hide</button
+      >
+      <button
+        on:click={() => {
+          removeHighlight(i);
+        }}>Delete</button
+      >
+    </div>
+  </label>
+  <Textarea
+    id={`highlight[${i}]`}
+    placeholder={'A cool highlight'}
+    content={highlight}
+    oninput={(e) => {
+      if (e != null) {
+        onArrayInput(e, highlights, i);
+      }
     }}
   />
 {/each}
+<AddEntryButton
+  text={'Add new highlight'}
+  click={() => {
+    highlights.update((h) => {
+      h.push('');
+      return h;
+    });
+    return null;
+  }}
+/>
 
-<style></style>
+<style>
+  label {
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
