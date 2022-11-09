@@ -1,16 +1,14 @@
 <script lang="ts">
   import Input from '@src/components/input.svelte';
   import AddEntryButton from '@src/components/addEntryButton.svelte';
-  import { type BasicsStore, WorkStore, EducationStore } from '@src/data/data';
+  import { type BasicsStore, WorkStore } from '@src/data/data';
   import type { Writable } from 'svelte/store';
   import WorkMenu from '@src/components/workMenu.svelte';
-  import EducationMenu from './educationMenu.svelte';
 
   let open = false;
 
   export let basics: BasicsStore;
   export let work: Writable<WorkStore[]>;
-  export let education: Writable<EducationStore[]>;
 
   const name = basics.name;
   const label = basics.label;
@@ -61,31 +59,6 @@
         work.update((w) => {
           w.push(new WorkStore());
           return w;
-        });
-        return null;
-      }}
-    />
-  </div>
-
-  <h2>Education</h2>
-  <div class="menu-content">
-    {#each $education as edu, i}
-      <h3>Education {i + 1}</h3>
-      <EducationMenu
-        studyType={edu.studyType}
-        institution={edu.institution}
-        area={edu.area}
-        startDate={edu.startDate}
-        endDate={edu.endDate}
-        score={edu.score}
-      />
-    {/each}
-    <AddEntryButton
-      text={'Add new education entry'}
-      click={() => {
-        education.update((edu) => {
-          edu.push(new EducationStore());
-          return edu;
         });
         return null;
       }}
