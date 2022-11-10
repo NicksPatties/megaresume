@@ -1,11 +1,12 @@
 <script lang="ts">
   export let id: string;
   export let placeholder: string;
+  export let disabled = false;
   export let oninput: (e: Event | null) => void;
   export let content: string;
 </script>
 
-<textarea {id} {placeholder} rows="4" on:input={oninput}>{content}</textarea>
+<textarea {id} {placeholder} {disabled} rows="4" on:input={oninput}>{content}</textarea>
 
 <style>
   textarea {
