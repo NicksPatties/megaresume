@@ -1,4 +1,4 @@
-import { writable, type Writable } from 'svelte/store';
+import { writable, get, type Writable } from 'svelte/store';
 
 type Basics = {
   name: string;
@@ -96,15 +96,75 @@ export class WorkStore {
     this.highlights.set(params.highlights);
   }
 }
+
+type SaveData = {
+  basics: Basics;
+  work: Work[];
+};
+
 /**
  * Takes data from Basics, Work, and Education stores and saves it to localStorage as a JSON blob
  */
 export function saveResumeData() {
-  console.log('save');
+  const saveData: SaveData = {
+    basics: {
+      name: get(basicsStore.name),
+      label: get(basicsStore.label),
+      image: get(basicsStore.image),
+      phone: get(basicsStore.phone),
+      email: get(basicsStore.email),
+      summary: get(basicsStore.summary)
+    },
+    work: []
+  };
+
+  get(workStores).forEach((ws: WorkStore) => {
+    saveData.work.push({
+      name: get(ws.name),
+      position: get(ws.position),
+      url: get(ws.url),
+      startDate: get(ws.startDate),
+      endDate: get(ws.endDate),
+      summary: get(ws.summary),
+      highlights: get(ws.highlights)
+    });
+  });
+
+  localStorage.setItem('saveData', JSON.stringify(saveData));
 }
 
-export function loadResumeData(resumeJSON: string): [BasicsStore, Writable<WorkStore[]>] {
-  const realData = JSON.parse(resumeJSON);
+export function loadLocalStorageData() {
+  const saveDataString = localStorage.getItem('saveData');
+  if (saveDataString != null) {
+    const saveData: SaveData = JSON.parse(saveDataString);
+    // load basic data
+    basicsStore.name.set(saveData.basics.name);
+    basicsStore.label.set(saveData.basics.label);
+    basicsStore.image.set(saveData.basics.image);
+    basicsStore.label.set(saveData.basics.label);
+    basicsStore.phone.set(saveData.basics.phone);
+    basicsStore.email.set(saveData.basics.email);
+    basicsStore.summary.set(saveData.basics.summary);
+
+    // load work data
+    const workStoresArray: WorkStore[] = [];
+    saveData.work.forEach((work) => {
+      workStoresArray.push(new WorkStore(work));
+    });
+    workStores.set(workStoresArray);
+  } else {
+    console.error('Failed to load resume save data from localStorage!');
+  }
+}
+
+/**
+ * Can use this as a loadResumeFromJSONResume function in the future
+ *
+ * @param jsonResume
+ * @returns
+ */
+export function loadJSONResumeData(jsonResume: string): [BasicsStore, Writable<WorkStore[]>] {
+  const realData = JSON.parse(jsonResume);
   const basicsStore = new BasicsStore(realData.basics as Basics);
   const workStoresArray: Array<WorkStore> = [];
   realData.work.forEach((elem: WorkData) => {
@@ -126,3 +186,6 @@ export function loadResumeData(resumeJSON: string): [BasicsStore, Writable<WorkS
 
   return [basicsStore, workStores];
 }
+
+export const basicsStore = new BasicsStore();
+export const workStores = writable([new WorkStore()]);
