@@ -36,6 +36,17 @@ export class BasicsStore {
   }
 }
 
+export type Highlight = {
+  /**
+   * whether the highlist is visible in the resume
+   */
+  visible: boolean;
+  /**
+   * the content of the highlight itself
+   */
+  content: string;
+};
+
 export type Work = {
   name: string;
   position: string;
@@ -44,6 +55,7 @@ export type Work = {
   endDate: string;
   summary: string;
   highlights: string[];
+  newHighlights: Highlight[];
 };
 
 const blankWork: Work = {
@@ -53,7 +65,8 @@ const blankWork: Work = {
   startDate: '',
   endDate: '',
   summary: '',
-  highlights: ['']
+  highlights: [''],
+  newHighlights: []
 };
 
 export class WorkStore {
@@ -64,6 +77,7 @@ export class WorkStore {
   endDate = writable('');
   summary = writable('');
   highlights = writable(['']);
+  newHighlights = writable([{ visible: true, content: '' }]);
 
   constructor(params: Work = blankWork) {
     this.name.set(params.name);
@@ -73,6 +87,7 @@ export class WorkStore {
     this.endDate.set(params.endDate);
     this.summary.set(params.summary);
     this.highlights.set(params.highlights);
+    this.newHighlights.set(params.newHighlights);
   }
 }
 
@@ -134,6 +149,14 @@ export function loadResumeData(
   const basicsStore = new BasicsStore(realData.basics as Basics);
   const workStoresArray: Array<WorkStore> = [];
   realData.work.forEach((elem: Work) => {
+    // convert highlights into newHighlights type for now
+    const highlights = elem.highlights;
+    const newHighlights: Highlight[] = [];
+    highlights.forEach((h: string) => {
+      newHighlights.push({ visible: true, content: h });
+    });
+    elem.newHighlights = newHighlights;
+    // end newHighlight conversion
     workStoresArray.push(new WorkStore(elem));
   });
   const workStores = writable(workStoresArray);

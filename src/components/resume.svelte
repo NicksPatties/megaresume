@@ -90,6 +90,7 @@
             startDate={w.startDate}
             endDate={w.endDate}
             highlights={w.highlights}
+            newHighlights={w.newHighlights}
           />
         {/each}
       </ul>
@@ -140,7 +141,7 @@
             position={w.position}
             startDate={w.startDate}
             endDate={w.endDate}
-            highlights={w.highlights}
+            newHighlights={w.newHighlights}
           />
         {/each}
       </ul>
