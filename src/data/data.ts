@@ -84,7 +84,7 @@ export class WorkStore {
   startDate = writable('');
   endDate = writable('');
   summary = writable('');
-  highlights = writable([{ visible: true, content: '' }]);
+  highlights: Writable<Highlight[]> = writable([]);
 
   constructor(params: Work = blankWork) {
     this.name.set(params.name);
@@ -105,20 +105,23 @@ type SaveData = {
 /**
  * Takes data from Basics, Work, and Education stores and saves it to localStorage as a JSON blob
  */
-export function saveResumeData() {
+export function saveResumeData(
+  basics: BasicsStore = basicsStore,
+  work: Writable<WorkStore[]> = workStores
+) {
   const saveData: SaveData = {
     basics: {
-      name: get(basicsStore.name),
-      label: get(basicsStore.label),
-      image: get(basicsStore.image),
-      phone: get(basicsStore.phone),
-      email: get(basicsStore.email),
-      summary: get(basicsStore.summary)
+      name: get(basics.name),
+      label: get(basics.label),
+      image: get(basics.image),
+      phone: get(basics.phone),
+      email: get(basics.email),
+      summary: get(basics.summary)
     },
     work: []
   };
 
-  get(workStores).forEach((ws: WorkStore) => {
+  get(work).forEach((ws: WorkStore) => {
     saveData.work.push({
       name: get(ws.name),
       position: get(ws.position),
@@ -130,7 +133,7 @@ export function saveResumeData() {
     });
   });
 
-  localStorage.setItem('saveData', JSON.stringify(saveData));
+  window.localStorage.setItem('saveData', JSON.stringify(saveData));
 }
 
 export function loadLocalStorageData() {
@@ -188,4 +191,4 @@ export function loadJSONResumeData(jsonResume: string): [BasicsStore, Writable<W
 }
 
 export const basicsStore = new BasicsStore();
-export const workStores = writable([new WorkStore()]);
+export const workStores: Writable<WorkStore[]> = writable([]);
