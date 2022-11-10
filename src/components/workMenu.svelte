@@ -23,6 +23,7 @@
     highlights.update((highlights) => {
       const currVisibility = highlights[i].visible;
       highlights[i].visible = !currVisibility;
+      saveResumeData();
       return highlights;
     });
   }

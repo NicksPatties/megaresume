@@ -1,14 +1,12 @@
 <script lang="ts">
-  import { mockResume } from '@src/data/mockResume';
   import Menu from '@src/components/menu.svelte';
   import Resume from '@src/components/resume.svelte';
-  import { BasicsStore, WorkStore, loadResumeData } from '@src/data/data';
-  import { writable, type Writable } from 'svelte/store';
+  import { basicsStore, workStores, loadLocalStorageData } from '@src/data/data';
+  import { onMount } from 'svelte';
 
-  let basicsStore: BasicsStore = new BasicsStore();
-  let workStores: Writable<WorkStore[]> = writable([new WorkStore()]);
-
-  [basicsStore, workStores] = loadResumeData(mockResume);
+  onMount(() => {
+    loadLocalStorageData();
+  });
 </script>
 
 <Menu basics={basicsStore} work={workStores} />
