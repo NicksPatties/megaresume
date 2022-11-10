@@ -136,25 +136,28 @@ export function saveResumeData(
   window.localStorage.setItem('saveData', JSON.stringify(saveData));
 }
 
-export function loadLocalStorageData() {
+export function loadLocalStorageData(
+  basics: BasicsStore = basicsStore,
+  work: Writable<WorkStore[]> = workStores
+) {
   const saveDataString = localStorage.getItem('saveData');
   if (saveDataString != null) {
     const saveData: SaveData = JSON.parse(saveDataString);
     // load basic data
-    basicsStore.name.set(saveData.basics.name);
-    basicsStore.label.set(saveData.basics.label);
-    basicsStore.image.set(saveData.basics.image);
-    basicsStore.label.set(saveData.basics.label);
-    basicsStore.phone.set(saveData.basics.phone);
-    basicsStore.email.set(saveData.basics.email);
-    basicsStore.summary.set(saveData.basics.summary);
+    basics.name.set(saveData.basics.name);
+    basics.label.set(saveData.basics.label);
+    basics.image.set(saveData.basics.image);
+    basics.label.set(saveData.basics.label);
+    basics.phone.set(saveData.basics.phone);
+    basics.email.set(saveData.basics.email);
+    basics.summary.set(saveData.basics.summary);
 
     // load work data
     const workStoresArray: WorkStore[] = [];
     saveData.work.forEach((work) => {
       workStoresArray.push(new WorkStore(work));
     });
-    workStores.set(workStoresArray);
+    work.set(workStoresArray);
   } else {
     console.error('Failed to load resume save data from localStorage!');
   }
