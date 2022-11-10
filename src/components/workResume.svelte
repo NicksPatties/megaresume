@@ -6,12 +6,12 @@
   export let position: Writable<string>;
   export let startDate: Writable<string>;
   export let endDate: Writable<string>;
-  export let newHighlights: Writable<Array<Highlight>>;
+  export let highlights: Writable<Array<Highlight>>;
 </script>
 
 <li>{$position}, {$name} <i>{$startDate} - {$endDate}</i></li>
 <ul>
-  {#each $newHighlights as highlight}
+  {#each $highlights as highlight}
     {#if highlight.visible}
       <li>{highlight.content}</li>
     {/if}

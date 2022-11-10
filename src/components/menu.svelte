@@ -50,7 +50,7 @@
         startDate={w.startDate}
         endDate={w.endDate}
         summary={w.summary}
-        newHighlights={w.newHighlights}
+        highlights={w.highlights}
       />
     {/each}
     <AddEntryButton

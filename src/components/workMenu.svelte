@@ -7,21 +7,20 @@
 
   export let name: Writable<string>;
   export let position: Writable<string>;
-  // export let url: Writable<string>;
   export let startDate: Writable<string>;
   export let endDate: Writable<string>;
   export let summary: Writable<string>;
-  export let newHighlights: Writable<Array<Highlight>>;
+  export let highlights: Writable<Array<Highlight>>;
 
   function removeHighlight(i: number) {
-    newHighlights.update((h) => {
+    highlights.update((h) => {
       h.splice(i, 1);
       return h;
     });
   }
 
   function hideHighlight(i: number) {
-    newHighlights.update((highlights) => {
+    highlights.update((highlights) => {
       const currVisibility = highlights[i].visible;
       highlights[i].visible = !currVisibility;
       return highlights;
@@ -50,7 +49,7 @@
 <Input label={'End Date'} value={endDate} />
 <Input label={'Summary'} value={summary} />
 
-{#each $newHighlights as highlight, i}
+{#each $highlights as highlight, i}
   <label for="highlight[{i}]">
     New Highlight {i + 1}
     <div class="label-controls">
@@ -74,7 +73,7 @@
     disabled={!highlight.visible}
     oninput={(e) => {
       if (e != null) {
-        onNewHighlightInput(e, newHighlights, i, saveResumeData);
+        onNewHighlightInput(e, highlights, i, saveResumeData);
       }
     }}
   />
@@ -82,7 +81,7 @@
 <AddEntryButton
   text={'Add new highlight'}
   click={() => {
-    newHighlights.update((h) => {
+    highlights.update((h) => {
       h.push({ visible: true, content: '' });
       return h;
     });
