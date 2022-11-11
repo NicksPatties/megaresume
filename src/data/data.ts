@@ -150,21 +150,31 @@ export function loadData(
   work: Writable<WorkStore[]> = workStores
 ) {
   const saveData: SaveData = JSON.parse(saveDataString);
-  // load basic data
-  basics.name.set(saveData.basics.name);
-  basics.label.set(saveData.basics.label);
-  basics.image.set(saveData.basics.image);
-  basics.label.set(saveData.basics.label);
-  basics.phone.set(saveData.basics.phone);
-  basics.email.set(saveData.basics.email);
-  basics.summary.set(saveData.basics.summary);
+  try {
+    // load basic data
+    basics.name.set(saveData.basics.name);
+    basics.label.set(saveData.basics.label);
+    basics.image.set(saveData.basics.image);
+    basics.label.set(saveData.basics.label);
+    basics.phone.set(saveData.basics.phone);
+    basics.email.set(saveData.basics.email);
+    basics.summary.set(saveData.basics.summary);
 
-  // load work data
-  const workStoresArray: WorkStore[] = [];
-  saveData.work.forEach((work) => {
-    workStoresArray.push(new WorkStore(work));
-  });
-  work.set(workStoresArray);
+    // load work data
+    const workStoresArray: WorkStore[] = [];
+    saveData.work.forEach((work) => {
+      workStoresArray.push(new WorkStore(work));
+    });
+    work.set(workStoresArray);
+  } catch (e) {
+    if (e instanceof TypeError) {
+      console.error(
+        "The data doesn't match the expected save format! Perhaps something was corrupted?"
+      );
+    } else {
+      console.error('Something went wrong loading the data. Please try loading it again.');
+    }
+  }
 }
 
 export function loadLocalStorageData(
