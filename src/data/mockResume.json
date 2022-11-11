@@ -7,16 +7,20 @@
     "email": "",
     "summary": ""
   },
-  "work":[{
-    "name": "Self employed",
-    "position": "",
-    "url": "",
-    "startDate": "",
-    "endDate": "",
-    "summary": "",
-    "highlights": [{
-      "visible": "true",
-      "content": "Got the data to load!"
-    }]
-  }]
+  "work": [
+    {
+      "name": "Self employed",
+      "position": "",
+      "url": "",
+      "startDate": "",
+      "endDate": "",
+      "summary": "",
+      "highlights": [
+        {
+          "visible": "true",
+          "content": "Got the data to load!"
+        }
+      ]
+    }
+  ]
 }

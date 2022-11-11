@@ -15,11 +15,13 @@
       "region": "California"
     }
   },
-  "profiles": [{
-    "network": "LinkedIn",
-    "username": "NicksPatties",
-    "url": "https://www.linkedin.com/in/nick-patti-34675053/"
-  }],
+  "profiles": [
+    {
+      "network": "LinkedIn",
+      "username": "NicksPatties",
+      "url": "https://www.linkedin.com/in/nick-patti-34675053/"
+    }
+  ],
   "work": [
     {
       "name": "Self employed",
@@ -57,7 +59,7 @@
       "position": "Software Engineer and Founder",
       "url": "",
       "startDate": "2014-11-1",
-      "endDate":"2016-3-1",
+      "endDate": "2016-3-1",
       "summary": "Created tournament management software",
       "highlights": [
         "Developed a robust tournament management system with software engineers and UX designers",
@@ -68,83 +70,103 @@
       ]
     }
   ],
-  "volunteer": [{
-    "organization": "Game Developer's Conference",
-    "position": "",
-    "url": "",
-    "startDate": "",
-    "endDate": "",
-    "summary": "Worked as a conference associate to ensure attendees are having a fun time.",
-    "highlights": []
-  }],
-  "education" : [{
-    "studyType": "Master of Science",
-    "institution": "University of California, Santa Cruz",
-    "area": "Games and Playable Media – Department of Computer Science, Baskin School of Engineering",
-    "url": "",
-    "startDate": "2013",
-    "endDate": "2014",
-    "score": "Cumulative GPA: 3.6",
-    "courses": []
-  },
-  {
-    "studyType": "Bachelor of Science",
-    "institution": "University of California, Santa Cruz",
-    "area": "Computer Game Design – Department of Computer Science, Baskin School of Engineering",
-    "url": "",
-    "startDate": "2008",
-    "endDate": "2013",
-    "score": "Graduated with Honors",
-    "courses": []
-  }],
-  "awards": [{
-    "title": "",
-    "date": "",
-    "awarder": "",
-    "summary": ""
-  }],
-  "certificates": [{
-    "name": "",
-    "date": "",
-    "issuer": "",
-    "url": ""
-  }],
-  "publications": [{
-    "name": "",
-    "publisher": "",
-    "releaseDate": "",
-    "url": "",
-    "summary": ""
-  }],
-  "skills": [{
-    "name": "",
-    "level": "",
-    "keywords": [""]
-  }],
-  "languages": [{
-    "language": "",
-    "fluency": ""
-  }],
-  "interests": [{
-    "name": "",
-    "keywords": [""] 
-  }],
-  "references": [{
-    "name": "",
-    "reference": ""
-  }],
-  "projects": [{
-    "name": "",
-    "description": "",
-    "highlights": [],
-    "keywords": [],
-    "startDate": "",
-    "endDate": "",
-    "url": "",
-    "roles": [""],
-    "entity": "",
-    "type": ""
-  }],
+  "volunteer": [
+    {
+      "organization": "Game Developer's Conference",
+      "position": "",
+      "url": "",
+      "startDate": "",
+      "endDate": "",
+      "summary": "Worked as a conference associate to ensure attendees are having a fun time.",
+      "highlights": []
+    }
+  ],
+  "education": [
+    {
+      "studyType": "Master of Science",
+      "institution": "University of California, Santa Cruz",
+      "area": "Games and Playable Media – Department of Computer Science, Baskin School of Engineering",
+      "url": "",
+      "startDate": "2013",
+      "endDate": "2014",
+      "score": "Cumulative GPA: 3.6",
+      "courses": []
+    },
+    {
+      "studyType": "Bachelor of Science",
+      "institution": "University of California, Santa Cruz",
+      "area": "Computer Game Design – Department of Computer Science, Baskin School of Engineering",
+      "url": "",
+      "startDate": "2008",
+      "endDate": "2013",
+      "score": "Graduated with Honors",
+      "courses": []
+    }
+  ],
+  "awards": [
+    {
+      "title": "",
+      "date": "",
+      "awarder": "",
+      "summary": ""
+    }
+  ],
+  "certificates": [
+    {
+      "name": "",
+      "date": "",
+      "issuer": "",
+      "url": ""
+    }
+  ],
+  "publications": [
+    {
+      "name": "",
+      "publisher": "",
+      "releaseDate": "",
+      "url": "",
+      "summary": ""
+    }
+  ],
+  "skills": [
+    {
+      "name": "",
+      "level": "",
+      "keywords": [""]
+    }
+  ],
+  "languages": [
+    {
+      "language": "",
+      "fluency": ""
+    }
+  ],
+  "interests": [
+    {
+      "name": "",
+      "keywords": [""]
+    }
+  ],
+  "references": [
+    {
+      "name": "",
+      "reference": ""
+    }
+  ],
+  "projects": [
+    {
+      "name": "",
+      "description": "",
+      "highlights": [],
+      "keywords": [],
+      "startDate": "",
+      "endDate": "",
+      "url": "",
+      "roles": [""],
+      "entity": "",
+      "type": ""
+    }
+  ],
   "meta": {
     "canonical": "",
     "version": "",

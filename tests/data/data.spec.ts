@@ -1,4 +1,9 @@
-import { saveResumeData, loadLocalStorageData, BasicsStore, type WorkStore } from '@src/data/data';
+import {
+  saveResumeDataToLocalStorage,
+  loadLocalStorageData,
+  BasicsStore,
+  type WorkStore
+} from '@src/data/data';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type Writable, writable, get } from 'svelte/store';
 
@@ -14,7 +19,7 @@ const blankSaveData = JSON.stringify({
   work: []
 });
 
-describe('saveResumeData', () => {
+describe('saveResumeDataToLocalStorage', () => {
   beforeEach(() => {
     vi.stubGlobal('localStorage', {
       setItem: vi.fn()
@@ -27,7 +32,7 @@ describe('saveResumeData', () => {
 
   it('saves data to localStorage', () => {
     const expectedSaveData = blankSaveData;
-    saveResumeData();
+    saveResumeDataToLocalStorage();
     expect(localStorage.setItem).toHaveBeenCalledOnce();
     expect(localStorage.setItem).toHaveBeenCalledWith('saveData', expectedSaveData);
   });

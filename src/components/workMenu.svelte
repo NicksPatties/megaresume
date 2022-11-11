@@ -3,7 +3,7 @@
   import Textarea from '@src/components/textarea.svelte';
   import AddEntryButton from '@src/components/addEntryButton.svelte';
   import { get, type Writable } from 'svelte/store';
-  import { saveResumeData, type Highlight } from '@src/data/data';
+  import { saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
 
   export let name: Writable<string>;
   export let position: Writable<string>;
@@ -23,7 +23,7 @@
     highlights.update((highlights) => {
       const currVisibility = highlights[i].visible;
       highlights[i].visible = !currVisibility;
-      saveResumeData();
+      saveResumeDataToLocalStorage();
       return highlights;
     });
   }
@@ -74,7 +74,7 @@
     disabled={!highlight.visible}
     oninput={(e) => {
       if (e != null) {
-        onNewHighlightInput(e, highlights, i, saveResumeData);
+        onNewHighlightInput(e, highlights, i, saveResumeDataToLocalStorage);
       }
     }}
   />
