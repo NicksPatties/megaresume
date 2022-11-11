@@ -1,7 +1,15 @@
 <script lang="ts">
   import Input from '@src/components/input.svelte';
   import AddEntryButton from '@src/components/addEntryButton.svelte';
-  import { type BasicsStore, WorkStore } from '@src/data/data';
+  import {
+    type BasicsStore,
+    WorkStore,
+    loadData,
+    saveResumeDataToLocalStorage,
+    clearResumeStores,
+    saveData,
+    type SaveData
+  } from '@src/data/data';
   import type { Writable } from 'svelte/store';
   import WorkMenu from '@src/components/workMenu.svelte';
 
@@ -14,6 +22,35 @@
   const label = basics.label;
   const phone = basics.phone;
   const email = basics.email;
+
+  function loadFile(e: Event) {
+    const target = e.target as HTMLInputElement;
+    const file = target?.files?.[0];
+    if (file != undefined) {
+      console.log(`File uploaded! ${file.name}: ${file.size}`);
+      const fr = new FileReader();
+      fr.onload = (e) => {
+        if (e.target == null) {
+          console.error('something went wrong opening the file. try again?');
+        } else {
+          loadData(e.target.result as string);
+          saveResumeDataToLocalStorage();
+        }
+      };
+      fr.readAsText(file);
+    }
+  }
+
+  function saveDataToJSONFile() {
+    const data: SaveData = saveData();
+    const blob: Blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${data.basics.name} ${data.basics.label}`;
+    a.dispatchEvent(new MouseEvent('click'));
+    URL.revokeObjectURL(a.href);
+    a.remove();
+  }
 </script>
 
 <button
@@ -32,6 +69,34 @@
     >
     <h1>Mega Resume</h1>
   </div>
+
+  <AddEntryButton
+    text={'Open resume'}
+    click={() => {
+      const fileUpload = document.getElementById('file-upload');
+      if (fileUpload != null) fileUpload.click();
+      return null;
+    }}
+  />
+
+  <AddEntryButton
+    text={'Save resume'}
+    click={() => {
+      saveDataToJSONFile();
+      return null;
+    }}
+  />
+
+  <AddEntryButton
+    text={'[DEBUG] Clear resume data'}
+    click={() => {
+      localStorage.removeItem('saveData');
+      clearResumeStores();
+      return null;
+    }}
+  />
+
+  <input type="file" id="file-upload" accept=".json" style="display: none;" on:change={loadFile} />
 
   <h2>Basic Information</h2>
 

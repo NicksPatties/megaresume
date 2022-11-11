@@ -97,18 +97,15 @@ export class WorkStore {
   }
 }
 
-type SaveData = {
+export type SaveData = {
   basics: Basics;
   work: Work[];
 };
 
-/**
- * Takes data from Basics, Work, and Education stores and saves it to localStorage as a JSON blob
- */
-export function saveResumeData(
+export function saveData(
   basics: BasicsStore = basicsStore,
   work: Writable<WorkStore[]> = workStores
-) {
+): SaveData {
   const saveData: SaveData = {
     basics: {
       name: get(basics.name),
@@ -133,16 +130,27 @@ export function saveResumeData(
     });
   });
 
-  window.localStorage.setItem('saveData', JSON.stringify(saveData));
+  return saveData;
 }
 
-export function loadLocalStorageData(
+/**
+ * Takes data from Basics, Work, and Education stores and saves it to localStorage as a JSON blob
+ */
+export function saveResumeDataToLocalStorage(
   basics: BasicsStore = basicsStore,
   work: Writable<WorkStore[]> = workStores
 ) {
-  const saveDataString = localStorage.getItem('saveData');
-  if (saveDataString != null) {
-    const saveData: SaveData = JSON.parse(saveDataString);
+  const data: SaveData = saveData(basics, work);
+  window.localStorage.setItem('saveData', JSON.stringify(data));
+}
+
+export function loadData(
+  saveDataString: string,
+  basics: BasicsStore = basicsStore,
+  work: Writable<WorkStore[]> = workStores
+) {
+  const saveData: SaveData = JSON.parse(saveDataString);
+  try {
     // load basic data
     basics.name.set(saveData.basics.name);
     basics.label.set(saveData.basics.label);
@@ -158,6 +166,24 @@ export function loadLocalStorageData(
       workStoresArray.push(new WorkStore(work));
     });
     work.set(workStoresArray);
+  } catch (e) {
+    if (e instanceof TypeError) {
+      console.error(
+        "The data doesn't match the expected save format! Perhaps something was corrupted?"
+      );
+    } else {
+      console.error('Something went wrong loading the data. Please try loading it again.');
+    }
+  }
+}
+
+export function loadLocalStorageData(
+  basics: BasicsStore = basicsStore,
+  work: Writable<WorkStore[]> = workStores
+) {
+  const saveDataString = localStorage.getItem('saveData');
+  if (saveDataString != null) {
+    loadData(saveDataString, basics, work);
   } else {
     console.error('Failed to load resume save data from localStorage!');
   }
@@ -191,6 +217,18 @@ export function loadJSONResumeData(jsonResume: string): [BasicsStore, Writable<W
   const workStores = writable(workStoresArray);
 
   return [basicsStore, workStores];
+}
+
+export function clearResumeStores() {
+  basicsStore.name.set('');
+  basicsStore.label.set('');
+  basicsStore.image.set('');
+  basicsStore.label.set('');
+  basicsStore.phone.set('');
+  basicsStore.email.set('');
+  basicsStore.summary.set('');
+
+  workStores.set([]);
 }
 
 export const basicsStore = new BasicsStore();

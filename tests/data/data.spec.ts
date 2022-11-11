@@ -1,4 +1,10 @@
-import { saveResumeData, loadLocalStorageData, BasicsStore, type WorkStore } from '@src/data/data';
+import {
+  saveResumeDataToLocalStorage,
+  loadLocalStorageData,
+  BasicsStore,
+  type WorkStore,
+  loadData
+} from '@src/data/data';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type Writable, writable, get } from 'svelte/store';
 
@@ -14,7 +20,7 @@ const blankSaveData = JSON.stringify({
   work: []
 });
 
-describe('saveResumeData', () => {
+describe('saveResumeDataToLocalStorage', () => {
   beforeEach(() => {
     vi.stubGlobal('localStorage', {
       setItem: vi.fn()
@@ -27,7 +33,7 @@ describe('saveResumeData', () => {
 
   it('saves data to localStorage', () => {
     const expectedSaveData = blankSaveData;
-    saveResumeData();
+    saveResumeDataToLocalStorage();
     expect(localStorage.setItem).toHaveBeenCalledOnce();
     expect(localStorage.setItem).toHaveBeenCalledWith('saveData', expectedSaveData);
   });
@@ -74,5 +80,30 @@ describe('loadLocalStorageData', () => {
     loadLocalStorageData();
 
     expect(console.error).toHaveBeenCalledOnce();
+  });
+});
+
+describe('loadData', () => {
+  beforeEach(() => {
+    vi.stubGlobal('console', {
+      error: vi.fn()
+    });
+  });
+
+  afterEach(() => {
+    vi.resetAllMocks();
+  });
+
+  it('should error with the correct message if there is a TypeError', () => {
+    const garbageData = JSON.stringify({ garbage: 'data' });
+    const basicsStore = new BasicsStore();
+    const workStores: Writable<WorkStore[]> = writable([]);
+
+    loadData(garbageData, basicsStore, workStores);
+
+    expect(console.error).toHaveBeenCalledOnce();
+    expect(console.error).toHaveBeenCalledWith(
+      "The data doesn't match the expected save format! Perhaps something was corrupted?"
+    );
   });
 });
