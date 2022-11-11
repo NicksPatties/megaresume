@@ -1,8 +1,4 @@
-/* 
-  https://jsonresume.org/schema/
-  Don't forget to add quote ticks when you're done editing
-*/
-export const mockResume = `{
+{
   "basics": {
     "name": "Nicholas Patti",
     "label": "Software Engineer",
@@ -154,4 +150,4 @@ export const mockResume = `{
     "version": "",
     "lastModified": ""
   }
-}`;
+}
