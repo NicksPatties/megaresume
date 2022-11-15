@@ -4,10 +4,17 @@
 
   export let label: string;
   export let value: Writable<string>;
+  export let disabled = false;
 </script>
 
 <label for={label.toLowerCase()}>{label}</label>
-<input id={label.toLowerCase()} type="text" value={$value} on:input={(e) => onInput(e, value)} />
+<input
+  id={label.toLowerCase()}
+  type="text"
+  {disabled}
+  value={$value}
+  on:input={(e) => onInput(e, value)}
+/>
 
 <style>
   label {
