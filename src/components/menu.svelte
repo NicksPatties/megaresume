@@ -88,6 +88,14 @@
   />
 
   <AddEntryButton
+    text={'Print resume'}
+    click={() => {
+      window.print();
+      return null;
+    }}
+  />
+
+  <AddEntryButton
     text={'[DEBUG] Clear resume data'}
     click={() => {
       localStorage.removeItem('saveData');

@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { BasicsStore, WorkStore } from '@src/data/data';
-  import { onInput } from '@src/util/eventListeners';
   import type { Writable } from 'svelte/store';
   import WorkResume from './workResume.svelte';
   import { onMount } from 'svelte';
@@ -45,40 +44,11 @@
 
 <div class="resume-container">
   <div class="resume">
-    <!-- This is where the theme information will be placed in the future -->
     <div class="basics">
-      <input
-        id="basic_information-name"
-        class="name"
-        type="text"
-        placeholder="Firstname Lastname"
-        value={$name}
-        on:input={(e) => onInput(e, name)}
-      />
-      <input
-        id="label"
-        class="subname"
-        type="text"
-        placeholder="Job Title"
-        value={$label}
-        on:input={(e) => onInput(e, label)}
-      />
-      <input
-        id="phone"
-        class="subname"
-        type="text"
-        placeholder="+15555555555"
-        value={$phone}
-        on:input={(e) => onInput(e, phone)}
-      />
-      <input
-        id="email"
-        class="subname"
-        type="text"
-        placeholder="placeholder@email.com"
-        value={$email}
-        on:input={(e) => onInput(e, email)}
-      />
+      <p class="name">{$name}</p>
+      <p class="subname">{$label}</p>
+      <p class="subname">{$phone}</p>
+      <p class="subname">{$email}</p>
     </div>
     <div class="experience">
       <h3>Work Experience</h3>
@@ -96,40 +66,11 @@
     </div>
   </div>
   <div class="resume-overflow-warning">
-    <!-- This is where the theme information will be placed in the future -->
     <div class="basics">
-      <input
-        id="basic_information-name"
-        class="name"
-        type="text"
-        placeholder="Firstname Lastname"
-        value={$name}
-        on:input={(e) => onInput(e, name)}
-      />
-      <input
-        id="label"
-        class="subname"
-        type="text"
-        placeholder="Job Title"
-        value={$label}
-        on:input={(e) => onInput(e, label)}
-      />
-      <input
-        id="phone"
-        class="subname"
-        type="text"
-        placeholder="+15555555555"
-        value={$phone}
-        on:input={(e) => onInput(e, phone)}
-      />
-      <input
-        id="email"
-        class="subname"
-        type="text"
-        placeholder="placeholder@email.com"
-        value={$email}
-        on:input={(e) => onInput(e, email)}
-      />
+      <p class="name">{$name}</p>
+      <p class="subname">{$label}</p>
+      <p class="subname">{$phone}</p>
+      <p class="subname">{$email}</p>
     </div>
     <div class="experience">
       <h3>Work Experience</h3>
@@ -189,11 +130,6 @@
     z-index: 0;
     margin: var(--pointFiveIn);
     color: red;
-  }
-
-  .resume-container input {
-    border: none;
-    font-family: 'Times New Roman', Times, serif;
   }
 
   .basics {

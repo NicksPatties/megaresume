@@ -14,3 +14,39 @@ h6,
 p {
   margin: 0;
 }
+
+/* print media queries in here, since I don't want to write them over and over again
+in different components */
+
+@media print {
+  .open-button,
+  .menu,
+  .controls-container,
+  .resume-overflow-warning {
+    display: none !important;
+  }
+  .resume-container {
+    transform: none !important;
+    height: 100vh !important;
+    width: 100vh !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+  .resume {
+    position: static !important;
+    overflow: visible !important;
+    margin: initial !important;
+    width: initial !important;
+    height: initial !important;
+  }
+
+  .name {
+    font-size: 0.32in !important;
+  }
+
+  .subname,
+  ul,
+  h3 {
+    font-size: 0.22in !important;
+  }
+}
