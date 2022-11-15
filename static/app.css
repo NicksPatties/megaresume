@@ -39,4 +39,14 @@ in different components */
     width: initial !important;
     height: initial !important;
   }
+
+  .name {
+    font-size: 0.32in !important;
+  }
+
+  .subname,
+  ul,
+  h3 {
+    font-size: 0.22in !important;
+  }
 }
