@@ -9,7 +9,7 @@ type Basics = {
   summary: string;
 };
 
-const blankBasics: Basics = {
+export const blankBasics: Basics = {
   name: '',
   label: '',
   image: '',
@@ -48,6 +48,7 @@ export type Highlight = {
 };
 
 export type Work = {
+  visible: boolean;
   name: string;
   position: string;
   url: string;
@@ -57,17 +58,8 @@ export type Work = {
   highlights: Highlight[];
 };
 
-type WorkData = {
-  name: string;
-  position: string;
-  url: string;
-  startDate: string;
-  endDate: string;
-  summary: string;
-  highlights: string[];
-};
-
-const blankWork: Work = {
+export const blankWork: Work = {
+  visible: true,
   name: '',
   position: '',
   url: '',
@@ -78,6 +70,7 @@ const blankWork: Work = {
 };
 
 export class WorkStore {
+  visible = writable(true);
   name = writable('');
   position = writable('');
   url = writable('');
@@ -87,6 +80,7 @@ export class WorkStore {
   highlights: Writable<Highlight[]> = writable([]);
 
   constructor(params: Work = blankWork) {
+    this.visible.set(params.visible);
     this.name.set(params.name);
     this.position.set(params.position);
     this.url.set(params.url);
@@ -120,6 +114,7 @@ export function saveData(
 
   get(work).forEach((ws: WorkStore) => {
     saveData.work.push({
+      visible: get(ws.visible),
       name: get(ws.name),
       position: get(ws.position),
       url: get(ws.url),
@@ -187,36 +182,6 @@ export function loadLocalStorageData(
   } else {
     console.error('Failed to load resume save data from localStorage!');
   }
-}
-
-/**
- * Can use this as a loadResumeFromJSONResume function in the future
- *
- * @param jsonResume
- * @returns
- */
-export function loadJSONResumeData(jsonResume: string): [BasicsStore, Writable<WorkStore[]>] {
-  const realData = JSON.parse(jsonResume);
-  const basicsStore = new BasicsStore(realData.basics as Basics);
-  const workStoresArray: Array<WorkStore> = [];
-  realData.work.forEach((elem: WorkData) => {
-    // convert highlights into newHighlights type for now
-    const highlights = elem.highlights;
-    const newHighlights: Highlight[] = [];
-    highlights.forEach((h: string) => {
-      newHighlights.push({ visible: true, content: h });
-    });
-    // end newHighlight conversion
-    workStoresArray.push(
-      new WorkStore({
-        ...elem,
-        highlights: newHighlights
-      })
-    );
-  });
-  const workStores = writable(workStoresArray);
-
-  return [basicsStore, workStores];
 }
 
 export function clearResumeStores() {

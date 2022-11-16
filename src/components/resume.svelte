@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { BasicsStore, WorkStore } from '@src/data/data';
-  import type { Writable } from 'svelte/store';
+  import { type Writable, get } from 'svelte/store';
   import WorkResume from './workResume.svelte';
   import { onMount } from 'svelte';
 
@@ -54,13 +54,15 @@
       <h3>Work Experience</h3>
       <ul>
         {#each $work as w}
-          <WorkResume
-            name={w.name}
-            position={w.position}
-            startDate={w.startDate}
-            endDate={w.endDate}
-            highlights={w.highlights}
-          />
+          {#if get(w.visible) == true}
+            <WorkResume
+              name={w.name}
+              position={w.position}
+              startDate={w.startDate}
+              endDate={w.endDate}
+              highlights={w.highlights}
+            />
+          {/if}
         {/each}
       </ul>
     </div>
@@ -76,13 +78,15 @@
       <h3>Work Experience</h3>
       <ul>
         {#each $work as w}
-          <WorkResume
-            name={w.name}
-            position={w.position}
-            startDate={w.startDate}
-            endDate={w.endDate}
-            highlights={w.highlights}
-          />
+          {#if get(w.visible) == true}
+            <WorkResume
+              name={w.name}
+              position={w.position}
+              startDate={w.startDate}
+              endDate={w.endDate}
+              highlights={w.highlights}
+            />
+          {/if}
         {/each}
       </ul>
     </div>

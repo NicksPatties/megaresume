@@ -10,7 +10,7 @@
     saveData,
     type SaveData
   } from '@src/data/data';
-  import type { Writable } from 'svelte/store';
+  import { type Writable, get } from 'svelte/store';
   import WorkMenu from '@src/components/workMenu.svelte';
 
   let open = false;
@@ -50,6 +50,25 @@
     a.dispatchEvent(new MouseEvent('click'));
     URL.revokeObjectURL(a.href);
     a.remove();
+  }
+
+  function removeWork(i: number, name: string) {
+    if (window.confirm(`Are you sure you would like to remove this work experience? ${name}`)) {
+      work.update((w) => {
+        w.splice(i, 1);
+        saveResumeDataToLocalStorage();
+        return w;
+      });
+    }
+  }
+
+  function hideWork(i: number) {
+    work.update((w) => {
+      const currVisibility = get(w[i].visible);
+      w[i].visible.set(!currVisibility);
+      saveResumeDataToLocalStorage();
+      return w;
+    });
   }
 </script>
 
@@ -116,13 +135,21 @@
   <h2>Work Experience</h2>
   <div class="menu-content">
     {#each $work as w, i}
-      <h3>Work {i + 1}</h3>
+      <h3 class="submenu-header">
+        Work {i + 1}
+        <div class="label-controls">
+          <button on:click={() => hideWork(i)}
+            >{#if get(w.visible)}Hide{:else}Show{/if}</button
+          >
+          <button on:click={() => removeWork(i, get(w.name))}>Delete</button>
+        </div>
+      </h3>
       <WorkMenu
+        visible={w.visible}
         name={w.name}
         position={w.position}
         startDate={w.startDate}
         endDate={w.endDate}
-        summary={w.summary}
         highlights={w.highlights}
       />
     {/each}
@@ -184,6 +211,12 @@
 
   .menu.open {
     left: 0;
+  }
+
+  .submenu-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 
   h2 {

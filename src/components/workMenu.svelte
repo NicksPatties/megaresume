@@ -5,18 +5,21 @@
   import { get, type Writable } from 'svelte/store';
   import { saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
 
+  export let visible: Writable<boolean>;
   export let name: Writable<string>;
   export let position: Writable<string>;
   export let startDate: Writable<string>;
   export let endDate: Writable<string>;
-  export let summary: Writable<string>;
   export let highlights: Writable<Array<Highlight>>;
 
   function removeHighlight(i: number) {
-    highlights.update((h) => {
-      h.splice(i, 1);
-      return h;
-    });
+    if (window.confirm('Are you sure you would like to remove this highlight?')) {
+      highlights.update((h) => {
+        h.splice(i, 1);
+        saveResumeDataToLocalStorage();
+        return h;
+      });
+    }
   }
 
   function hideHighlight(i: number) {
@@ -44,11 +47,10 @@
   }
 </script>
 
-<Input label={'Name'} value={name} />
-<Input label={'Position'} value={position} />
-<Input label={'Start Date'} value={startDate} />
-<Input label={'End Date'} value={endDate} />
-<Input label={'Summary'} value={summary} />
+<Input label={'Name'} value={name} disabled={!$visible} />
+<Input label={'Position'} value={position} disabled={!$visible} />
+<Input label={'Start Date'} value={startDate} disabled={!$visible} />
+<Input label={'End Date'} value={endDate} disabled={!$visible} />
 
 {#each $highlights as highlight, i}
   <label for="highlight[{i}]">
@@ -71,7 +73,7 @@
     id={`highlight[${i}]`}
     placeholder={'A cool highlight'}
     content={highlight.content}
-    disabled={!highlight.visible}
+    disabled={!$visible || !highlight.visible}
     oninput={(e) => {
       if (e != null) {
         onNewHighlightInput(e, highlights, i, saveResumeDataToLocalStorage);
