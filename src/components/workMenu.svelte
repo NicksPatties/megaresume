@@ -4,6 +4,7 @@
   import AddEntryButton from '@src/components/addEntryButton.svelte';
   import { get, type Writable } from 'svelte/store';
   import { saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
+  import { arrayMove } from '@src/util/arrayMove';
 
   export let visible: Writable<boolean>;
   export let name: Writable<string>;
@@ -28,6 +29,14 @@
       highlights[i].visible = !currVisibility;
       saveResumeDataToLocalStorage();
       return highlights;
+    });
+  }
+
+  function moveHighlight(i: number, up: boolean) {
+    highlights.update((h) => {
+      h = up ? arrayMove(h, i, i - 1) : arrayMove(h, i, i + 1);
+      saveResumeDataToLocalStorage();
+      return h;
     });
   }
 
@@ -56,6 +65,12 @@
   <label for="highlight[{i}]">
     New Highlight {i + 1}
     <div class="label-controls">
+      {#if i > 0}
+        <button on:click={() => moveHighlight(i, true)}>Up</button>
+      {/if}
+      {#if i < $highlights.length - 1}
+        <button on:click={() => moveHighlight(i, false)}>Down</button>
+      {/if}
       <button
         on:click={() => {
           hideHighlight(i);
