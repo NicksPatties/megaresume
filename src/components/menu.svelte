@@ -12,6 +12,7 @@
   } from '@src/data/data';
   import { type Writable, get } from 'svelte/store';
   import WorkMenu from '@src/components/workMenu.svelte';
+  import { arrayMove } from '@src/util/arrayMove';
 
   let open = false;
 
@@ -66,6 +67,14 @@
     work.update((w) => {
       const currVisibility = get(w[i].visible);
       w[i].visible.set(!currVisibility);
+      saveResumeDataToLocalStorage();
+      return w;
+    });
+  }
+
+  function moveWork(i: number, up: boolean) {
+    work.update((w) => {
+      w = up ? arrayMove(w, i, i - 1) : arrayMove(w, i, i + 1);
       saveResumeDataToLocalStorage();
       return w;
     });
@@ -138,6 +147,12 @@
       <h3 class="submenu-header">
         Work {i + 1}
         <div class="label-controls">
+          {#if i > 0}
+            <button on:click={() => moveWork(i, true)}>Up</button>
+          {/if}
+          {#if i < $work.length - 1}
+            <button on:click={() => moveWork(i, false)}>Down</button>
+          {/if}
           <button on:click={() => hideWork(i)}
             >{#if get(w.visible)}Hide{:else}Show{/if}</button
           >
