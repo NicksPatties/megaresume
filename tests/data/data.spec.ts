@@ -5,7 +5,7 @@ import {
   WorkStore,
   loadData,
   blankBasics,
-  blankWork
+  createBlankWork
 } from '@src/data/data';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type Writable, writable, get } from 'svelte/store';
@@ -17,7 +17,7 @@ const blankSaveData = JSON.stringify({
 
 const blankSaveDataWithWork = JSON.stringify({
   basics: blankBasics,
-  work: [blankWork]
+  work: [createBlankWork()]
 });
 
 describe('saveResumeDataToLocalStorage', () => {
