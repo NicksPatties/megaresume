@@ -10,7 +10,6 @@
   export let position: Writable<string>;
   export let startDate: Writable<string>;
   export let endDate: Writable<string>;
-  export let summary: Writable<string>;
   export let highlights: Writable<Array<Highlight>>;
 
   function removeHighlight(i: number) {
@@ -52,7 +51,6 @@
 <Input label={'Position'} value={position} disabled={!$visible} />
 <Input label={'Start Date'} value={startDate} disabled={!$visible} />
 <Input label={'End Date'} value={endDate} disabled={!$visible} />
-<Input label={'Summary'} value={summary} disabled={!$visible} />
 
 {#each $highlights as highlight, i}
   <label for="highlight[{i}]">

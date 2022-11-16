@@ -150,7 +150,6 @@
         position={w.position}
         startDate={w.startDate}
         endDate={w.endDate}
-        summary={w.summary}
         highlights={w.highlights}
       />
     {/each}
