@@ -1,5 +1,10 @@
 <script lang="ts">
   /**
+   * The id of the button element
+   */
+  export let id: string;
+
+  /**
    * The text that appears in the button
    */
   export let text: string;
@@ -10,7 +15,7 @@
   export let click: () => null;
 </script>
 
-<button class="add-entry" on:click={click()}>{text}</button>
+<button {id} class="add-entry" on:click={click()}>{text}</button>
 
 <style>
   .add-entry {

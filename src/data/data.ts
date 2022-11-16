@@ -58,16 +58,18 @@ export type Work = {
   highlights: Highlight[];
 };
 
-export const blankWork: Work = {
-  visible: true,
-  name: '',
-  position: '',
-  url: '',
-  startDate: '',
-  endDate: '',
-  summary: '',
-  highlights: []
-};
+export function createBlankWork(): Work {
+  return {
+    visible: true,
+    name: '',
+    position: '',
+    url: '',
+    startDate: '',
+    endDate: '',
+    summary: '',
+    highlights: []
+  };
+}
 
 export class WorkStore {
   visible = writable(true);
@@ -79,7 +81,7 @@ export class WorkStore {
   summary = writable('');
   highlights: Writable<Highlight[]> = writable([]);
 
-  constructor(params: Work = blankWork) {
+  constructor(params: Work = createBlankWork()) {
     this.visible.set(params.visible);
     this.name.set(params.name);
     this.position.set(params.position);

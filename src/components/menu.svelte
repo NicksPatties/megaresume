@@ -53,8 +53,8 @@
     a.remove();
   }
 
-  function removeWork(i: number, name: string) {
-    if (window.confirm(`Are you sure you would like to remove this work experience? ${name}`)) {
+  function deleteWork(i: number, name: string) {
+    if (window.confirm(`Are you sure you would like to delete this work experience? ${name}`)) {
       work.update((w) => {
         w.splice(i, 1);
         saveResumeDataToLocalStorage();
@@ -99,6 +99,7 @@
   </div>
 
   <AddEntryButton
+    id={'openResume'}
     text={'Open resume'}
     click={() => {
       const fileUpload = document.getElementById('file-upload');
@@ -108,6 +109,7 @@
   />
 
   <AddEntryButton
+    id={'saveResume'}
     text={'Save resume'}
     click={() => {
       saveDataToJSONFile();
@@ -116,6 +118,7 @@
   />
 
   <AddEntryButton
+    id={'printResume'}
     text={'Print resume'}
     click={() => {
       window.print();
@@ -124,6 +127,7 @@
   />
 
   <AddEntryButton
+    id={'clearResume'}
     text={'[DEBUG] Clear resume data'}
     click={() => {
       localStorage.removeItem('saveData');
@@ -136,10 +140,10 @@
 
   <h2>Basic Information</h2>
 
-  <Input label={'Name'} value={name} />
-  <Input label={'Title'} value={label} />
-  <Input label={'Phone'} value={phone} />
-  <Input label={'Email'} value={email} />
+  <Input id={'basics_name'} label={'Name'} value={name} />
+  <Input id={'basics_title'} label={'Title'} value={label} />
+  <Input id={'basics_phone'} label={'Phone'} value={phone} />
+  <Input id={'basics_email'} label={'Email'} value={email} />
 
   <h2>Work Experience</h2>
   <div class="menu-content">
@@ -148,18 +152,19 @@
         Work {i + 1}
         <div class="label-controls">
           {#if i > 0}
-            <button on:click={() => moveWork(i, true)}>Up</button>
+            <button id="work_{i}_up" on:click={() => moveWork(i, true)}>Up</button>
           {/if}
           {#if i < $work.length - 1}
-            <button on:click={() => moveWork(i, false)}>Down</button>
+            <button id="work_{i}_down" on:click={() => moveWork(i, false)}>Down</button>
           {/if}
-          <button on:click={() => hideWork(i)}
-            >{#if get(w.visible)}Hide{:else}Show{/if}</button
-          >
-          <button on:click={() => removeWork(i, get(w.name))}>Delete</button>
+          <button id="work_{i}_hide" on:click={() => hideWork(i)}>
+            {#if get(w.visible)}Hide{:else}Show{/if}
+          </button>
+          <button id="work_{i}_delete" on:click={() => deleteWork(i, get(w.name))}>Delete</button>
         </div>
       </h3>
       <WorkMenu
+        {i}
         visible={w.visible}
         name={w.name}
         position={w.position}
@@ -169,6 +174,7 @@
       />
     {/each}
     <AddEntryButton
+      id={'newWork'}
       text={'Add new work entry'}
       click={() => {
         work.update((w) => {

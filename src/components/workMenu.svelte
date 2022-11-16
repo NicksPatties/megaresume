@@ -6,6 +6,7 @@
   import { saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
   import { arrayMove } from '@src/util/arrayMove';
 
+  export let i: number;
   export let visible: Writable<boolean>;
   export let name: Writable<string>;
   export let position: Writable<string>;
@@ -13,8 +14,8 @@
   export let endDate: Writable<string>;
   export let highlights: Writable<Array<Highlight>>;
 
-  function removeHighlight(i: number) {
-    if (window.confirm('Are you sure you would like to remove this highlight?')) {
+  function deleteHighlight(i: number) {
+    if (window.confirm('Are you sure you would like to delete this highlight?')) {
       highlights.update((h) => {
         h.splice(i, 1);
         saveResumeDataToLocalStorage();
@@ -56,47 +57,52 @@
   }
 </script>
 
-<Input label={'Name'} value={name} disabled={!$visible} />
-<Input label={'Position'} value={position} disabled={!$visible} />
-<Input label={'Start Date'} value={startDate} disabled={!$visible} />
-<Input label={'End Date'} value={endDate} disabled={!$visible} />
+<Input id={`work_${i}_name`} label={'Name'} value={name} disabled={!$visible} />
+<Input id={`work_${i}_position`} label={'Position'} value={position} disabled={!$visible} />
+<Input id={`work_${i}_startDate`} label={'Start Date'} value={startDate} disabled={!$visible} />
+<Input id={`work_${i}_endDate`} label={'End Date'} value={endDate} disabled={!$visible} />
 
-{#each $highlights as highlight, i}
-  <label for="highlight[{i}]">
-    New Highlight {i + 1}
+{#each $highlights as highlight, k}
+  <label for="work_{i}_highlight_{k}">
+    New Highlight {k + 1}
     <div class="label-controls">
-      {#if i > 0}
-        <button on:click={() => moveHighlight(i, true)}>Up</button>
+      {#if k > 0}
+        <button id="work_{i}_highlight_{k}_up" on:click={() => moveHighlight(k, true)}>Up</button>
       {/if}
-      {#if i < $highlights.length - 1}
-        <button on:click={() => moveHighlight(i, false)}>Down</button>
+      {#if k < $highlights.length - 1}
+        <button id="work_{i}_highlight_{k}_down" on:click={() => moveHighlight(k, false)}
+          >Down</button
+        >
       {/if}
       <button
+        id="work_{i}_highlight_{k}_hide"
         on:click={() => {
-          hideHighlight(i);
+          hideHighlight(k);
         }}
         >{#if highlight.visible}Hide{:else}Show{/if}</button
       >
       <button
+        id="work_{i}_highlight_{k}_delete"
         on:click={() => {
-          removeHighlight(i);
+          deleteHighlight(k);
         }}>Delete</button
       >
     </div>
   </label>
   <Textarea
-    id={`highlight[${i}]`}
+    id={`work_${i}_highlight_${k}`}
     placeholder={'A cool highlight'}
     content={highlight.content}
     disabled={!$visible || !highlight.visible}
     oninput={(e) => {
       if (e != null) {
-        onNewHighlightInput(e, highlights, i, saveResumeDataToLocalStorage);
+        onNewHighlightInput(e, highlights, k, saveResumeDataToLocalStorage);
       }
     }}
   />
 {/each}
 <AddEntryButton
+  id={`work_${i}_newHighlight`}
   text={'Add new highlight'}
   click={() => {
     highlights.update((h) => {
