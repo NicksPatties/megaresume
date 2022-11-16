@@ -9,7 +9,7 @@ type Basics = {
   summary: string;
 };
 
-const blankBasics: Basics = {
+export const blankBasics: Basics = {
   name: '',
   label: '',
   image: '',
@@ -58,7 +58,7 @@ export type Work = {
   highlights: Highlight[];
 };
 
-const blankWork: Work = {
+export const blankWork: Work = {
   visible: true,
   name: '',
   position: '',
