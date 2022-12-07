@@ -1,17 +1,22 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount } from 'svelte';
 
   onMount(() => {
-    const openButton = document.getElementById('open-button')!;
-    const backButton = document.getElementById('back-button')!;
-    const menu = document.getElementById('menu')!;
-    openButton.onclick = () => {
-      menu.style.display = "";
+    const openButton = document.getElementById('open-button');
+    const backButton = document.getElementById('back-button');
+    const menu = document.getElementById('menu');
+    if (openButton != null) {
+      openButton.onclick = () => {
+        if (menu != null) menu.style.display = '';
+      };
     }
-    backButton.onclick = () => {
-      menu.style.display = "none";
+
+    if (backButton != null) {
+      backButton.onclick = () => {
+        if (menu != null) menu.style.display = 'none';
+      };
     }
-  })
+  });
 </script>
 
 <div id="menu-component">
@@ -23,9 +28,16 @@
     </header>
     <div class="menu-contents" id="text-menu-contents">
       <h1>What if I the text right now?</h1>
-      <p>Putting text inside of the menu may be a cool thing when you're adding a some documentation into the whatever the funk I dunno. It doesn't need to be inside a menu group at all so that's nice.</p>
+      <p>
+        Putting text inside of the menu may be a cool thing when you're adding a some documentation
+        into the whatever the funk I dunno. It doesn't need to be inside a menu group at all so
+        that's nice.
+      </p>
       <h2>Making the blungy</h2>
-      <p>You can just do the whatever and that's fine. Lorem ipsum is kinda boring so it's fun to make dumb shit myself!</p>
+      <p>
+        You can just do the whatever and that's fine. Lorem ipsum is kinda boring so it's fun to
+        make dumb shit myself!
+      </p>
       <h3>Next step</h3>
       <p>Do the thing</p>
       <h4>Next step</h4>
@@ -34,19 +46,19 @@
       <p>Do the thing</p>
       <h6>I am baby</h6>
       <p>Yes you are</p>
-      <div class="divider"></div>
+      <div class="divider" />
       <ul class="menu-group" id="inputs-menu-contents">
         <li>Option 1</li>
         <li>Option 2</li>
         <li>Option 3</li>
       </ul>
-      <div class="divider"></div>
+      <div class="divider" />
       <ul class="menu-group">
         <li>Option 4</li>
         <li>Option 5</li>
         <li>Option 6</li>
         <li>Option 7</li>
-        <div class="divider"></div>
+        <div class="divider" />
         <li>Option 8</li>
         <li>Option 9</li>
         <li>Option 10</li>
@@ -56,8 +68,10 @@
       <footer>
         <p><i>Made with 💨 by NicksPatties</i></p>
       </footer>
-    </div> <!-- end menu-contents -->
-  </div> <!-- end menu -->
+    </div>
+    <!-- end menu-contents -->
+  </div>
+  <!-- end menu -->
 </div>
 
 <style>
@@ -71,7 +85,7 @@
     --header-height: 42px;
     --menu-box-shadow-width: 12px;
     --divider-color: gray;
-    --menu-contents-text-side-padding: 7%;
+    --menu-contents-text-side-padding: 6%;
   }
 
   /**
@@ -129,6 +143,7 @@
 
   .menu-contents > :is(h1, h2, h3, h4, h5, h6, p) {
     padding: 0 var(--menu-contents-text-side-padding);
+    margin: 0.75em 0em;
   }
 
   .menu-group {
@@ -159,11 +174,12 @@
 
   footer p {
     font-size: 0.75em;
+    margin: 0.75em 0em;
     text-align: center;
   }
 
-
-  @media only screen and (max-width: 400px) { /* should use var but whatever */
+  @media only screen and (max-width: 400px) {
+    /* should use var but whatever */
     .menu {
       box-shadow: none;
       width: 100%;
