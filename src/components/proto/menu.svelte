@@ -48,20 +48,25 @@
       <p>Yes you are</p>
       <div class="divider" />
       <!-- form elements can exist outside of another class, which may be easier -->
-      <label for="input-text">Text input</label>
-      <input id="input-text" type="text" placeholder="Type your text here" />
-      <label for="date-input">Date input</label>
-      <input id="date-input" type="date" />
-      <label for="textarea-input">Textarea input</label>
-      <textarea id="textarea-input" rows="4" />
-      <label for="select-input">Select input</label>
-      <select id="select-input" value="0">
-        <option value="0" disabled>Pick one of the following</option>
-        <option value="1">Option 1</option>
-        <option value="2">Option 2</option>
-        <option value="3">Option 3</option>
-      </select>
       <fieldset>
+        <legend>Text box inputs</legend>
+        <label for="input-text">Text input</label>
+        <input id="input-text" type="text" placeholder="Type your text here" />
+        <label for="date-input">Date input</label>
+        <input id="date-input" type="date" />
+        <label for="textarea-input">Textarea input</label>
+        <textarea id="textarea-input" rows="4" />
+        <label for="select-input">Select input</label>
+        <select id="select-input" value="0">
+          <option value="0" disabled>Pick one of the following</option>
+          <option value="1">Option 1</option>
+          <option value="2">Option 2</option>
+          <option value="3">Option 3</option>
+        </select>
+      </fieldset>
+
+      <fieldset>
+        <!-- May not actually use a legend for this since I want to hide the contents of the rest of the field set...-->
         <legend>Inline input items</legend>
         <div class="inline-input">
           <label for="checkbox-input">Checkbox</label>
@@ -76,6 +81,7 @@
           <input id="radio-input-group-2" type="radio" value="2" name="radio" />
         </div>
       </fieldset>
+
       <footer>
         <p><i>Made with 💨 by NicksPatties</i></p>
       </footer>
@@ -155,22 +161,32 @@
     flex-direction: column;
   }
 
-  .menu-contents > :is(h1, h2, h3, h4, h5, h6, p, label) {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  label {
     margin: 0.75em 0;
     padding: 0 var(--menu-contents-text-side-padding);
   }
 
-  .menu-contents :is(input, select, textarea) {
+  /* input fields */
+  input,
+  select,
+  textarea {
     min-height: 2em;
     margin: 0 var(--menu-contents-text-side-padding);
   }
 
-  .menu-contents textarea {
+  textarea {
     resize: none;
     min-height: 5em;
   }
 
-  .menu-contents input[type='date'] {
+  input[type='date'] {
     min-height: 2em;
   }
 
@@ -204,6 +220,8 @@
   }
 
   .inline-input label {
+    margin: 0;
+    padding: 0;
     width: 100%;
   }
 
