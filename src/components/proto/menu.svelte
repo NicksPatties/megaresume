@@ -47,24 +47,35 @@
       <h6>I am baby</h6>
       <p>Yes you are</p>
       <div class="divider" />
-      <ul class="menu-group" id="inputs-menu-contents">
-        <li>Option 1</li>
-        <li>Option 2</li>
-        <li>Option 3</li>
-      </ul>
-      <div class="divider" />
-      <ul class="menu-group">
-        <li>Option 4</li>
-        <li>Option 5</li>
-        <li>Option 6</li>
-        <li>Option 7</li>
-        <div class="divider" />
-        <li>Option 8</li>
-        <li>Option 9</li>
-        <li>Option 10</li>
-        <li>Option 11</li>
-        <li>Option 12</li>
-      </ul>
+      <!-- form elements can exist outside of another class, which may be easier -->
+      <label for="input-text">Text input</label>
+      <input id="input-text" type="text" placeholder="Type your text here" />
+      <label for="date-input">Date input</label>
+      <input id="date-input" type="date" />
+      <label for="select-input">Select input</label>
+      <!-- TODO style the select input to match the text input -->
+      <select id="select-input" value="0">
+        <option value="0" disabled>Pick one of the following</option>
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
+      </select>
+      <div class="inline-input">
+        <label for="checkbox-input">Checkbox</label>
+        <input id="checkbox-input" type="checkbox" />
+      </div>
+
+      <fieldset>
+        <legend>Radio input options</legend>
+        <div class="inline-input">
+          <label for="radio-input-group-1">Radio 1</label>
+          <input id="radio-input-group-1" type="radio" value="1" name="radio" />
+        </div>
+        <div class="inline-input">
+          <label for="radio-input-group-2">Radio 2</label>
+          <input id="radio-input-group-2" type="radio" value="2" name="radio" />
+        </div>
+      </fieldset>
       <footer>
         <p><i>Made with 💨 by NicksPatties</i></p>
       </footer>
@@ -139,35 +150,53 @@
   .menu-contents {
     overflow-y: scroll;
     height: calc(var(--menu-height) - var(--header-height));
+    display: flex;
+    flex-direction: column;
   }
 
-  .menu-contents > :is(h1, h2, h3, h4, h5, h6, p) {
+  .menu-contents > :is(h1, h2, h3, h4, h5, h6, p, label) {
+    margin: 0.75em 0;
     padding: 0 var(--menu-contents-text-side-padding);
-    margin: 0.75em 0em;
   }
 
-  .menu-group {
-    margin: 0;
+  .menu-contents :is(input, select) {
+    line-height: 2em;
+    margin: 0 var(--menu-contents-text-side-padding);
+  }
+
+  .menu-contents input[type='date'] {
+    padding: 1em 0;
+  }
+
+  fieldset {
+    border: none;
     padding: 0;
+    margin: 0;
   }
 
-  .menu-group > li {
-    list-style: none;
-    font-size: 1em;
-    padding: 0.5em 0 0.5em var(--menu-contents-text-side-padding);
+  legend {
+    font-weight: bold;
+    padding: 0 var(--menu-contents-text-side-padding);
   }
 
-  .menu-group li:hover {
-    background-color: red;
+  .inline-input {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.75em 0;
+    padding: 0 var(--menu-contents-text-side-padding);
   }
 
-  .menu-group li:active {
-    background-color: yellow;
+  .inline-input label {
+    width: 100%;
+  }
+
+  .inline-input input {
+    margin: 0;
   }
 
   .divider {
     width: 80%;
-    height: 1px;
+    padding-top: 1px;
     background: linear-gradient(90deg, white, #bababa, #bababa, white);
     margin: 1em auto;
   }
