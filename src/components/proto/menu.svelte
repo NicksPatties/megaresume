@@ -17,6 +17,24 @@
       };
     }
   });
+
+  const hide = () => {
+    const currMenu = document.getElementById('menu-contents-0');
+    const subMenu = document.getElementById('menu-contents-1');
+    if(currMenu != null && subMenu != null) {
+      currMenu.classList.remove('visible');
+      subMenu.classList.add('visible');
+    }
+  }
+
+  const hideAgain = () => {
+    const currMenu = document.getElementById('menu-contents-0');
+    const subMenu = document.getElementById('menu-contents-1');
+    if(currMenu != null && subMenu != null) {
+      subMenu.classList.remove('visible');
+      currMenu.classList.add('visible');
+    }
+  }
 </script>
 
 <div id="menu-component">
@@ -26,7 +44,9 @@
       <button id="back-button">Close</button>
       <h2 class="menu-title">Menu Test</h2>
     </header>
-    <div class="menu-contents" id="text-menu-contents">
+    <div id="menu-contents-0" class="menu-contents visible">
+      <input type="button" value="Go to submenu" on:click={hide}/>
+      <div class="divider"></div>
       <h1>What if I the text right now?</h1>
       <p>
         Putting text inside of the menu may be a cool thing when you're adding a some documentation
@@ -123,6 +143,10 @@
       </footer>
     </div>
     <!-- end menu-contents -->
+    <div id="menu-contents-1" class="menu-contents">
+      <h1>I am the submenu</h1>
+      <input type="button" value="Go back" on:click={hideAgain} />
+    </div>
   </div>
   <!-- end menu -->
 </div>
@@ -191,10 +215,14 @@
     Menu contents... content
   **/
   .menu-contents {
+    display: none;
     overflow-y: scroll;
     height: calc(var(--menu-height) - var(--header-height));
-    display: flex;
     flex-direction: column;
+  }
+
+  .menu-contents.visible {
+    display: flex;
   }
 
   h1,
