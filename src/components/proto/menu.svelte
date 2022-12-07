@@ -52,21 +52,21 @@
       <input id="input-text" type="text" placeholder="Type your text here" />
       <label for="date-input">Date input</label>
       <input id="date-input" type="date" />
+      <label for="textarea-input">Textarea input</label>
+      <textarea id="textarea-input" rows="4" />
       <label for="select-input">Select input</label>
-      <!-- TODO style the select input to match the text input -->
       <select id="select-input" value="0">
         <option value="0" disabled>Pick one of the following</option>
         <option value="1">Option 1</option>
         <option value="2">Option 2</option>
         <option value="3">Option 3</option>
       </select>
-      <div class="inline-input">
-        <label for="checkbox-input">Checkbox</label>
-        <input id="checkbox-input" type="checkbox" />
-      </div>
-
       <fieldset>
-        <legend>Radio input options</legend>
+        <legend>Inline input items</legend>
+        <div class="inline-input">
+          <label for="checkbox-input">Checkbox</label>
+          <input id="checkbox-input" type="checkbox" />
+        </div>
         <div class="inline-input">
           <label for="radio-input-group-1">Radio 1</label>
           <input id="radio-input-group-1" type="radio" value="1" name="radio" />
@@ -88,6 +88,7 @@
 <style>
   * {
     box-sizing: object-fit;
+    /* background: none; */
   }
 
   :root {
@@ -159,22 +160,38 @@
     padding: 0 var(--menu-contents-text-side-padding);
   }
 
-  .menu-contents :is(input, select) {
-    line-height: 2em;
+  .menu-contents :is(input, select, textarea) {
+    min-height: 2em;
     margin: 0 var(--menu-contents-text-side-padding);
   }
 
+  .menu-contents textarea {
+    resize: none;
+    min-height: 5em;
+  }
+
   .menu-contents input[type='date'] {
-    padding: 1em 0;
+    min-height: 2em;
+  }
+
+  select {
+    box-sizing: initial;
+    min-height: 2em;
+    padding: 1px 2px;
+    border-width: 2px;
   }
 
   fieldset {
+    display: flex;
+    flex-direction: column;
     border: none;
     padding: 0;
     margin: 0;
   }
 
   legend {
+    float: left; /* remove legend from border of fieldset */
+    margin: 0.75em 0;
     font-weight: bold;
     padding: 0 var(--menu-contents-text-side-padding);
   }
@@ -191,6 +208,7 @@
   }
 
   .inline-input input {
+    min-height: 1em;
     margin: 0;
   }
 
