@@ -1,6 +1,7 @@
 <script lang="ts">
   let menuOpen = false;
   let menuStack = ['menu-contents-0'];
+  let menuStackLength = menuStack.length;
   let visibleClass = 'visible';
 
   const openMenu = () => {
@@ -29,6 +30,7 @@
     }
     elem.classList.add(visibleClass);
     menuStack.push(id);
+    menuStackLength = menuStack.length;
   };
 
   const pop = () => {
@@ -50,6 +52,7 @@
     if (currLastElement != null) {
       currLastElement.classList.add(visibleClass);
     }
+    menuStackLength = menuStack.length;
   };
 </script>
 
@@ -57,7 +60,11 @@
   <button id="open-button" on:click={openMenu}>Open</button>
   <div id="menu" class="menu {menuOpen ? 'open' : ''}">
     <header id="menu-header">
-      <button id="back-button" on:click={closeMenu}>Close</button>
+      {#if menuStackLength > 1}
+        <button id="back-button" on:click={pop}>Back</button>
+      {:else}
+        <button id="back-button" on:click={closeMenu}>Close</button>
+      {/if}
       <h2 class="menu-title">Menu Test</h2>
     </header>
     <div class="menu-contents-container">
@@ -163,7 +170,12 @@
 
       <div id="menu-contents-1" class="menu-contents">
         <h1>I am the submenu</h1>
-        <input type="button" value="Go back" on:click={pop} />
+        <input type="button" value="Go deeper" on:click={() => push('menu-contents-2')} />
+      </div>
+
+      <div id="menu-contents-2" class="menu-contents">
+        <h1>I am a deeper submenu</h1>
+        <p>This is the end</p>
       </div>
     </div>
   </div>
