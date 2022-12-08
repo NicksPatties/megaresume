@@ -27,6 +27,7 @@
     const lastElem = document.getElementById(lastElementId);
     if (lastElem != null) {
       lastElem.classList.remove(visibleClass);
+      lastElem.classList.add('pushed'); // moves the element to the left
     }
     elem.classList.add(visibleClass);
     menuStack.push(id);
@@ -51,6 +52,7 @@
     const currLastElement = document.getElementById(menuStack[menuStack.length - 1]);
     if (currLastElement != null) {
       currLastElement.classList.add(visibleClass);
+      currLastElement.classList.remove('pushed'); // has been pushed, but coming from left;
     }
     menuStackLength = menuStack.length;
   };
@@ -68,7 +70,12 @@
       <h2 class="menu-title">Menu Test</h2>
     </header>
     <div class="menu-contents-container">
-      <div id="menu-contents-0" class="menu-contents visible">
+      <!--
+        The menuStackLength check was an attempt to follow reactive principles to add a pushed class to
+        elements that have not been pushed, but really it was just a workaround for the preprocessor to include
+        the 'pushed' class in the computed styles.
+      -->
+      <div id="menu-contents-0" class="menu-contents visible {menuStackLength > 1 ? 'pushed' : ''}">
         <input type="button" value="Go to submenu" on:click={() => push('menu-contents-1')} />
         <div class="divider" />
         <h1>What if I the text right now?</h1>
@@ -253,7 +260,6 @@
   .menu-contents-container {
     position: relative;
     height: calc(var(--menu-height) - var(--header-height));
-    overflow-y: scroll;
     overflow-x: hidden;
   }
 
@@ -267,11 +273,17 @@
     width: var(--mobile-width);
     display: flex;
     flex-direction: column;
+    overflow-y: hidden;
     transition: left var(--menu-transition-time) var(--menu-transition-page-curve);
   }
 
   .menu-contents.visible {
     left: 0;
+    overflow-y: scroll;
+  }
+
+  .menu-contents.pushed {
+    left: calc(-1 * var(--mobile-width));
   }
 
   h1,
