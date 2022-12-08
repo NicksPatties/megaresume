@@ -1,5 +1,7 @@
 <script lang="ts">
   let menuOpen = false;
+  let menuStack = ['menu-contents-0'];
+  let visibleClass = 'visible';
 
   const openMenu = () => {
     menuOpen = true;
@@ -9,21 +11,44 @@
     menuOpen = false;
   };
 
-  const hide = () => {
-    const currMenu = document.getElementById('menu-contents-0');
-    const subMenu = document.getElementById('menu-contents-1');
-    if (currMenu != null && subMenu != null) {
-      currMenu.classList.remove('visible');
-      subMenu.classList.add('visible');
+  const push = (id: string) => {
+    const lastElementId = menuStack[menuStack.length - 1];
+    // check if element id is already on the stack
+    if (lastElementId == id) {
+      console.warn(`${id} is already at end of stack`);
+      return;
     }
+    const elem = document.getElementById(id);
+    if (elem == null) {
+      console.error(`Element with id ${id} does not exist! Ignoring push.`);
+      return;
+    }
+    const lastElem = document.getElementById(lastElementId);
+    if (lastElem != null) {
+      lastElem.classList.remove(visibleClass);
+    }
+    elem.classList.add(visibleClass);
+    menuStack.push(id);
   };
 
-  const hideAgain = () => {
-    const currMenu = document.getElementById('menu-contents-0');
-    const subMenu = document.getElementById('menu-contents-1');
-    if (currMenu != null && subMenu != null) {
-      subMenu.classList.remove('visible');
-      currMenu.classList.add('visible');
+  const pop = () => {
+    // if it's too short, don't do anything
+    if (menuStack.length <= 1) {
+      console.error(`menuStack is too short to pop! Ignoring`);
+      return;
+    }
+
+    const lastElementId = menuStack[menuStack.length - 1];
+    const lastElem = document.getElementById(lastElementId);
+    const popped = menuStack.pop();
+    if (lastElem == null) {
+      console.warn(`Couldn't find element with id ${popped}. Removed element from stack.`);
+      return;
+    }
+    lastElem.classList.remove(visibleClass);
+    const currLastElement = document.getElementById(menuStack[menuStack.length - 1]);
+    if (currLastElement != null) {
+      currLastElement.classList.add(visibleClass);
     }
   };
 </script>
@@ -37,7 +62,7 @@
     </header>
     <div class="menu-contents-container">
       <div id="menu-contents-0" class="menu-contents visible">
-        <input type="button" value="Go to submenu" on:click={hide} />
+        <input type="button" value="Go to submenu" on:click={() => push('menu-contents-1')} />
         <div class="divider" />
         <h1>What if I the text right now?</h1>
         <p>
@@ -138,7 +163,7 @@
 
       <div id="menu-contents-1" class="menu-contents">
         <h1>I am the submenu</h1>
-        <input type="button" value="Go back" on:click={hideAgain} />
+        <input type="button" value="Go back" on:click={pop} />
       </div>
     </div>
   </div>
@@ -323,8 +348,11 @@
   @media only screen and (max-width: 400px) {
     /* should use var but whatever */
     .menu {
-      box-shadow: none;
       width: 100%;
+    }
+
+    .menu.open {
+      box-shadow: none;
     }
   }
 </style>
