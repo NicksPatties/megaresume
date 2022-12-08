@@ -239,6 +239,7 @@
   }
 
   .menu-contents-container {
+    position: relative;
     height: calc(var(--menu-height) - var(--header-height));
     overflow-y: scroll;
     overflow-x: hidden;
@@ -248,12 +249,17 @@
     Menu contents... content
   **/
   .menu-contents {
-    display: none;
+    position: absolute;
+    top: 0;
+    left: var(--mobile-width);
+    width: var(--mobile-width);
+    display: flex;
     flex-direction: column;
+    transition: left var(--menu-transition-time) var(--menu-transition-page-curve);
   }
 
   .menu-contents.visible {
-    display: flex;
+    left: 0;
   }
 
   h1,
