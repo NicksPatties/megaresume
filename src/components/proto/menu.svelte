@@ -178,7 +178,11 @@
       <div id="menu-contents-1" class="menu-contents">
         <h1>I am the submenu</h1>
         <input type="button" value="Go deeper" on:click={() => push('menu-contents-2')} />
-        <input type="button" value="Go deeper another way" on:click={() => push('menu-contents-3')} />
+        <input
+          type="button"
+          value="Go deeper another way"
+          on:click={() => push('menu-contents-3')}
+        />
       </div>
 
       <div id="menu-contents-2" class="menu-contents">
@@ -275,7 +279,7 @@
   .menu-contents {
     position: absolute;
     top: 0;
-    left: var(--mobile-width);
+    left: calc(-1 * var(--mobile-width));
     width: var(--mobile-width);
     display: flex;
     flex-direction: column;
@@ -289,7 +293,7 @@
   }
 
   .menu-contents.pushed {
-    left: calc(-1 * var(--mobile-width));
+    left: var(--mobile-width);
   }
 
   h1,
