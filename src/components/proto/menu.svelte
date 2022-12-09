@@ -178,11 +178,17 @@
       <div id="menu-contents-1" class="menu-contents">
         <h1>I am the submenu</h1>
         <input type="button" value="Go deeper" on:click={() => push('menu-contents-2')} />
+        <input type="button" value="Go deeper another way" on:click={() => push('menu-contents-3')} />
       </div>
 
       <div id="menu-contents-2" class="menu-contents">
         <h1>I am a deeper submenu</h1>
         <p>This is the end</p>
+      </div>
+
+      <div id="menu-contents-3" class="menu-contents">
+        <h1>I am another deeper submenu</h1>
+        <p>This is the end of the line</p>
       </div>
     </div>
   </div>
