@@ -103,13 +103,13 @@
           <legend>Text box inputs</legend>
           <label for="input-text">Text input</label>
           <input id="input-text" type="text" placeholder="Type your text here" />
-          <label for="email-input"
-            >Email input <span class="hint">(i.e. sample@email.com)</span></label
-          >
+          <label for="email-input">
+            Email input <span class="hint">(i.e. sample@email.com</span>
+          </label>
           <input id="email-input" type="email" placeholder="sample@email.com" />
-          <label for="url-input"
-            >Url input <span class="hint">(kinda like https://google.com)</span></label
-          >
+          <label for="url-input">
+            Url input <span class="hint">(kinda like https://google.com)</span>
+          </label>
           <input id="url-input" type="url" />
           <label for="phone-input">Phone number input</label>
           <input id="phone-input" type="tel" />
@@ -126,10 +126,9 @@
             <option value="2">Option 2</option>
             <option value="3">Option 3</option>
           </select>
-          <label for="text-list-input"
-            >Text list input <span class="hint">(Select from the list or type your own)</span
-            ></label
-          >
+          <label for="text-list-input">
+            Text list input <span class="hint">(Select from the list or type your own) </span>
+          </label>
           <input id="text-list-input" type="text" list="text-list" />
           <datalist id="text-list">
             <option value="one">Option 1</option>
