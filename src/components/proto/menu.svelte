@@ -1,128 +1,199 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  let menuOpen = false;
+  let menuStack = ['menu-contents-0'];
+  let menuStackLength = menuStack.length;
+  let visibleClass = 'visible';
 
-  onMount(() => {
-    const openButton = document.getElementById('open-button');
-    const backButton = document.getElementById('back-button');
-    const menu = document.getElementById('menu');
-    if (openButton != null) {
-      openButton.onclick = () => {
-        if (menu != null) menu.style.display = '';
-      };
+  const openMenu = () => {
+    menuOpen = true;
+  };
+
+  const closeMenu = () => {
+    menuOpen = false;
+  };
+
+  const push = (id: string) => {
+    const lastElementId = menuStack[menuStack.length - 1];
+    // check if element id is already on the stack
+    if (lastElementId == id) {
+      console.warn(`${id} is already at end of stack`);
+      return;
+    }
+    const elem = document.getElementById(id);
+    if (elem == null) {
+      console.error(`Element with id ${id} does not exist! Ignoring push.`);
+      return;
+    }
+    const lastElem = document.getElementById(lastElementId);
+    if (lastElem != null) {
+      lastElem.classList.remove(visibleClass);
+      lastElem.classList.add('pushed'); // moves the element to the left
+    }
+    elem.classList.add(visibleClass);
+    menuStack.push(id);
+    menuStackLength = menuStack.length;
+  };
+
+  const pop = () => {
+    // if it's too short, don't do anything
+    if (menuStack.length <= 1) {
+      console.error(`menuStack is too short to pop! Ignoring`);
+      return;
     }
 
-    if (backButton != null) {
-      backButton.onclick = () => {
-        if (menu != null) menu.style.display = 'none';
-      };
+    const lastElementId = menuStack[menuStack.length - 1];
+    const lastElem = document.getElementById(lastElementId);
+    const popped = menuStack.pop();
+    if (lastElem == null) {
+      console.warn(`Couldn't find element with id ${popped}. Removed element from stack.`);
+      return;
     }
-  });
+    lastElem.classList.remove(visibleClass);
+    const currLastElement = document.getElementById(menuStack[menuStack.length - 1]);
+    if (currLastElement != null) {
+      currLastElement.classList.add(visibleClass);
+      currLastElement.classList.remove('pushed'); // has been pushed, but coming from left;
+    }
+    menuStackLength = menuStack.length;
+  };
 </script>
 
 <div id="menu-component">
-  <button id="open-button">Open</button>
-  <div id="menu" class="menu">
+  <button id="open-button" on:click={openMenu}>Open</button>
+  <div id="menu" class="menu {menuOpen ? 'open' : ''}">
     <header id="menu-header">
-      <button id="back-button">Close</button>
+      {#if menuStackLength > 1}
+        <button id="back-button" on:click={pop}>Back</button>
+      {:else}
+        <button id="back-button" on:click={closeMenu}>Close</button>
+      {/if}
       <h2 class="menu-title">Menu Test</h2>
     </header>
-    <div class="menu-contents" id="text-menu-contents">
-      <h1>What if I the text right now?</h1>
-      <p>
-        Putting text inside of the menu may be a cool thing when you're adding a some documentation
-        into the whatever the funk I dunno. It doesn't need to be inside a menu group at all so
-        that's nice.
-      </p>
-      <h2>Making the blungy</h2>
-      <p>
-        You can just do the whatever and that's fine. Lorem ipsum is kinda boring so it's fun to
-        make dumb shit myself!
-      </p>
-      <h3>Next step</h3>
-      <p>Do the thing</p>
-      <h4>Next step</h4>
-      <p>Do the thing</p>
-      <h5>Next step</h5>
-      <p>Do the thing</p>
-      <h6>I am baby</h6>
-      <p>Yes you are</p>
-      <div class="divider" />
-      <!-- form elements can exist outside of another class, which may be easier -->
-      <fieldset>
-        <legend>Text box inputs</legend>
-        <label for="input-text">Text input</label>
-        <input id="input-text" type="text" placeholder="Type your text here" />
-        <label for="email-input"
-          >Email input <span class="hint">(i.e. sample@email.com)</span></label
-        >
-        <input id="email-input" type="email" placeholder="sample@email.com" />
-        <label for="url-input"
-          >Url input <span class="hint">(kinda like https://google.com)</span></label
-        >
-        <input id="url-input" type="url" />
-        <label for="phone-input">Phone number input</label>
-        <input id="phone-input" type="tel" />
-        <label for="date-input">Date input</label>
-        <input id="date-input" type="date" />
-        <label for="month-input">Month input</label>
-        <input id="month-input" type="month" />
-        <label for="textarea-input">Textarea input</label>
-        <textarea id="textarea-input" rows="4" />
-        <label for="select-input">Select input</label>
-        <select id="select-input" value="0">
-          <option value="0" disabled>Pick one of the following</option>
-          <option value="1">Option 1</option>
-          <option value="2">Option 2</option>
-          <option value="3">Option 3</option>
-        </select>
-        <label for="text-list-input"
-          >Text list input <span class="hint">(Select from the list or type your own)</span></label
-        >
-        <input id="text-list-input" type="text" list="text-list" />
-        <datalist id="text-list">
-          <option value="one">Option 1</option>
-          <option value="two">Option 2</option>
-          <option value="three">Option 3</option>
-        </datalist>
-      </fieldset>
+    <div class="menu-contents-container">
+      <!--
+        The menuStackLength check was an attempt to follow reactive principles to add a pushed class to
+        elements that have not been pushed, but really it was just a workaround for the preprocessor to include
+        the 'pushed' class in the computed styles.
+      -->
+      <div id="menu-contents-0" class="menu-contents visible {menuStackLength > 1 ? 'pushed' : ''}">
+        <input type="button" value="Go to submenu" on:click={() => push('menu-contents-1')} />
+        <div class="divider" />
+        <h1>What if I the text right now?</h1>
+        <p>
+          Putting text inside of the menu may be a cool thing when you're adding a some
+          documentation into the whatever the funk I dunno. It doesn't need to be inside a menu
+          group at all so that's nice.
+        </p>
+        <h2>Making the blungy</h2>
+        <p>
+          You can just do the whatever and that's fine. Lorem ipsum is kinda boring so it's fun to
+          make dumb shit myself!
+        </p>
+        <h3>Next step</h3>
+        <p>Do the thing</p>
+        <h4>Next step</h4>
+        <p>Do the thing</p>
+        <h5>Next step</h5>
+        <p>Do the thing</p>
+        <h6>I am baby</h6>
+        <p>Yes you are</p>
+        <div class="divider" />
+        <!-- form elements can exist outside of another class, which may be easier -->
+        <fieldset>
+          <legend>Text box inputs</legend>
+          <label for="input-text">Text input</label>
+          <input id="input-text" type="text" placeholder="Type your text here" />
+          <label for="email-input">
+            Email input <span class="hint">(i.e. sample@email.com</span>
+          </label>
+          <input id="email-input" type="email" placeholder="sample@email.com" />
+          <label for="url-input">
+            Url input <span class="hint">(kinda like https://google.com)</span>
+          </label>
+          <input id="url-input" type="url" />
+          <label for="phone-input">Phone number input</label>
+          <input id="phone-input" type="tel" />
+          <label for="date-input">Date input</label>
+          <input id="date-input" type="date" />
+          <label for="month-input">Month input</label>
+          <input id="month-input" type="month" />
+          <label for="textarea-input">Textarea input</label>
+          <textarea id="textarea-input" rows="4" />
+          <label for="select-input">Select input</label>
+          <select id="select-input" value="0">
+            <option value="0" disabled>Pick one of the following</option>
+            <option value="1">Option 1</option>
+            <option value="2">Option 2</option>
+            <option value="3">Option 3</option>
+          </select>
+          <label for="text-list-input">
+            Text list input <span class="hint">(Select from the list or type your own) </span>
+          </label>
+          <input id="text-list-input" type="text" list="text-list" />
+          <datalist id="text-list">
+            <option value="one">Option 1</option>
+            <option value="two">Option 2</option>
+            <option value="three">Option 3</option>
+          </datalist>
+        </fieldset>
 
-      <fieldset>
-        <!-- May not actually use a legend for this since I want to hide the contents of the rest of the field set...-->
-        <legend>Inline input items</legend>
-        <div class="inline-input">
-          <label for="checkbox-input">Checkbox</label>
-          <input id="checkbox-input" type="checkbox" />
-        </div>
-        <div class="inline-input">
-          <label for="radio-input-group-1">Radio 1</label>
-          <input id="radio-input-group-1" type="radio" value="1" name="radio" />
-        </div>
-        <div class="inline-input">
-          <label for="radio-input-group-2">Radio 2</label>
-          <input id="radio-input-group-2" type="radio" value="2" name="radio" />
-        </div>
-      </fieldset>
+        <fieldset>
+          <!-- May not actually use a legend for this since I want to hide the contents of the rest of the field set...-->
+          <legend>Inline input items</legend>
+          <div class="inline-input">
+            <label for="checkbox-input">Checkbox</label>
+            <input id="checkbox-input" type="checkbox" />
+          </div>
+          <div class="inline-input">
+            <label for="radio-input-group-1">Radio 1</label>
+            <input id="radio-input-group-1" type="radio" value="1" name="radio" />
+          </div>
+          <div class="inline-input">
+            <label for="radio-input-group-2">Radio 2</label>
+            <input id="radio-input-group-2" type="radio" value="2" name="radio" />
+          </div>
+        </fieldset>
 
-      <fieldset>
-        <legend>Button inputs</legend>
-        <!-- Honestly would probably just use a button and hide this input -->
-        <div class="inline-input">
-          <label for="file-input">File input</label>
-          <input id="file-input" type="file" />
-        </div>
-        <div class="inline-input">
-          <label for="color-input">Color input</label>
-          <input id="color-input" type="color" />
-        </div>
-        <label for="button-input">Button input</label>
-        <input id="button-input" type="button" value="Click me!" />
-      </fieldset>
-      <div class="divider" />
-      <footer>
-        <p><i>Made with 💨 by NicksPatties</i></p>
-      </footer>
+        <fieldset>
+          <legend>Button inputs</legend>
+          <!-- Honestly would probably just use a button and hide this input -->
+          <div class="inline-input">
+            <label for="file-input">File input</label>
+            <input id="file-input" type="file" />
+          </div>
+          <div class="inline-input">
+            <label for="color-input">Color input</label>
+            <input id="color-input" type="color" />
+          </div>
+          <label for="button-input">Button input</label>
+          <input id="button-input" type="button" value="Click me!" />
+        </fieldset>
+        <div class="divider" />
+        <footer>
+          <p><i>Made with 💨 by NicksPatties</i></p>
+        </footer>
+      </div>
+
+      <div id="menu-contents-1" class="menu-contents">
+        <h1>I am the submenu</h1>
+        <input type="button" value="Go deeper" on:click={() => push('menu-contents-2')} />
+        <input
+          type="button"
+          value="Go deeper another way"
+          on:click={() => push('menu-contents-3')}
+        />
+      </div>
+
+      <div id="menu-contents-2" class="menu-contents">
+        <h1>I am a deeper submenu</h1>
+        <p>This is the end</p>
+      </div>
+
+      <div id="menu-contents-3" class="menu-contents">
+        <h1>I am another deeper submenu</h1>
+        <p>This is the end of the line</p>
+      </div>
     </div>
-    <!-- end menu-contents -->
   </div>
   <!-- end menu -->
 </div>
@@ -140,6 +211,8 @@
     --menu-box-shadow-width: 12px;
     --divider-color: gray;
     --menu-contents-text-side-padding: 6%;
+    --menu-transition-time: 0.35s;
+    --menu-transition-page-curve: cubic-bezier(0.22, 0.61, 0.36, 1);
   }
 
   /**
@@ -147,15 +220,21 @@
   **/
   .menu {
     background-color: white;
-    box-shadow: var(--divider-color) 0 0 var(--menu-box-shadow-width);
+    box-shadow: none;
     position: fixed;
     top: 0;
-    left: 0;
+    left: calc(-1 * var(--mobile-width));
     width: var(--mobile-width);
     height: var(--menu-height);
     font-size: 18px;
     font-family: sans-serif;
     user-select: none;
+    transition: left var(--menu-transition-time) var(--menu-transition-page-curve);
+  }
+
+  .menu.open {
+    left: 0;
+    box-shadow: var(--divider-color) 0 0 var(--menu-box-shadow-width);
   }
 
   /**
@@ -187,14 +266,33 @@
     text-align: center;
   }
 
+  .menu-contents-container {
+    position: relative;
+    height: calc(var(--menu-height) - var(--header-height));
+    overflow-x: hidden;
+  }
+
   /**
     Menu contents... content
   **/
   .menu-contents {
-    overflow-y: scroll;
-    height: calc(var(--menu-height) - var(--header-height));
+    position: absolute;
+    top: 0;
+    left: calc(-1 * var(--mobile-width));
+    width: var(--mobile-width);
     display: flex;
     flex-direction: column;
+    overflow-y: hidden;
+    transition: left var(--menu-transition-time) var(--menu-transition-page-curve);
+  }
+
+  .menu-contents.visible {
+    left: 0;
+    overflow-y: scroll;
+  }
+
+  .menu-contents.pushed {
+    left: var(--mobile-width);
   }
 
   h1,
@@ -289,8 +387,11 @@
   @media only screen and (max-width: 400px) {
     /* should use var but whatever */
     .menu {
-      box-shadow: none;
       width: 100%;
+    }
+
+    .menu.open {
+      box-shadow: none;
     }
   }
 </style>
