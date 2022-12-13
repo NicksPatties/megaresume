@@ -1,6 +1,8 @@
 <script lang="ts">
+  import DragNDrop from './dragNDrop.svelte';
+
   let menuOpen = false;
-  let menuStack = ['menu-contents-0'];
+  let menuStack = ['menu-contents-drag-n-drop'];
   let menuStackLength = menuStack.length;
   let visibleClass = 'visible';
 
@@ -75,7 +77,7 @@
         elements that have not been pushed, but really it was just a workaround for the preprocessor to include
         the 'pushed' class in the computed styles.
       -->
-      <div id="menu-contents-0" class="menu-contents visible {menuStackLength > 1 ? 'pushed' : ''}">
+      <div id="menu-contents-0" class="menu-contents {menuStackLength > 1 ? 'pushed' : ''}">
         <input type="button" value="Go to submenu" on:click={() => push('menu-contents-1')} />
         <div class="divider" />
         <h1>What if I the text right now?</h1>
@@ -192,6 +194,11 @@
       <div id="menu-contents-3" class="menu-contents">
         <h1>I am another deeper submenu</h1>
         <p>This is the end of the line</p>
+      </div>
+
+      <div id="menu-contents-drag-n-drop" class="menu-contents visible">
+        <h1>Drag and drop prototype</h1>
+        <DragNDrop />
       </div>
     </div>
   </div>
