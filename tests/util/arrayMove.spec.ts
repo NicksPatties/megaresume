@@ -27,4 +27,18 @@ describe('arrayMove', () => {
     const result = arrayMove(testArray, 1, 0);
     expect(result).toStrictEqual(expected);
   });
+
+  it('should move an element that is more than one space away when starting index is less than the ending index', () => {
+    const testArray = [0, 1, 2, 3, 4];
+    const expected = [0, 2, 3, 1, 4];
+    const result = arrayMove(testArray, 1, 3);
+    expect(result).toStrictEqual(expected);
+  })
+
+  it('should move an element that is more than one space away when starting index is greater than the ending index', () => {
+    const testArray = [0, 1, 2, 3, 4];
+    const expected = [0, 3, 1, 2, 4];
+    const result = arrayMove(testArray, 3, 1);
+    expect(result).toStrictEqual(expected);
+  })
 });
