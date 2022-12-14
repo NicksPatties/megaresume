@@ -16,12 +16,12 @@ export function arrayMove(arr: Array<any>, move: number, to: number) {
   if (move < to) {
     // loop through the array moving elements to the left
     for (let i = move; i < to; i++) {
-      arr[i] = arr[i+1]
+      arr[i] = arr[i + 1];
     }
   } else {
     // loop through the array moving elements to the right
     for (let i = move; i > to; i--) {
-      arr[i] = arr[i-1]
+      arr[i] = arr[i - 1];
     }
   }
   arr[to] = moving;
