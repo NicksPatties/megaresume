@@ -6,10 +6,6 @@
 
   function itemDragStart(e: DragEvent | null, dragI: number) {
     if (e != null && e.dataTransfer != null) {
-      console.log(`dragging index ${dragI}`);
-      e.dataTransfer.effectAllowed = 'move';
-      e.dataTransfer.dropEffect = 'move';
-      e.dataTransfer.setData('text/plain', dragI.toString());
       draggingIndex = dragI;
     }
   }
@@ -17,8 +13,7 @@
   function dropZoneDragEnter(e: DragEvent | null, i: number) {
     if (e != null && e.dataTransfer != null) {
       e.preventDefault();
-      hoveringIndex = i;
-      console.log(`hovering index ${i}`);
+      draggingIndex != i ? (hoveringIndex = i) : (hoveringIndex = -1);
     }
   }
 
@@ -28,24 +23,17 @@
     }
   }
 
-  function dropZoneDragLeave() {
-    // DOM cleanup can happen in here, since this event will always happen
-    console.log('dropZoneLeave?');
-  }
-
   function dropZoneDrop(e: DragEvent | null, moveToI: number) {
-    console.log('dropZoneDrop start?');
     if (e != null && e.dataTransfer != null) {
       e.preventDefault();
-      const itemI = parseInt(e.dataTransfer.getData('text/plain'));
-      items = arrayMove(items, itemI, moveToI);
+      items = arrayMove(items, draggingIndex, moveToI);
     }
     hoveringIndex = -1;
     draggingIndex = -1;
-    console.log('dropZoneDrop');
   }
 </script>
 
+<div class="reset-drop-zone" on:dragenter={() => (hoveringIndex = -1)} />
 {#each items as item, i}
   <li
     class="draggable-item {hoveringIndex == i ? 'hovering' : ''}"
@@ -53,19 +41,25 @@
     on:dragstart={(e) => itemDragStart(e, i)}
     on:dragenter={(e) => dropZoneDragEnter(e, i)}
     on:dragover={dropZoneDragOver}
-    on:dragleave={dropZoneDragLeave}
     on:drop={(e) => dropZoneDrop(e, i)}
   >
     {item}
   </li>
 {/each}
+<div class="reset-drop-zone" on:dragenter={() => (hoveringIndex = -1)} />
 
 <style>
   .draggable-item {
     position: relative;
+    transition: background-color 0.2s ease-in;
   }
 
   .hovering {
     background: #eee;
+  }
+
+  .reset-drop-zone {
+    height: 1em; /* This should be the same height as the margins in the menu */
+    width: 100%;
   }
 </style>
