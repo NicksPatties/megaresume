@@ -19,7 +19,6 @@
   input[type='text'] {
     font-family: serif;
     font-size: 16px;
-    width: 100%;
     margin-top: 6px;
     margin-bottom: 14px;
   }
