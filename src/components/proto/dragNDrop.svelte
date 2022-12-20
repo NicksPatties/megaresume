@@ -1,7 +1,10 @@
 <script lang="ts">
   import { flip } from 'svelte/animate';
   import { arrayMove } from '@src/util/arrayMove';
-  let items = ['list 0', 'list 1', 'list 2'];
+  let items: string[] = [];
+  for (let ind = 0; ind < 100; ind++) {
+    items.push('item ' + ind);
+  }
   let draggingIndex = -1;
 
   function itemDragStart(e: DragEvent | null, dragI: number) {
@@ -22,8 +25,9 @@
     }
   }
 
-  function dropZoneDragOver(e: DragEvent | null, i: number) {
+  function dropZoneDragOver(e: DragEvent | null) {
     if (e != null && e.dataTransfer != null) {
+      // required to make dropping work properly
       e.preventDefault();
     }
   }
@@ -46,7 +50,7 @@
     draggable="true"
     on:dragstart={(e) => itemDragStart(e, i)}
     on:dragenter={(e) => dropZoneDragEnter(e, i)}
-    on:dragover={(e) => dropZoneDragOver(e, i)}
+    on:dragover={(e) => dropZoneDragOver(e)}
     on:drop={(e) => dropZoneDrop(e, i)}
   >
     {item}
