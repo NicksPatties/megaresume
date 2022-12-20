@@ -3,13 +3,19 @@
   export let visible = false;
 </script>
 
-<div {id} class="menu-contents {visible ? "visible": ""}">
-  <slot/>
+<div {id} class="menu-contents {visible ? 'visible' : ''}">
+  <slot />
 </div>
 
 <style>
+  :root {
+    --header-height: 42px;
+  }
+
   .menu-contents {
     box-sizing: border-box;
+    background: white;
+    min-height: calc(100vh - var(--header-height));
     padding: 1em;
     position: absolute;
     top: 0;
