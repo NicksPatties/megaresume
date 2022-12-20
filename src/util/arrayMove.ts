@@ -12,18 +12,18 @@ export function arrayMove(arr: Array<any>, move: number, to: number) {
   if (arr.length <= 1 || move == to) {
     return arr;
   }
-  if (move - to > 1) {
-    console.warn('AAAAH I only support single moves!');
-    return arr;
+  const moving = arr[move];
+  if (move < to) {
+    // loop through the array moving elements to the left
+    for (let i = move; i < to; i++) {
+      arr[i] = arr[i + 1];
+    }
+  } else {
+    // loop through the array moving elements to the right
+    for (let i = move; i > to; i--) {
+      arr[i] = arr[i - 1];
+    }
   }
-  // todo loop here to handle moving things more than one place
-  return swap(arr, move, to);
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function swap(arr: Array<any>, move: number, to: number) {
-  const movedElement = arr[move];
-  arr[move] = arr[to];
-  arr[to] = movedElement;
+  arr[to] = moving;
   return arr;
 }
