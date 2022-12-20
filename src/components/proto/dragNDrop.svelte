@@ -2,7 +2,6 @@
   import { flip } from 'svelte/animate';
   import { arrayMove } from '@src/util/arrayMove';
   let items = ['list 0', 'list 1', 'list 2'];
-  let hoveringIndex = -1;
   let draggingIndex = -1;
 
   function itemDragStart(e: DragEvent | null, dragI: number) {
@@ -14,54 +13,55 @@
   function dropZoneDragEnter(e: DragEvent | null, i: number) {
     if (e != null && e.dataTransfer != null) {
       e.preventDefault();
-      draggingIndex != i ? (hoveringIndex = i) : (hoveringIndex = -1);
+      // swap an element with the current draggable index
+      // change the draggableIndex after the swap is complete
+      if (draggingIndex != i) {
+        items = arrayMove(items, draggingIndex, i);
+      }
+      draggingIndex = i;
     }
   }
 
-  function dropZoneDragOver(e: DragEvent | null) {
+  function dropZoneDragOver(e: DragEvent | null, i: number) {
     if (e != null && e.dataTransfer != null) {
       e.preventDefault();
     }
   }
 
-  function dropZoneDrop(e: DragEvent | null, moveToI: number) {
+  function dropZoneDrop(e: DragEvent | null, i: number) {
     if (e != null && e.dataTransfer != null) {
       e.preventDefault();
-      items = arrayMove(items, draggingIndex, moveToI);
+      if (draggingIndex != i) {
+        items = arrayMove(items, draggingIndex, i);
+      }
     }
-    hoveringIndex = -1;
     draggingIndex = -1;
   }
 </script>
 
-<div class="reset-drop-zone" on:dragenter={() => (hoveringIndex = -1)} />
 {#each items as item, i (item)}
   <li
-    animate:flip
-    class="draggable-item {hoveringIndex == i ? 'hovering' : ''}"
+    animate:flip={{ duration: 500 }}
+    class="draggable-item"
     draggable="true"
     on:dragstart={(e) => itemDragStart(e, i)}
     on:dragenter={(e) => dropZoneDragEnter(e, i)}
-    on:dragover={dropZoneDragOver}
+    on:dragover={(e) => dropZoneDragOver(e, i)}
     on:drop={(e) => dropZoneDrop(e, i)}
   >
     {item}
   </li>
 {/each}
-<div class="reset-drop-zone" on:dragenter={() => (hoveringIndex = -1)} />
 
 <style>
+  li {
+    display: flex;
+    align-items: center;
+    height: 3em;
+  }
+
   .draggable-item {
     position: relative;
     transition: background-color 0.2s ease-in;
-  }
-
-  .hovering {
-    background: #eee;
-  }
-
-  .reset-drop-zone {
-    height: 1em; /* This should be the same height as the margins in the menu */
-    width: 100%;
   }
 </style>
