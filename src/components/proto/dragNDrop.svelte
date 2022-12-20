@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { flip } from 'svelte/animate';
   import { arrayMove } from '@src/util/arrayMove';
   let items = ['list 0', 'list 1', 'list 2'];
   let hoveringIndex = -1;
@@ -34,8 +35,9 @@
 </script>
 
 <div class="reset-drop-zone" on:dragenter={() => (hoveringIndex = -1)} />
-{#each items as item, i}
+{#each items as item, i (item)}
   <li
+    animate:flip
     class="draggable-item {hoveringIndex == i ? 'hovering' : ''}"
     draggable="true"
     on:dragstart={(e) => itemDragStart(e, i)}
