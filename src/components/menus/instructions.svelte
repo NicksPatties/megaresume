@@ -65,39 +65,3 @@
     on:click={() => console.log('clicked!')}>main menu!</button
   >
 </p>
-
-<style>
-  h1,
-  h2,
-  h3,
-  h4 {
-    margin-bottom: 0.45em;
-  }
-
-  p {
-    margin-bottom: 0.9em;
-  }
-
-  .button-like {
-    font-family: serif;
-    font-weight: bold;
-    background: lightgray;
-    padding: 0 0.3em;
-    border-radius: 5px;
-  }
-
-  .link-like {
-    font-size: 1em;
-    display: inline-block;
-    color: blue;
-    text-decoration: underline;
-    border: none;
-    background: none;
-    padding: 0;
-    cursor: pointer;
-  }
-
-  .link-like:active {
-    color: red;
-  }
-</style>

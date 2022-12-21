@@ -1,0 +1,33 @@
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 0.45em 0;
+}
+
+p {
+  margin: 0 0 0.9em 0;
+}
+
+.button-like {
+  font-family: serif;
+  font-weight: bold;
+  background: lightgray;
+  padding: 0 0.3em;
+  border-radius: 5px;
+}
+
+.link-like {
+  font-size: 1em;
+  display: inline-block;
+  color: blue;
+  text-decoration: underline;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.link-like:active {
+  color: red;
+}
