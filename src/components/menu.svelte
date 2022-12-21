@@ -2,6 +2,7 @@
   import MenuContents from '@src/components/menuContents.svelte';
   import MainMenu from '@src/components/menus/mainMenu.svelte';
   import AddEntryButton from '@src/components/addEntryButton.svelte';
+  import Instructions from '@src/components/menus/instructions.svelte';
   import type { Writable } from 'svelte/store';
   import type { BasicsStore, WorkStore } from '@src/data/data';
 
@@ -84,7 +85,7 @@
         />
       </MenuContents>
       <MenuContents id="menu-contents-1" visible={false}>
-        <h1>Oh hi im a menu</h1>
+        <Instructions />
       </MenuContents>
     </div>
   </div>
@@ -142,8 +143,6 @@
     display: flex;
     justify-content: center;
     height: var(--header-height);
-    box-shadow: var(--divider-color) 0 0 9px;
-    clip-path: inset(0 0 -9px 0);
   }
 
   #back-button {
