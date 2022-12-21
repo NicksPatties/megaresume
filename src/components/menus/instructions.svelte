@@ -56,6 +56,16 @@
   > button. Then you will be prompted to select a file location and name for your file.
 </p>
 
+<h2>That's about it!</h2>
+
+<p>
+  If you'd like to try out more of MegaResume, head back to the <button
+    id="main-menu-link"
+    class="link-like"
+    on:click={() => console.log('clicked!')}>main menu!</button
+  >
+</p>
+
 <style>
   h1,
   h2,
@@ -74,5 +84,20 @@
     background: lightgray;
     padding: 0 0.3em;
     border-radius: 5px;
+  }
+
+  .link-like {
+    font-size: 1em;
+    display: inline-block;
+    color: blue;
+    text-decoration: underline;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .link-like:active {
+    color: red;
   }
 </style>
