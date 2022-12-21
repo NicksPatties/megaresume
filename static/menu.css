@@ -9,6 +9,11 @@ p {
   margin: 0 0 0.9em 0;
 }
 
+.submenu-header {
+  display: flex;
+  justify-content: space-between;
+}
+
 .button-like {
   font-family: serif;
   font-weight: bold;
@@ -30,4 +35,24 @@ p {
 
 .link-like:active {
   color: red;
+}
+
+label {
+  display: block;
+}
+
+input[type='text'] {
+  font-family: serif;
+  font-size: 16px;
+  margin-top: 6px;
+  margin-bottom: 14px;
+}
+
+textarea {
+  margin-top: 6px;
+  margin-bottom: 14px;
+  font-family: serif;
+  font-size: 16px;
+  resize: none;
+  width: 100%;
 }
