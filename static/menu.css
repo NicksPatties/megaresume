@@ -1,3 +1,95 @@
+:root {
+  --header-height: 42px;
+  --mobile-width: 400px;
+  --menu-height: 100vh;
+  --header-height: 42px;
+  --menu-box-shadow-width: 12px;
+  --divider-color: gray;
+  --menu-transition-time: 0.35s;
+  --menu-transition-page-curve: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+#open-button {
+  position: fixed;
+  z-index: 0;
+  top: 10px;
+  left: 10px;
+}
+
+.menu {
+  background-color: white;
+  box-shadow: none;
+  position: fixed;
+  top: 0;
+  left: calc(-1 * var(--mobile-width));
+  width: var(--mobile-width);
+  height: var(--menu-height);
+  font-size: 18px;
+  font-family: sans-serif;
+  user-select: none;
+  transition: left var(--menu-transition-time) var(--menu-transition-page-curve);
+  z-index: 10;
+}
+
+.menu.open {
+  left: 0;
+  box-shadow: var(--divider-color) 0 0 var(--menu-box-shadow-width);
+}
+
+.menu header {
+  display: flex;
+  justify-content: center;
+  height: var(--header-height);
+}
+
+#back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+.menu-title {
+  margin: auto 0;
+  text-align: center;
+}
+
+.menu-contents-container {
+  padding: 1em;
+  position: relative;
+  height: calc(var(--menu-height) - var(--header-height));
+  overflow-x: hidden;
+}
+
+@media only screen and (max-width: 400px) {
+  /* should use var but whatever */
+  .menu {
+    width: 100%;
+  }
+
+  .menu.open {
+    box-shadow: none;
+  }
+}
+
+.menu-contents {
+  box-sizing: border-box;
+  background: white;
+  min-height: calc(100vh - var(--header-height));
+  padding: 1em;
+  position: absolute;
+  top: 0;
+  left: calc(-1 * var(--mobile-width));
+  width: var(--mobile-width);
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+  transition: left var(--menu-transition-time) var(--menu-transition-page-curve);
+}
+
+.menu-contents.visible {
+  left: 0;
+}
+
 h1,
 h2,
 h3,
@@ -39,20 +131,91 @@ p {
 
 label {
   display: block;
+  margin: 0.75em 0;
 }
 
 input[type='text'] {
   font-family: serif;
   font-size: 16px;
-  margin-top: 6px;
-  margin-bottom: 14px;
 }
 
 textarea {
   margin-top: 6px;
-  margin-bottom: 14px;
   font-family: serif;
   font-size: 16px;
   resize: none;
   width: 100%;
+}
+
+/* input fields */
+input,
+select,
+textarea {
+  margin-bottom: 0.75em;
+  display: block;
+  padding: 1px 2px;
+  font-family: serif;
+  font-size: 0.9em;
+  min-height: 2em;
+}
+
+.hint {
+  font-size: 0.75em;
+}
+
+textarea {
+  box-sizing: border-box;
+  resize: none;
+  min-height: 5em;
+  width: 100%;
+}
+
+input[type='date'] {
+  min-height: 2em;
+}
+
+select {
+  box-sizing: initial;
+  min-height: 2em;
+  padding: 1px 2px;
+  border-width: 2px;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+legend {
+  float: left;
+  margin: 0.75em 0;
+  font-weight: bold;
+  padding: 0;
+}
+
+.inline-input {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.75em 0;
+}
+
+.inline-input label {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.inline-input input {
+  min-height: 1em;
+  margin: 0;
+}
+
+.divider {
+  width: 80%;
+  padding-top: 1px;
+  background: linear-gradient(90deg, white, #bababa, #bababa, white);
+  margin: 1em auto;
 }

@@ -129,42 +129,40 @@
 <Input id={'basics_email'} label={'Email'} value={email} />
 
 <h2>Work Experience</h2>
-<div class="menu-content">
-  {#each $work as w, i}
-    <h3 class="submenu-header">
-      Work {i + 1}
-      <div class="label-controls">
-        {#if i > 0}
-          <button id="work_{i}_up" on:click={() => moveWork(i, true)}>Up</button>
-        {/if}
-        {#if i < $work.length - 1}
-          <button id="work_{i}_down" on:click={() => moveWork(i, false)}>Down</button>
-        {/if}
-        <button id="work_{i}_hide" on:click={() => hideWork(i)}>
-          {#if get(w.visible)}Hide{:else}Show{/if}
-        </button>
-        <button id="work_{i}_delete" on:click={() => deleteWork(i, get(w.name))}>Delete</button>
-      </div>
-    </h3>
-    <WorkMenu
-      {i}
-      visible={w.visible}
-      name={w.name}
-      position={w.position}
-      startDate={w.startDate}
-      endDate={w.endDate}
-      highlights={w.highlights}
-    />
-  {/each}
-  <AddEntryButton
-    id={'newWork'}
-    text={'Add new work entry'}
-    click={() => {
-      work.update((w) => {
-        w.push(new WorkStore());
-        return w;
-      });
-      return null;
-    }}
+{#each $work as w, i}
+  <h3 class="submenu-header">
+    Work {i + 1}
+    <div class="label-controls">
+      {#if i > 0}
+        <button id="work_{i}_up" on:click={() => moveWork(i, true)}>Up</button>
+      {/if}
+      {#if i < $work.length - 1}
+        <button id="work_{i}_down" on:click={() => moveWork(i, false)}>Down</button>
+      {/if}
+      <button id="work_{i}_hide" on:click={() => hideWork(i)}>
+        {#if get(w.visible)}Hide{:else}Show{/if}
+      </button>
+      <button id="work_{i}_delete" on:click={() => deleteWork(i, get(w.name))}>Delete</button>
+    </div>
+  </h3>
+  <WorkMenu
+    {i}
+    visible={w.visible}
+    name={w.name}
+    position={w.position}
+    startDate={w.startDate}
+    endDate={w.endDate}
+    highlights={w.highlights}
   />
-</div>
+{/each}
+<AddEntryButton
+  id={'newWork'}
+  text={'Add new work entry'}
+  click={() => {
+    work.update((w) => {
+      w.push(new WorkStore());
+      return w;
+    });
+    return null;
+  }}
+/>

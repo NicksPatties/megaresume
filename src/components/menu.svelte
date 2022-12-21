@@ -3,6 +3,7 @@
   import MainMenu from '@src/components/menus/mainMenu.svelte';
   import AddEntryButton from '@src/components/addEntryButton.svelte';
   import Instructions from '@src/components/menus/instructions.svelte';
+  import Options from '@src/components/menus/options.svelte';
   import type { Writable } from 'svelte/store';
   import type { BasicsStore, WorkStore } from '@src/data/data';
 
@@ -74,103 +75,30 @@
     <div class="menu-contents-container">
       <!-- Menu contents components go in here -->
       <MenuContents id="menu-contents-0" visible={true}>
-        <MainMenu {basics} {work} />
         <AddEntryButton
           id={'next-menu-button'}
-          text={'Go to submenu'}
+          text={'Instructions'}
           click={() => {
             push('menu-contents-1');
             return null;
           }}
         />
+        <AddEntryButton
+          id={'next-menu-button'}
+          text={'Options'}
+          click={() => {
+            push('menu-contents-2');
+            return null;
+          }}
+        />
+        <MainMenu {basics} {work} />
       </MenuContents>
       <MenuContents id="menu-contents-1" visible={false}>
         <Instructions />
       </MenuContents>
+      <MenuContents id="menu-contents-2" visible={false}>
+        <Options />
+      </MenuContents>
     </div>
   </div>
 </div>
-
-<style>
-  * {
-    box-sizing: border-box;
-  }
-
-  :root {
-    --mobile-width: 400px;
-    --menu-height: 100vh;
-    --header-height: 42px;
-    --menu-box-shadow-width: 12px;
-    --divider-color: gray;
-    --menu-contents-text-side-padding: 6%;
-    --menu-transition-time: 0.35s;
-    --menu-transition-page-curve: cubic-bezier(0.22, 0.61, 0.36, 1);
-  }
-
-  :root {
-    --menu-width: 375px;
-    --side-padding: 12px;
-  }
-
-  #open-button {
-    position: fixed;
-    z-index: 0;
-    top: 10px;
-    left: 10px;
-  }
-
-  .menu {
-    background-color: white;
-    box-shadow: none;
-    position: fixed;
-    top: 0;
-    left: calc(-1 * var(--mobile-width));
-    width: var(--mobile-width);
-    height: var(--menu-height);
-    font-size: 18px;
-    font-family: sans-serif;
-    user-select: none;
-    transition: left var(--menu-transition-time) var(--menu-transition-page-curve);
-    z-index: 10;
-  }
-
-  .menu.open {
-    left: 0;
-    box-shadow: var(--divider-color) 0 0 var(--menu-box-shadow-width);
-  }
-
-  .menu header {
-    display: flex;
-    justify-content: center;
-    height: var(--header-height);
-  }
-
-  #back-button {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-  }
-
-  .menu-title {
-    margin: auto 0;
-    text-align: center;
-  }
-
-  .menu-contents-container {
-    padding: 1em;
-    position: relative;
-    height: calc(var(--menu-height) - var(--header-height));
-    overflow-x: hidden;
-  }
-
-  @media only screen and (max-width: 400px) {
-    /* should use var but whatever */
-    .menu {
-      width: 100%;
-    }
-
-    .menu.open {
-      box-shadow: none;
-    }
-  }
-</style>
