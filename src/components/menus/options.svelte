@@ -1,23 +1,10 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
   import CollapsableDropdown from '../collapsableDropdown.svelte';
-
-  let closed = false;
-  let dropdownHeight: string;
-  let click = () => {
-    closed = !closed;
-  };
-
-  onMount(() => {
-    const elem = document.getElementById('text-input-dropdown');
-    if (elem) {
-      dropdownHeight = `${elem.getBoundingClientRect().height}px`;
-    }
-  });
 </script>
 
 <h1>options menu</h1>
-<CollapsableDropdown dropdownName={'Text box inputs'}>
+
+<CollapsableDropdown name={'Text box inputs'}>
   <input id="input-text" type="text" placeholder="Type your text here" />
   <label for="email-input">
     Email input <span class="hint">(i.e. sample@email.com)</span>
@@ -52,15 +39,8 @@
     <option value="three">Option 3</option>
   </datalist>
 </CollapsableDropdown>
-<!-- <fieldset>
-  <legend>Text box inputs</legend>
-  <label for="input-text">Text input</label>
-  
-</fieldset> -->
 
-<fieldset>
-  <!-- May not actually use a legend for this since I want to hide the contents of the rest of the field set...-->
-  <legend>Inline input items</legend>
+<CollapsableDropdown closed={true} name={'Inline input items'}>
   <div class="inline-input">
     <label for="checkbox-input">Checkbox</label>
     <input id="checkbox-input" type="checkbox" />
@@ -73,11 +53,9 @@
     <label for="radio-input-group-2">Radio 2</label>
     <input id="radio-input-group-2" type="radio" value="2" name="radio" />
   </div>
-</fieldset>
+</CollapsableDropdown>
 
-<fieldset>
-  <legend>Button inputs</legend>
-  <!-- Honestly would probably just use a button and hide this input -->
+<CollapsableDropdown closed={true} name={'Button inputs'}>
   <div class="inline-input">
     <label for="file-input">File input</label>
     <input id="file-input" type="file" />
@@ -88,5 +66,6 @@
   </div>
   <label for="button-input">Button input</label>
   <input id="button-input" type="button" value="Click me!" />
-</fieldset>
+</CollapsableDropdown>
+
 <div class="divider" />

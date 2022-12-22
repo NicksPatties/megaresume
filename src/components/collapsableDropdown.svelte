@@ -1,29 +1,31 @@
 <script lang="ts">
   import { onMount } from 'svelte';
 
-  export let dropdownName: string;
+  export let name: string;
+  export let id = name.toLowerCase().replaceAll(' ', '-');
+  export let closed = false;
 
   let className = 'collapsable-dropdown';
-  let closed = false;
+
   let dropdownHeight: string;
   let click = () => {
     closed = !closed;
   };
 
   onMount(() => {
-    const elem = document.querySelector(`.${className}`);
+    const elem = document.getElementById(id);
     if (elem) {
-      dropdownHeight = `${elem.getBoundingClientRect().height}px`;
+      dropdownHeight = `${elem.scrollHeight}px`;
     }
   });
 </script>
 
 <fieldset>
   <legend>
-    {dropdownName}
+    {name}
     <button on:click={click}>Toggle</button>
   </legend>
-  <div class={className} class:closed style:height={closed ? '0px' : dropdownHeight}>
+  <div {id} class={className} class:closed style:height={closed ? '0px' : dropdownHeight}>
     <slot />
   </div>
 </fieldset>
