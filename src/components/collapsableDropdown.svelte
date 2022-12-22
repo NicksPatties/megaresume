@@ -23,7 +23,7 @@
 <fieldset>
   <legend>
     {name}
-    <button on:click={click}>Toggle</button>
+    <button on:click={click}>{closed ? 'Open' : 'Close'}</button>
   </legend>
   <div {id} class={className} class:closed style:height={closed ? '0px' : dropdownHeight}>
     <slot />
