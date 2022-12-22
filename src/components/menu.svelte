@@ -25,15 +25,10 @@
   }
   let menuStackLength = menuStack.length;
   let visibleMenu = firstMenu;
-  const visibleClass = 'visible';
   let hasPushed = false;
 
   export let basics: BasicsStore;
   export let work: Writable<WorkStore[]>;
-
-  const isVisible = (id: string): boolean => {
-    return id === visibleMenu;
-  };
 
   const push = (id: string) => {
     const lastElementId = menuStack[menuStack.length - 1];
@@ -42,43 +37,17 @@
       console.warn(`${id} is already at end of stack`);
       return;
     }
-    const elem = document.getElementById(id);
-    if (elem == null) {
-      console.error(`Element with id ${id} does not exist! Ignoring push.`);
-      return;
-    }
-    const lastElem = document.getElementById(lastElementId);
-    if (lastElem != null) {
-      lastElem.classList.remove(visibleClass);
-      lastElem.classList.add('pushed'); // moves the element to the left
-    }
-    elem.classList.add(visibleClass);
     menuStack.push(id);
     menuStack = menuStack;
     hasPushed = true;
   };
 
   const pop = () => {
-    // if it's too short, don't do anything
     if (menuStack.length <= 1) {
       console.error(`menuStack is too short to pop! Ignoring`);
       return;
     }
-
-    const lastElementId = menuStack[menuStack.length - 1];
-    const lastElem = document.getElementById(lastElementId);
-    const popped = menuStack.pop();
-    if (lastElem == null) {
-      console.warn(`Couldn't find element with id ${popped}. Removed element from stack.`);
-      menuStack = menuStack;
-      return;
-    }
-    lastElem.classList.remove(visibleClass);
-    const currLastElement = document.getElementById(menuStack[menuStack.length - 1]);
-    if (currLastElement != null) {
-      currLastElement.classList.add(visibleClass);
-      currLastElement.classList.remove('pushed'); // has been pushed, but coming from left;
-    }
+    menuStack.pop();
     menuStack = menuStack;
     hasPushed = false;
   };
@@ -97,7 +66,7 @@
     </header>
     <div class="menu-contents-container">
       <!-- Menu contents components go in here -->
-      <MenuContents id="menu-contents-0" visible={isVisible('menu-contents-0')}>
+      <MenuContents id="menu-contents-0" visible={visibleMenu === 'menu-contents-0'}>
         <AddEntryButton
           id={'next-menu-button'}
           text={'Instructions'}
@@ -116,10 +85,10 @@
         />
         <MainMenu {basics} {work} />
       </MenuContents>
-      <MenuContents id="menu-contents-1" visible={isVisible('menu-contents-1')}>
+      <MenuContents id="menu-contents-1" visible={visibleMenu === 'menu-contents-1'}>
         <Instructions />
       </MenuContents>
-      <MenuContents id="menu-contents-2" visible={isVisible('menu-contents-2')}>
+      <MenuContents id="menu-contents-2" visible={visibleMenu === 'menu-contents-2'}>
         <Options />
       </MenuContents>
     </div>
