@@ -8,15 +8,6 @@
   import type { BasicsStore, WorkStore } from '@src/data/data';
 
   let open = false;
-  /**
-   * More on the menuStack
-   *
-   * The last element in the array is the one that is currently visible
-   * When an element is popped off the array, the currently visible element also has the 'pushed' class added to it
-   *   I can keep track of whether or not to add pushed by setting a boolean shouldPush
-   *
-   * I dont want to do DOM operations in push and pop, but react when the contents of the array change to find the
-   */
   const firstMenu = 'menu-contents-0';
   let menuStack = [firstMenu];
   $: {
@@ -25,7 +16,6 @@
   }
   let menuStackLength = menuStack.length;
   let visibleMenu = firstMenu;
-  let hasPushed = false;
 
   export let basics: BasicsStore;
   export let work: Writable<WorkStore[]>;
@@ -39,7 +29,6 @@
     }
     menuStack.push(id);
     menuStack = menuStack;
-    hasPushed = true;
   };
 
   const pop = () => {
@@ -49,7 +38,6 @@
     }
     menuStack.pop();
     menuStack = menuStack;
-    hasPushed = false;
   };
 </script>
 
