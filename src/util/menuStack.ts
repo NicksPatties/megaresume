@@ -6,7 +6,6 @@ export const push = (id: string, menuStack: string[]): string[] => {
   } else {
     menuStack.push(id);
   }
-
   return menuStack;
 };
 

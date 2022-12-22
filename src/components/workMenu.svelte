@@ -1,6 +1,5 @@
 <script lang="ts">
   import Input from '@src/components/input.svelte';
-  import AddEntryButton from '@src/components/addEntryButton.svelte';
   import { get, type Writable } from 'svelte/store';
   import { saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
   import { arrayMove } from '@src/util/arrayMove';
@@ -100,17 +99,18 @@
     }}
   />
 {/each}
-<AddEntryButton
+<button
   id={`work_${i}_newHighlight`}
-  text={'Add new highlight'}
-  click={() => {
+  class="big-btn"
+  on:click={() => {
     highlights.update((h) => {
       h.push({ visible: true, content: '' });
       return h;
     });
-    return null;
   }}
-/>
+>
+  Add new highlight
+</button>
 
 <style>
   label {

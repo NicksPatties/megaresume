@@ -1,6 +1,5 @@
 <script lang="ts">
   import Input from '@src/components/input.svelte';
-  import AddEntryButton from '@src/components/addEntryButton.svelte';
   import WorkMenu from '@src/components/workMenu.svelte';
   import {
     clearResumeStores,
@@ -79,43 +78,27 @@
   }
 </script>
 
-<AddEntryButton
-  id={'openResume'}
-  text={'Open resume'}
-  click={() => {
+<button
+  id="openResume"
+  class="big-btn"
+  on:click={() => {
     const fileUpload = document.getElementById('file-upload');
     if (fileUpload != null) fileUpload.click();
-    return null;
-  }}
-/>
+  }}>Open resume</button
+>
 
-<AddEntryButton
-  id={'saveResume'}
-  text={'Save resume'}
-  click={() => {
-    saveDataToJSONFile();
-    return null;
-  }}
-/>
+<button id="saveResume" class="big-btn" on:click={() => saveDataToJSONFile()}>Save resume</button>
 
-<AddEntryButton
-  id={'printResume'}
-  text={'Print resume'}
-  click={() => {
-    window.print();
-    return null;
-  }}
-/>
+<button id="printResume" class="big-btn" on:click={() => window.print()}>Print resume</button>
 
-<AddEntryButton
-  id={'clearResume'}
-  text={'[DEBUG] Clear resume data'}
-  click={() => {
+<button
+  id="clearResume"
+  class="big-btn"
+  on:click={() => {
     localStorage.removeItem('saveData');
     clearResumeStores();
-    return null;
-  }}
-/>
+  }}>[DEBUG] Clear resume data</button
+>
 
 <input type="file" id="file-upload" accept=".json" style="display: none;" on:change={loadFile} />
 
@@ -155,14 +138,13 @@
     highlights={w.highlights}
   />
 {/each}
-<AddEntryButton
-  id={'newWork'}
-  text={'Add new work entry'}
-  click={() => {
+<button
+  id="newWork"
+  class="big-btn"
+  on:click={() => {
     work.update((w) => {
       w.push(new WorkStore());
       return w;
     });
-    return null;
-  }}
-/>
+  }}>Add new work entry</button
+>

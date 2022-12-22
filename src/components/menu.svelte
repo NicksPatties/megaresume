@@ -1,7 +1,6 @@
 <script lang="ts">
   import MenuContents from '@src/components/menuContents.svelte';
   import MainMenu from '@src/components/menus/mainMenu.svelte';
-  import AddEntryButton from '@src/components/addEntryButton.svelte';
   import Instructions from '@src/components/menus/instructions.svelte';
   import Options from '@src/components/menus/options.svelte';
   import type { Writable } from 'svelte/store';
@@ -36,22 +35,20 @@
     <div class="menu-contents-container">
       <!-- Menu contents components go in here -->
       <MenuContents id="menu-contents-0" visible={visibleMenu === 'menu-contents-0'}>
-        <AddEntryButton
-          id={'next-menu-button'}
-          text={'Instructions'}
-          click={() => {
-            menuStack = push('menu-contents-1', menuStack);
-            return null;
-          }}
-        />
-        <AddEntryButton
-          id={'next-menu-button'}
-          text={'Options'}
-          click={() => {
-            menuStack = push('menu-contents-2', menuStack);
-            return null;
-          }}
-        />
+        <button
+          id="instructions-menu-button"
+          class="big-btn"
+          on:click={() => (menuStack = push('menu-contents-1', menuStack))}
+        >
+          Instructions
+        </button>
+        <button
+          id="options-menu-button"
+          class="big-btn"
+          on:click={() => (menuStack = push('menu-contents-2', menuStack))}
+        >
+          Options
+        </button>
         <MainMenu {basics} {work} />
       </MenuContents>
       <MenuContents id="menu-contents-1" visible={visibleMenu === 'menu-contents-1'}>

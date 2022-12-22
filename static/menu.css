@@ -138,3 +138,12 @@ legend {
   background: linear-gradient(90deg, white, #bababa, #bababa, white);
   margin: 1em auto;
 }
+
+.big-btn {
+  margin: 8px 0;
+  font-family: serif;
+  font-weight: bold;
+  width: 100%;
+  font-size: 16px;
+  height: 32px;
+}
