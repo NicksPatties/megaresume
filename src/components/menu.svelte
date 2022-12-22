@@ -8,12 +8,32 @@
   import type { BasicsStore, WorkStore } from '@src/data/data';
 
   let open = false;
-  let menuStack = ['menu-contents-drag-n-drop'];
+  /**
+   * More on the menuStack
+   *
+   * The last element in the array is the one that is currently visible
+   * When an element is popped off the array, the currently visible element also has the 'pushed' class added to it
+   *   I can keep track of whether or not to add pushed by setting a boolean shouldPush
+   *
+   * I dont want to do DOM operations in push and pop, but react when the contents of the array change to find the
+   */
+  const firstMenu = 'menu-contents-0';
+  let menuStack = [firstMenu];
+  $: {
+    menuStackLength = menuStack.length;
+    visibleMenu = menuStack[menuStack.length - 1];
+  }
   let menuStackLength = menuStack.length;
+  let visibleMenu = firstMenu;
   const visibleClass = 'visible';
+  let hasPushed = false;
 
   export let basics: BasicsStore;
   export let work: Writable<WorkStore[]>;
+
+  const isVisible = (id: string): boolean => {
+    return id === visibleMenu;
+  };
 
   const push = (id: string) => {
     const lastElementId = menuStack[menuStack.length - 1];
@@ -34,7 +54,8 @@
     }
     elem.classList.add(visibleClass);
     menuStack.push(id);
-    menuStackLength = menuStack.length;
+    menuStack = menuStack;
+    hasPushed = true;
   };
 
   const pop = () => {
@@ -49,6 +70,7 @@
     const popped = menuStack.pop();
     if (lastElem == null) {
       console.warn(`Couldn't find element with id ${popped}. Removed element from stack.`);
+      menuStack = menuStack;
       return;
     }
     lastElem.classList.remove(visibleClass);
@@ -57,7 +79,8 @@
       currLastElement.classList.add(visibleClass);
       currLastElement.classList.remove('pushed'); // has been pushed, but coming from left;
     }
-    menuStackLength = menuStack.length;
+    menuStack = menuStack;
+    hasPushed = false;
   };
 </script>
 
@@ -74,7 +97,7 @@
     </header>
     <div class="menu-contents-container">
       <!-- Menu contents components go in here -->
-      <MenuContents id="menu-contents-0" visible={true}>
+      <MenuContents id="menu-contents-0" visible={isVisible('menu-contents-0')}>
         <AddEntryButton
           id={'next-menu-button'}
           text={'Instructions'}
@@ -93,10 +116,10 @@
         />
         <MainMenu {basics} {work} />
       </MenuContents>
-      <MenuContents id="menu-contents-1" visible={false}>
+      <MenuContents id="menu-contents-1" visible={isVisible('menu-contents-1')}>
         <Instructions />
       </MenuContents>
-      <MenuContents id="menu-contents-2" visible={false}>
+      <MenuContents id="menu-contents-2" visible={isVisible('menu-contents-2')}>
         <Options />
       </MenuContents>
     </div>

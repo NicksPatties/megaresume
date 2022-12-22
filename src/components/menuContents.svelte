@@ -1,9 +1,10 @@
 <script lang="ts">
   export let id: string;
   export let visible = false;
+  export let pushed = false;
 </script>
 
-<div {id} class="menu-contents {visible ? 'visible' : ''}">
+<div {id} class="menu-contents {visible ? 'visible' : ''} {pushed ? 'pushed' : ''}">
   <slot />
 </div>
 
@@ -26,4 +27,8 @@
   .menu-contents.visible {
     left: 0;
   }
+
+  /* .menu-contents.pushed {
+    left: var(--mobile-width);
+  } */
 </style>
