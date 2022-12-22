@@ -1,250 +1,126 @@
 <script lang="ts">
-  import Input from '@src/components/input.svelte';
-  import AddEntryButton from '@src/components/addEntryButton.svelte';
-  import {
-    type BasicsStore,
-    WorkStore,
-    loadData,
-    saveResumeDataToLocalStorage,
-    clearResumeStores,
-    saveData,
-    type SaveData
-  } from '@src/data/data';
-  import { type Writable, get } from 'svelte/store';
-  import WorkMenu from '@src/components/workMenu.svelte';
-  import { arrayMove } from '@src/util/arrayMove';
+  import MenuContents from '@src/components/menuContents.svelte';
+  import MainMenu from '@src/components/menus/mainMenu.svelte';
+  import Instructions from '@src/components/menus/instructions.svelte';
+  import Options from '@src/components/menus/options.svelte';
+  import type { Writable } from 'svelte/store';
+  import type { BasicsStore, WorkStore } from '@src/data/data';
+  import { push, pop } from '@src/util/menuStack';
 
   let open = false;
+  const firstMenu = 'menu-contents-0';
+  let menuStack = [firstMenu];
+  $: {
+    menuStackLength = menuStack.length;
+    visibleMenu = menuStack[menuStack.length - 1];
+  }
+  let menuStackLength = menuStack.length;
+  let visibleMenu = firstMenu;
 
   export let basics: BasicsStore;
   export let work: Writable<WorkStore[]>;
-
-  const name = basics.name;
-  const label = basics.label;
-  const phone = basics.phone;
-  const email = basics.email;
-
-  function loadFile(e: Event) {
-    const target = e.target as HTMLInputElement;
-    const file = target?.files?.[0];
-    if (file != undefined) {
-      console.log(`File uploaded! ${file.name}: ${file.size}`);
-      const fr = new FileReader();
-      fr.onload = (e) => {
-        if (e.target == null) {
-          console.error('something went wrong opening the file. try again?');
-        } else {
-          loadData(e.target.result as string);
-          saveResumeDataToLocalStorage();
-        }
-      };
-      fr.readAsText(file);
-    }
-  }
-
-  function saveDataToJSONFile() {
-    const data: SaveData = saveData();
-    const blob: Blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `${data.basics.name} ${data.basics.label}`;
-    a.dispatchEvent(new MouseEvent('click'));
-    URL.revokeObjectURL(a.href);
-    a.remove();
-  }
-
-  function deleteWork(i: number, name: string) {
-    if (window.confirm(`Are you sure you would like to delete this work experience? ${name}`)) {
-      work.update((w) => {
-        w.splice(i, 1);
-        saveResumeDataToLocalStorage();
-        return w;
-      });
-    }
-  }
-
-  function hideWork(i: number) {
-    work.update((w) => {
-      const currVisibility = get(w[i].visible);
-      w[i].visible.set(!currVisibility);
-      saveResumeDataToLocalStorage();
-      return w;
-    });
-  }
-
-  function moveWork(i: number, up: boolean) {
-    work.update((w) => {
-      w = up ? arrayMove(w, i, i - 1) : arrayMove(w, i, i + 1);
-      saveResumeDataToLocalStorage();
-      return w;
-    });
-  }
 </script>
 
-<button
-  class="open-button"
-  on:click={() => {
-    open = true;
-  }}>Open</button
->
-<div class="menu {open ? 'open' : ''}">
-  <div class="menu-header">
-    <button
-      class="close-button"
-      on:click={() => {
-        open = false;
-      }}>Close</button
-    >
-    <h1>Mega Resume</h1>
-  </div>
-
-  <AddEntryButton
-    id={'openResume'}
-    text={'Open resume'}
-    click={() => {
-      const fileUpload = document.getElementById('file-upload');
-      if (fileUpload != null) fileUpload.click();
-      return null;
-    }}
-  />
-
-  <AddEntryButton
-    id={'saveResume'}
-    text={'Save resume'}
-    click={() => {
-      saveDataToJSONFile();
-      return null;
-    }}
-  />
-
-  <AddEntryButton
-    id={'printResume'}
-    text={'Print resume'}
-    click={() => {
-      window.print();
-      return null;
-    }}
-  />
-
-  <AddEntryButton
-    id={'clearResume'}
-    text={'[DEBUG] Clear resume data'}
-    click={() => {
-      localStorage.removeItem('saveData');
-      clearResumeStores();
-      return null;
-    }}
-  />
-
-  <input type="file" id="file-upload" accept=".json" style="display: none;" on:change={loadFile} />
-
-  <h2>Basic Information</h2>
-
-  <Input id={'basics_name'} label={'Name'} value={name} />
-  <Input id={'basics_title'} label={'Title'} value={label} />
-  <Input id={'basics_phone'} label={'Phone'} value={phone} />
-  <Input id={'basics_email'} label={'Email'} value={email} />
-
-  <h2>Work Experience</h2>
-  <div class="menu-content">
-    {#each $work as w, i}
-      <h3 class="submenu-header">
-        Work {i + 1}
-        <div class="label-controls">
-          {#if i > 0}
-            <button id="work_{i}_up" on:click={() => moveWork(i, true)}>Up</button>
-          {/if}
-          {#if i < $work.length - 1}
-            <button id="work_{i}_down" on:click={() => moveWork(i, false)}>Down</button>
-          {/if}
-          <button id="work_{i}_hide" on:click={() => hideWork(i)}>
-            {#if get(w.visible)}Hide{:else}Show{/if}
-          </button>
-          <button id="work_{i}_delete" on:click={() => deleteWork(i, get(w.name))}>Delete</button>
-        </div>
-      </h3>
-      <WorkMenu
-        {i}
-        visible={w.visible}
-        name={w.name}
-        position={w.position}
-        startDate={w.startDate}
-        endDate={w.endDate}
-        highlights={w.highlights}
-      />
-    {/each}
-    <AddEntryButton
-      id={'newWork'}
-      text={'Add new work entry'}
-      click={() => {
-        work.update((w) => {
-          w.push(new WorkStore());
-          return w;
-        });
-        return null;
-      }}
-    />
+<div id="menu-component">
+  <button id="open-button" class="open-button" on:click={() => (open = true)}>Open</button>
+  <div id="menu" class="menu {open ? 'open' : ''}">
+    <header id="menu-header">
+      {#if menuStackLength > 1}
+        <button id="back-button" on:click={() => (menuStack = pop(menuStack))}>Back</button>
+      {:else}
+        <button id="back-button" on:click={() => (open = false)}>Close</button>
+      {/if}
+      <h2 class="menu-title">MegaResume</h2>
+    </header>
+    <div class="menu-contents-container">
+      <!-- Menu contents components go in here -->
+      <MenuContents id="menu-contents-0" visible={visibleMenu === 'menu-contents-0'}>
+        <button
+          id="instructions-menu-button"
+          class="big-btn"
+          on:click={() => (menuStack = push('menu-contents-1', menuStack))}
+        >
+          Instructions
+        </button>
+        <button
+          id="options-menu-button"
+          class="big-btn"
+          on:click={() => (menuStack = push('menu-contents-2', menuStack))}
+        >
+          Options
+        </button>
+        <MainMenu {basics} {work} />
+      </MenuContents>
+      <MenuContents id="menu-contents-1" visible={visibleMenu === 'menu-contents-1'}>
+        <Instructions />
+      </MenuContents>
+      <MenuContents id="menu-contents-2" visible={visibleMenu === 'menu-contents-2'}>
+        <Options />
+      </MenuContents>
+    </div>
   </div>
 </div>
 
 <style>
-  :root {
-    --menu-width: 375px;
-    --side-padding: 12px;
-  }
-
-  .open-button {
-    z-index: 1;
-    left: var(--side-padding);
-    top: 10.25px;
+  #open-button {
     position: fixed;
-  }
-
-  .menu-header {
-    display: flex;
-    align-items: center;
-    height: 42px;
-  }
-
-  .close-button {
-    position: absolute;
-    left: 12px;
-    top: 10.25px;
-  }
-
-  .menu-header h1 {
-    margin: auto;
-    position: sticky;
+    z-index: 0;
+    top: 10px;
+    left: 10px;
   }
 
   .menu {
-    z-index: 10;
+    background-color: white;
+    box-shadow: none;
     position: fixed;
     top: 0;
-    left: calc((var(--menu-width) + 2 * var(--side-padding)) * -1);
-    height: 100vh;
-    overflow-y: scroll;
-    width: var(--menu-width);
-    background: lightgray;
-    transition: left ease 0.3s;
-    padding: 0 var(--side-padding);
+    left: calc(-1 * var(--mobile-width));
+    width: var(--mobile-width);
+    height: var(--menu-height);
+    font-size: 18px;
+    font-family: sans-serif;
+    user-select: none;
+    transition: left var(--menu-transition-time) var(--menu-transition-page-curve);
+    z-index: 10;
   }
 
   .menu.open {
     left: 0;
+    box-shadow: var(--divider-color) 0 0 var(--menu-box-shadow-width);
   }
 
-  .submenu-header {
-    width: 100%;
+  .menu header {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    height: var(--header-height);
   }
 
-  h2 {
-    margin-bottom: 12px;
+  #back-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
   }
 
-  h3 {
-    margin-bottom: 8px;
+  .menu-title {
+    margin: auto 0;
+    text-align: center;
+  }
+
+  .menu-contents-container {
+    box-sizing: border-box;
+    position: relative;
+    height: calc(var(--menu-height) - var(--header-height));
+    overflow-x: hidden;
+  }
+
+  @media only screen and (max-width: 400px) {
+    /* should use var but whatever */
+    .menu {
+      width: 100%;
+    }
+
+    .menu.open {
+      box-shadow: none;
+    }
   }
 </style>

@@ -1,0 +1,149 @@
+:root {
+  --header-height: 42px;
+  --mobile-width: 400px;
+  --menu-height: 100vh;
+  --header-height: 42px;
+  --menu-box-shadow-width: 12px;
+  --divider-color: gray;
+  --menu-transition-time: 0.35s;
+  --menu-transition-page-curve: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 0.45em 0;
+}
+
+p {
+  margin: 0 0 0.9em 0;
+}
+
+.submenu-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-like {
+  font-family: serif;
+  font-weight: bold;
+  background: lightgray;
+  padding: 0 0.3em;
+  border-radius: 5px;
+}
+
+.link-like {
+  font-size: 1em;
+  display: inline-block;
+  color: blue;
+  text-decoration: underline;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.link-like:active {
+  color: red;
+}
+
+label {
+  display: block;
+  margin: 0.75em 0;
+}
+
+input[type='text'] {
+  font-family: serif;
+  font-size: 16px;
+}
+
+textarea {
+  margin-top: 6px;
+  font-family: serif;
+  font-size: 16px;
+  resize: none;
+  width: 100%;
+}
+
+/* input fields */
+input,
+select,
+textarea {
+  margin-bottom: 0.75em;
+  display: block;
+  padding: 1px 2px;
+  font-family: serif;
+  font-size: 0.9em;
+  min-height: 2em;
+}
+
+.hint {
+  font-size: 0.75em;
+}
+
+textarea {
+  box-sizing: border-box;
+  resize: none;
+  min-height: 5em;
+  width: 100%;
+}
+
+input[type='date'] {
+  min-height: 2em;
+}
+
+select {
+  box-sizing: initial;
+  min-height: 2em;
+  padding: 1px 2px;
+  border-width: 2px;
+}
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  padding: 0;
+  margin: 0;
+}
+
+legend {
+  float: left;
+  margin: 0.75em 0;
+  font-weight: bold;
+  padding: 0;
+}
+
+.inline-input {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.75em 0;
+}
+
+.inline-input label {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.inline-input input {
+  min-height: 1em;
+  margin: 0;
+}
+
+.divider {
+  width: 80%;
+  padding-top: 1px;
+  background: linear-gradient(90deg, white, #bababa, #bababa, white);
+  margin: 1em auto;
+}
+
+.big-btn {
+  margin: 8px 0;
+  font-family: serif;
+  font-weight: bold;
+  width: 100%;
+  font-size: 16px;
+  height: 32px;
+}
