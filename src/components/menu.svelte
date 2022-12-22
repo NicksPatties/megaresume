@@ -6,6 +6,7 @@
   import Options from '@src/components/menus/options.svelte';
   import type { Writable } from 'svelte/store';
   import type { BasicsStore, WorkStore } from '@src/data/data';
+  import { push, pop } from '@src/util/menuStack';
 
   let open = false;
   const firstMenu = 'menu-contents-0';
@@ -19,26 +20,6 @@
 
   export let basics: BasicsStore;
   export let work: Writable<WorkStore[]>;
-
-  const push = (id: string) => {
-    const lastElementId = menuStack[menuStack.length - 1];
-    // check if element id is already on the stack
-    if (lastElementId == id) {
-      console.warn(`${id} is already at end of stack`);
-      return;
-    }
-    menuStack.push(id);
-    menuStack = menuStack;
-  };
-
-  const pop = () => {
-    if (menuStack.length <= 1) {
-      console.error(`menuStack is too short to pop! Ignoring`);
-      return;
-    }
-    menuStack.pop();
-    menuStack = menuStack;
-  };
 </script>
 
 <div id="menu-component">
@@ -46,7 +27,7 @@
   <div id="menu" class="menu {open ? 'open' : ''}">
     <header id="menu-header">
       {#if menuStackLength > 1}
-        <button id="back-button" on:click={pop}>Back</button>
+        <button id="back-button" on:click={() => (menuStack = pop(menuStack))}>Back</button>
       {:else}
         <button id="back-button" on:click={() => (open = false)}>Close</button>
       {/if}
@@ -59,7 +40,7 @@
           id={'next-menu-button'}
           text={'Instructions'}
           click={() => {
-            push('menu-contents-1');
+            menuStack = push('menu-contents-1', menuStack);
             return null;
           }}
         />
@@ -67,7 +48,7 @@
           id={'next-menu-button'}
           text={'Options'}
           click={() => {
-            push('menu-contents-2');
+            menuStack = push('menu-contents-2', menuStack);
             return null;
           }}
         />
