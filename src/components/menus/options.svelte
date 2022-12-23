@@ -1,6 +1,10 @@
+<script lang="ts">
+  import CollapsableDropdown from '../collapsableDropdown.svelte';
+</script>
+
 <h1>options menu</h1>
-<fieldset>
-  <legend>Text box inputs</legend>
+
+<CollapsableDropdown name={'Text box inputs'}>
   <label for="input-text">Text input</label>
   <input id="input-text" type="text" placeholder="Type your text here" />
   <label for="email-input">
@@ -35,11 +39,22 @@
     <option value="two">Option 2</option>
     <option value="three">Option 3</option>
   </datalist>
-</fieldset>
+</CollapsableDropdown>
 
-<fieldset>
-  <!-- May not actually use a legend for this since I want to hide the contents of the rest of the field set...-->
-  <legend>Inline input items</legend>
+<div class="inline-input">
+  <label for="checkbox-input">Checkbox</label>
+  <input id="checkbox-input" type="checkbox" />
+</div>
+<div class="inline-input">
+  <label for="radio-input-group-1">Radio 1</label>
+  <input id="radio-input-group-1" type="radio" value="1" name="radio" />
+</div>
+<div class="inline-input">
+  <label for="radio-input-group-2">Radio 2</label>
+  <input id="radio-input-group-2" type="radio" value="2" name="radio" />
+</div>
+
+<CollapsableDropdown name={'Inline input items'}>
   <div class="inline-input">
     <label for="checkbox-input">Checkbox</label>
     <input id="checkbox-input" type="checkbox" />
@@ -52,11 +67,9 @@
     <label for="radio-input-group-2">Radio 2</label>
     <input id="radio-input-group-2" type="radio" value="2" name="radio" />
   </div>
-</fieldset>
+</CollapsableDropdown>
 
-<fieldset>
-  <legend>Button inputs</legend>
-  <!-- Honestly would probably just use a button and hide this input -->
+<CollapsableDropdown name={'Button inputs'}>
   <div class="inline-input">
     <label for="file-input">File input</label>
     <input id="file-input" type="file" />
@@ -67,5 +80,6 @@
   </div>
   <label for="button-input">Button input</label>
   <input id="button-input" type="button" value="Click me!" />
-</fieldset>
+</CollapsableDropdown>
+
 <div class="divider" />
