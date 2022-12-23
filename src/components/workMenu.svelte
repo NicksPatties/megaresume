@@ -81,12 +81,12 @@
       {/if}
       <IconButton
         id="work_{i}_highlight_{k}_hide"
-        iconClass={highlight.visible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}
+        iconClass={highlight.visible ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'}
         onclick={() => hideHighlight(k)}
       />
       <IconButton
         id="work_{i}_highlight_{k}_delete"
-        iconClass="fa-solid fa-trash-can"
+        iconClass="fa-regular fa-trash-can"
         onclick={() => deleteHighlight(k)}
       />
     </div>
