@@ -1,9 +1,10 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@fortawesome/fontawesome-free': ^6.2.1
   '@playwright/test': ^1.25.0
-  '@sveltejs/adapter-auto': next
-  '@sveltejs/kit': next
+  '@sveltejs/adapter-auto': 1.0.0-next.80
+  '@sveltejs/kit': 1.0.0-next.505
   '@testing-library/svelte': ^3.2.1
   '@typescript-eslint/eslint-plugin': ^5.27.0
   '@typescript-eslint/parser': ^5.27.0
@@ -23,6 +24,7 @@ specifiers:
   vitest: ^0.23.4
 
 devDependencies:
+  '@fortawesome/fontawesome-free': 6.2.1
   '@playwright/test': 1.26.1
   '@sveltejs/adapter-auto': 1.0.0-next.80
   '@sveltejs/kit': 1.0.0-next.505_svelte@3.50.1+vite@3.1.4
@@ -111,6 +113,12 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@fortawesome/fontawesome-free/6.2.1:
+    resolution: {integrity: sha512-viouXhegu/TjkvYQoiRZK3aax69dGXxgEjpvZW81wIJdxm5Fnvp3VVIP4VHKqX4SvFw6qpmkILkD4RJWAdrt7A==}
+    engines: {node: '>=6'}
+    requiresBuild: true
     dev: true
 
   /@humanwhocodes/config-array/0.10.6:
