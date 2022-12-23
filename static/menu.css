@@ -7,6 +7,8 @@
   --divider-color: gray;
   --menu-transition-time: 0.35s;
   --menu-transition-page-curve: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --input-margin-bottom: 1.5em;
+  --label-margin-bottom: calc(var(--input-margin-bottom) * 0.5);
 }
 
 h1,
@@ -50,7 +52,7 @@ p {
 
 label {
   display: block;
-  margin: 0.75em 0;
+  margin-bottom: var(--label-margin-bottom);
 }
 
 input[type='text'] {
@@ -64,18 +66,6 @@ textarea {
   font-size: 16px;
   resize: none;
   width: 100%;
-}
-
-/* input fields */
-input,
-select,
-textarea {
-  margin-bottom: 0.75em;
-  display: block;
-  padding: 1px 2px;
-  font-family: serif;
-  font-size: 0.9em;
-  min-height: 2em;
 }
 
 /* text based inputs and selects */
@@ -96,6 +86,12 @@ select,
 textarea {
   box-sizing: border-box;
   width: 100%;
+  margin-bottom: var(--input-margin-bottom);
+  display: block;
+  padding: 1px 2px;
+  font-family: serif;
+  font-size: 0.9em;
+  min-height: 2em;
 }
 
 .hint {
@@ -103,25 +99,15 @@ textarea {
 }
 
 textarea {
-  box-sizing: border-box;
   resize: none;
   min-height: 5em;
-  width: 100%;
-}
-
-input[type='date'] {
-  min-height: 2em;
 }
 
 select {
-  min-height: 2em;
-  padding: 1px 2px;
   border-width: 2px;
 }
 
 fieldset {
-  display: flex;
-  flex-direction: column;
   border: none;
   padding: 0;
   margin: 0;
@@ -129,15 +115,16 @@ fieldset {
 
 legend {
   float: left;
-  margin: 0.75em 0;
   font-weight: bold;
   padding: 0;
+  margin-bottom: var(--label-margin-bottom);
 }
 
 .inline-input {
   display: flex;
   justify-content: space-between;
-  margin: 0.75em 0;
+  align-items: center;
+  margin-bottom: var(--input-margin-bottom);
 }
 
 .inline-input label {
@@ -159,7 +146,7 @@ legend {
 }
 
 .big-btn {
-  margin: 8px 0;
+  margin-bottom: var(--input-margin-bottom);
   font-family: serif;
   font-weight: bold;
   width: 100%;

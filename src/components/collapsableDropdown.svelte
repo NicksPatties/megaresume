@@ -32,6 +32,8 @@
 
 <style>
   .collapsable-dropdown {
+    float: left;
+    width: 100%;
     transition: height 0.3s ease-in-out;
     overflow-y: hidden;
   }
