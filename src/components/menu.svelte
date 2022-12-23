@@ -31,11 +31,18 @@
   />
   <div id="menu" class="menu {open ? 'open' : ''}">
     <header id="menu-header">
-      {#if menuStackLength > 1}
-        <button id="back-button" on:click={() => (menuStack = pop(menuStack))}>Back</button>
-      {:else}
-        <button id="back-button" on:click={() => (open = false)}>Close</button>
-      {/if}
+      <IconButton
+        id={'back-button'}
+        buttonStyle="position: absolute; top: 0; left: 0;"
+        iconClass={'fa-solid fa-arrow-left'}
+        onclick={() => {
+          if (menuStackLength > 1) {
+            menuStack = pop(menuStack);
+          } else {
+            open = false;
+          }
+        }}
+      />
       <h2 class="menu-title">MegaResume</h2>
     </header>
     <div class="menu-contents-container">
@@ -92,12 +99,6 @@
     display: flex;
     justify-content: center;
     height: var(--header-height);
-  }
-
-  #back-button {
-    position: absolute;
-    top: 10px;
-    left: 10px;
   }
 
   .menu-title {

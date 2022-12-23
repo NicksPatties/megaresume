@@ -1,12 +1,14 @@
 <script lang="ts">
-  export let id: string;
-  export let buttonStyle: string;
+  export let id = '';
+  export let buttonStyle = '';
   export let iconClass: string;
   export let onclick: (
     _e: MouseEvent & {
       currentTarget: EventTarget & HTMLButtonElement;
     }
-  ) => void;
+  ) => void = () => {
+    console.warn('IconButton: this button does nothing!');
+  };
 </script>
 
 <button {id} class="icon-button" style={buttonStyle} on:click={onclick}>

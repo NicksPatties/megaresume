@@ -1,4 +1,5 @@
 <script lang="ts">
+  import IconButton from '@src/components/iconButton.svelte';
   import Input from '@src/components/input.svelte';
   import WorkMenu from '@src/components/workMenu.svelte';
   import {
@@ -117,15 +118,29 @@
     Work {i + 1}
     <div class="label-controls">
       {#if i > 0}
-        <button id="work_{i}_up" on:click={() => moveWork(i, true)}>Up</button>
+        <IconButton
+          id="work_{i}_up"
+          iconClass="fa-solid fa-arrow-up"
+          onclick={() => moveWork(i, true)}
+        />
       {/if}
       {#if i < $work.length - 1}
-        <button id="work_{i}_down" on:click={() => moveWork(i, false)}>Down</button>
+        <IconButton
+          id="work_{i}_down"
+          iconClass="fa-solid fa-arrow-down"
+          onclick={() => moveWork(i, false)}
+        />
       {/if}
-      <button id="work_{i}_hide" on:click={() => hideWork(i)}>
-        {#if get(w.visible)}Hide{:else}Show{/if}
-      </button>
-      <button id="work_{i}_delete" on:click={() => deleteWork(i, get(w.name))}>Delete</button>
+      <IconButton
+        id="work_{i}_hide"
+        iconClass={get(w.visible) ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'}
+        onclick={() => hideWork(i)}
+      />
+      <IconButton
+        id="work_{i}_delete"
+        iconClass="fa-solid fa-trash-can"
+        onclick={() => deleteWork(i, get(w.name))}
+      />
     </div>
   </h3>
   <WorkMenu
