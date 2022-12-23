@@ -78,6 +78,26 @@ textarea {
   min-height: 2em;
 }
 
+/* text based inputs and selects */
+input[type='text'],
+input[type='password'],
+input[type='email'],
+input[type='url'],
+input[type='search'],
+input[type='tel'],
+input[type='number'],
+input[type='date'],
+input[type='time'],
+input[type='datetime'],
+input[type='datetime-local'],
+input[type='month'],
+input[type='week'],
+select,
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+}
+
 .hint {
   font-size: 0.75em;
 }
@@ -94,7 +114,6 @@ input[type='date'] {
 }
 
 select {
-  box-sizing: initial;
   min-height: 2em;
   padding: 1px 2px;
   border-width: 2px;

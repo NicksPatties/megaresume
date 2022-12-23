@@ -17,9 +17,7 @@
     top: 0;
     left: calc(-1 * var(--mobile-width));
     width: var(--mobile-width);
-    display: flex;
-    flex-direction: column;
-    overflow-y: hidden;
+    overflow: hidden;
     transition: left var(--menu-transition-time) var(--menu-transition-page-curve);
   }
 
