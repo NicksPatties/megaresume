@@ -1,4 +1,5 @@
 <script lang="ts">
+  import IconButton from '@src/components/iconButton.svelte';
   import MenuContents from '@src/components/menuContents.svelte';
   import MainMenu from '@src/components/menus/mainMenu.svelte';
   import Instructions from '@src/components/menus/instructions.svelte';
@@ -22,9 +23,12 @@
 </script>
 
 <div id="menu-component">
-  <button id="open-button" on:click={() => (open = true)}>
-    <i class="fa-solid fa-bars" />
-  </button>
+  <IconButton
+    id={'open-button'}
+    buttonStyle="position: fixed; z-index: 0; top: 0; left: 0;"
+    iconClass="fa-solid fa-bars"
+    onclick={() => (open = true)}
+  />
   <div id="menu" class="menu {open ? 'open' : ''}">
     <header id="menu-header">
       {#if menuStackLength > 1}
@@ -64,13 +68,6 @@
 </div>
 
 <style>
-  #open-button {
-    position: fixed;
-    z-index: 0;
-    top: 10px;
-    left: 10px;
-  }
-
   .menu {
     background-color: white;
     box-shadow: none;
