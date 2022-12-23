@@ -22,7 +22,9 @@
 </script>
 
 <div id="menu-component">
-  <button id="open-button" class="open-button" on:click={() => (open = true)}>Open</button>
+  <button id="open-button" on:click={() => (open = true)}>
+    <i class="fa-solid fa-bars" />
+  </button>
   <div id="menu" class="menu {open ? 'open' : ''}">
     <header id="menu-header">
       {#if menuStackLength > 1}
