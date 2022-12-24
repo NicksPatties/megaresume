@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import IconButton from '@src/components/iconButton.svelte';
 
   export let name: string;
   export let id = name.toLowerCase().replaceAll(' ', '-');
@@ -23,7 +24,11 @@
 <fieldset>
   <legend>
     {name}
-    <button on:click={click}>{closed ? 'Open' : 'Close'}</button>
+    <IconButton
+      size="small"
+      iconClass={closed ? 'fa-solid fa-angle-down' : 'fa-solid fa-angle-up'}
+      onclick={click}
+    />
   </legend>
   <div {id} class={className} class:closed style:height={closed ? '0px' : dropdownHeight}>
     <slot />
@@ -31,6 +36,13 @@
 </fieldset>
 
 <style>
+  legend {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   .collapsable-dropdown {
     float: left;
     width: 100%;

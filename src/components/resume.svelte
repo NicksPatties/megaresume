@@ -3,6 +3,7 @@
   import { type Writable, get } from 'svelte/store';
   import WorkResume from './workResume.svelte';
   import { onMount } from 'svelte';
+  import IconButton from './iconButton.svelte';
 
   export let basics: BasicsStore;
   export let work: Writable<WorkStore[]>;
@@ -26,19 +27,6 @@
   onMount(() => {
     scaleResume();
     onresize = scaleResume;
-    // zoom controls
-    const zoomIn = document.getElementById('zoom-in');
-    if (zoomIn != undefined)
-      zoomIn.onclick = () => {
-        scaleControl += 0.1;
-        scaleResume();
-      };
-    const zoomOut = document.getElementById('zoom-out');
-    if (zoomOut != undefined)
-      zoomOut.onclick = () => {
-        scaleControl -= 0.1;
-        scaleResume();
-      };
   });
 </script>
 
@@ -93,8 +81,22 @@
   </div>
 </div>
 <div class="controls-container">
-  <button id="zoom-in">+</button>
-  <button id="zoom-out">-</button>
+  <IconButton
+    id="zoom-in"
+    iconClass="fa-solid fa-magnifying-glass-plus"
+    onclick={() => {
+      scaleControl += 0.1;
+      scaleResume();
+    }}
+  />
+  <IconButton
+    id="zoom-out"
+    iconClass="fa-solid fa-magnifying-glass-minus"
+    onclick={() => {
+      scaleControl -= 0.1;
+      scaleResume();
+    }}
+  />
 </div>
 
 <style>
@@ -161,9 +163,5 @@
     flex-direction: column;
     bottom: 20px;
     right: 20px;
-  }
-
-  .controls-container button {
-    margin-top: 8px;
   }
 </style>

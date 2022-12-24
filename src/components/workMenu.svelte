@@ -1,4 +1,5 @@
 <script lang="ts">
+  import IconButton from '@src/components/iconButton.svelte';
   import Input from '@src/components/input.svelte';
   import { get, type Writable } from 'svelte/store';
   import { saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
@@ -65,26 +66,33 @@
     New Highlight {k + 1}
     <div class="label-controls">
       {#if k > 0}
-        <button id="work_{i}_highlight_{k}_up" on:click={() => moveHighlight(k, true)}>Up</button>
+        <IconButton
+          size="small"
+          id="work_{i}_highlight_{k}_up"
+          iconClass="fa-solid fa-arrow-up"
+          onclick={() => moveHighlight(k, true)}
+        />
       {/if}
       {#if k < $highlights.length - 1}
-        <button id="work_{i}_highlight_{k}_down" on:click={() => moveHighlight(k, false)}
-          >Down</button
-        >
+        <IconButton
+          size="small"
+          id="work_{i}_highlight_{k}_down"
+          iconClass="fa-solid fa-arrow-down"
+          onclick={() => moveHighlight(k, false)}
+        />
       {/if}
-      <button
+      <IconButton
+        size="small"
         id="work_{i}_highlight_{k}_hide"
-        on:click={() => {
-          hideHighlight(k);
-        }}
-        >{#if highlight.visible}Hide{:else}Show{/if}</button
-      >
-      <button
+        iconClass={highlight.visible ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'}
+        onclick={() => hideHighlight(k)}
+      />
+      <IconButton
+        size="small"
         id="work_{i}_highlight_{k}_delete"
-        on:click={() => {
-          deleteHighlight(k);
-        }}>Delete</button
-      >
+        iconClass="fa-regular fa-trash-can"
+        onclick={() => deleteHighlight(k)}
+      />
     </div>
   </label>
   <textarea

@@ -1,6 +1,7 @@
 .DS_Store
 node_modules
 /build
+/static/fontawesome
 /.svelte-kit
 /package
 .env
