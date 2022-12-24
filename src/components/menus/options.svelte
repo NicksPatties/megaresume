@@ -41,19 +41,6 @@
   </datalist>
 </CollapsableDropdown>
 
-<div class="inline-input">
-  <label for="checkbox-input">Checkbox</label>
-  <input id="checkbox-input" type="checkbox" />
-</div>
-<div class="inline-input">
-  <label for="radio-input-group-1">Radio 1</label>
-  <input id="radio-input-group-1" type="radio" value="1" name="radio" />
-</div>
-<div class="inline-input">
-  <label for="radio-input-group-2">Radio 2</label>
-  <input id="radio-input-group-2" type="radio" value="2" name="radio" />
-</div>
-
 <CollapsableDropdown name={'Inline input items'}>
   <div class="inline-input">
     <label for="checkbox-input">Checkbox</label>

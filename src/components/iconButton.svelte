@@ -2,6 +2,7 @@
   export let id = '';
   export let buttonStyle = '';
   export let iconClass: string;
+  export let size = 'big';
   export let onclick: (
     _e: MouseEvent & {
       currentTarget: EventTarget & HTMLButtonElement;
@@ -11,16 +12,18 @@
   };
 </script>
 
-<button {id} class="icon-button" style={buttonStyle} on:click={onclick}>
+<button {id} class="icon-button {size}" style={buttonStyle} on:click={onclick}>
   <i class={iconClass} />
 </button>
 
 <style>
+  :root {
+    --big-button-size: var(--header-height);
+    --small-button-size: 20.5px;
+  }
+
   .icon-button {
     border-radius: 50%;
-    font-size: 1.5em;
-    width: var(--header-height);
-    height: var(--header-height);
     padding: 0;
     margin: 0;
     background: white;
@@ -30,5 +33,21 @@
 
   .icon-button:hover {
     background: #f5f5f5;
+  }
+
+  .icon-button:active {
+    background: #ddd;
+  }
+
+  .big {
+    width: var(--header-height);
+    height: var(--header-height);
+    font-size: 1.5em;
+  }
+
+  .small {
+    width: var(--small-button-size);
+    height: var(--small-button-size);
+    font-size: 0.9rem;
   }
 </style>

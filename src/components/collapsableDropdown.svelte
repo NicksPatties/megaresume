@@ -25,6 +25,7 @@
   <legend>
     {name}
     <IconButton
+      size="small"
       iconClass={closed ? 'fa-solid fa-angle-down' : 'fa-solid fa-angle-up'}
       onclick={click}
     />

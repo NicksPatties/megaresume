@@ -67,6 +67,7 @@
     <div class="label-controls">
       {#if k > 0}
         <IconButton
+          size="small"
           id="work_{i}_highlight_{k}_up"
           iconClass="fa-solid fa-arrow-up"
           onclick={() => moveHighlight(k, true)}
@@ -74,17 +75,20 @@
       {/if}
       {#if k < $highlights.length - 1}
         <IconButton
+          size="small"
           id="work_{i}_highlight_{k}_down"
           iconClass="fa-solid fa-arrow-down"
           onclick={() => moveHighlight(k, false)}
         />
       {/if}
       <IconButton
+        size="small"
         id="work_{i}_highlight_{k}_hide"
         iconClass={highlight.visible ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'}
         onclick={() => hideHighlight(k)}
       />
       <IconButton
+        size="small"
         id="work_{i}_highlight_{k}_delete"
         iconClass="fa-regular fa-trash-can"
         onclick={() => deleteHighlight(k)}

@@ -119,6 +119,7 @@
     <div class="label-controls">
       {#if i > 0}
         <IconButton
+          size="small"
           id="work_{i}_up"
           iconClass="fa-solid fa-arrow-up"
           onclick={() => moveWork(i, true)}
@@ -126,17 +127,20 @@
       {/if}
       {#if i < $work.length - 1}
         <IconButton
+          size="small"
           id="work_{i}_down"
           iconClass="fa-solid fa-arrow-down"
           onclick={() => moveWork(i, false)}
         />
       {/if}
       <IconButton
+        size="small"
         id="work_{i}_hide"
         iconClass={get(w.visible) ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'}
         onclick={() => hideWork(i)}
       />
       <IconButton
+        size="small"
         id="work_{i}_delete"
         iconClass="fa-regular fa-trash-can"
         onclick={() => deleteWork(i, get(w.name))}
