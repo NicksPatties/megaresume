@@ -4,7 +4,7 @@ test.describe('Resume input', () => {
   test('#14 Work highlights do not duplicate when creating new work object', async ({ page }) => {
     await page.goto('/');
     // open the resume menu
-    await page.click('.open-button');
+    await page.click('#open-button');
     // click add new work
     await page.click('#newWork');
     // click add new highlight
