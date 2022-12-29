@@ -54,6 +54,7 @@
           on:click={() => (menuStack = push('menu-contents-1', menuStack))}
         >
           Instructions
+          <i class="fa-solid fa-angle-right" />
         </button>
         <button
           id="options-menu-button"
