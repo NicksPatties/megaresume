@@ -1,5 +1,6 @@
 <script lang="ts">
   import IconButton from '@src/components/iconButton.svelte';
+  import MenuNavButton from '@src/components/menuNavButton.svelte';
   import MenuContents from '@src/components/menuContents.svelte';
   import MainMenu from '@src/components/menus/mainMenu.svelte';
   import Instructions from '@src/components/menus/instructions.svelte';
@@ -48,21 +49,16 @@
     <div class="menu-contents-container">
       <!-- Menu contents components go in here -->
       <MenuContents id="menu-contents-0" visible={visibleMenu === 'menu-contents-0'}>
-        <button
+        <MenuNavButton
           id="instructions-menu-button"
-          class="big-btn"
-          on:click={() => (menuStack = push('menu-contents-1', menuStack))}
-        >
-          Instructions
-          <i class="fa-solid fa-angle-right" />
-        </button>
-        <button
+          textContent="Instructions"
+          onclick={() => (menuStack = push('menu-contents-1', menuStack))}
+        />
+        <MenuNavButton
           id="options-menu-button"
-          class="big-btn"
-          on:click={() => (menuStack = push('menu-contents-2', menuStack))}
-        >
-          Options
-        </button>
+          textContent="Options"
+          onclick={() => (menuStack = push('menu-contents-2', menuStack))}
+        />
         <MainMenu {basics} {work} />
       </MenuContents>
       <MenuContents id="menu-contents-1" visible={visibleMenu === 'menu-contents-1'}>
