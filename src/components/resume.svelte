@@ -1,11 +1,5 @@
 <script lang="ts">
-  import {
-    basicsStore,
-    workStores,
-    loadLocalStorageData,
-    type BasicsStore,
-    type WorkStore
-  } from '@src/data/data';
+  import { basicsStore, workStores, type BasicsStore, type WorkStore } from '@src/data/data';
   import { type Writable, get } from 'svelte/store';
   import WorkResume from './workResume.svelte';
   import { onMount } from 'svelte';
@@ -36,7 +30,6 @@
   }
 
   onMount(() => {
-    loadLocalStorageData();
     scaleResume();
     onresize = scaleResume;
   });

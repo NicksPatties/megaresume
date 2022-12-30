@@ -6,21 +6,15 @@
   import {
     basicsStore,
     workStores,
-    loadLocalStorageData,
     saveResumeDataToLocalStorage,
     BasicsStore,
     WorkStore
   } from '@src/data/data';
   import { arrayMove } from '@src/util/arrayMove';
   import { get, type Writable } from 'svelte/store';
-  import { onMount } from 'svelte';
 
   let basics: BasicsStore = basicsStore;
   let work: Writable<WorkStore[]> = workStores;
-
-  onMount(() => {
-    loadLocalStorageData();
-  });
 
   function deleteWork(i: number, name: string) {
     if (window.confirm(`Are you sure you would like to delete this work experience? ${name}`)) {
