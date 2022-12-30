@@ -153,9 +153,8 @@ legend {
   justify-content: space-between;
   font-weight: bold;
   font-size: 1.17em; /* same as h3 */
+  padding: 0 1rem !important; /* !important is required here otherwise the user agent styles overwrite this property */
   width: 100%;
-  padding-left: 1rem !important;
-  padding-right: 1rem !important;
   height: 2.75em;
   border: none;
   background: white;
