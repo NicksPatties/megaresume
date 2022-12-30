@@ -7,17 +7,10 @@
   import Options from '@src/components/menus/options.svelte';
   import type { Writable } from 'svelte/store';
   import type { BasicsStore, WorkStore } from '@src/data/data';
-  import { push, pop } from '@src/util/menuStack';
+  // import { push, pop } from '@src/util/menuStack';
+  import { push, pop, visibleMenu, atMainMenu } from '@src/data/menuStack';
 
   let open = false;
-  const firstMenu = 'menu-contents-0';
-  let menuStack = [firstMenu];
-  $: {
-    menuStackLength = menuStack.length;
-    visibleMenu = menuStack[menuStack.length - 1];
-  }
-  let menuStackLength = menuStack.length;
-  let visibleMenu = firstMenu;
 
   export let basics: BasicsStore;
   export let work: Writable<WorkStore[]>;
@@ -37,8 +30,8 @@
         buttonStyle="position: absolute; top: 0; left: 0;"
         iconClass={'fa-solid fa-arrow-left'}
         onclick={() => {
-          if (menuStackLength > 1) {
-            menuStack = pop(menuStack);
+          if (!atMainMenu()) {
+            pop();
           } else {
             open = false;
           }
@@ -48,23 +41,23 @@
     </header>
     <div class="menu-contents-container">
       <!-- Menu contents components go in here -->
-      <MenuContents id="menu-contents-0" visible={visibleMenu === 'menu-contents-0'}>
+      <MenuContents id="menu-contents-0" visible={$visibleMenu === 'menu-contents-0'}>
         <MenuNavButton
           id="instructions-menu-button"
           textContent="Instructions"
-          onclick={() => (menuStack = push('menu-contents-1', menuStack))}
+          onclick={() => push('menu-contents-1')}
         />
         <MenuNavButton
           id="options-menu-button"
           textContent="Options"
-          onclick={() => (menuStack = push('menu-contents-2', menuStack))}
+          onclick={() => push('menu-contents-2')}
         />
         <MainMenu {basics} {work} />
       </MenuContents>
-      <MenuContents id="menu-contents-1" visible={visibleMenu === 'menu-contents-1'}>
+      <MenuContents id="menu-contents-1" visible={$visibleMenu === 'menu-contents-1'}>
         <Instructions />
       </MenuContents>
-      <MenuContents id="menu-contents-2" visible={visibleMenu === 'menu-contents-2'}>
+      <MenuContents id="menu-contents-2" visible={$visibleMenu === 'menu-contents-2'}>
         <Options />
       </MenuContents>
     </div>
