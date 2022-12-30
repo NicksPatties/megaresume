@@ -3,15 +3,10 @@
   import MainMenu from '@src/components/menus/mainMenu.svelte';
   import Instructions from '@src/components/menus/instructions.svelte';
   import Options from '@src/components/menus/options.svelte';
-  import type { Writable } from 'svelte/store';
-  import type { BasicsStore, WorkStore } from '@src/data/data';
-  // import { push, pop } from '@src/util/menuStack';
   import { pop, atMainMenu } from '@src/data/menuStack';
+  import ResumeMenu from '@src/components/menus/resumeMenu.svelte';
 
   let open = false;
-
-  export let basics: BasicsStore;
-  export let work: Writable<WorkStore[]>;
 </script>
 
 <div id="menu-component">
@@ -39,9 +34,10 @@
     </header>
     <div class="menu-contents-container">
       <!-- Menu contents components go in here -->
-      <MainMenu {basics} {work} />
+      <MainMenu />
       <Instructions />
       <Options />
+      <ResumeMenu />
     </div>
   </div>
 </div>
