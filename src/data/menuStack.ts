@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 
 const menuStack: string[] = [];
-const defaultMenu = 'menu-contents-0';
+const defaultMenu = 'menu-main';
 export const visibleMenu = writable(defaultMenu);
 
 export const push = (id: string) => {

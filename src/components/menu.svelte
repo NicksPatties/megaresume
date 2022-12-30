@@ -1,14 +1,12 @@
 <script lang="ts">
   import IconButton from '@src/components/iconButton.svelte';
-  import MenuNavButton from '@src/components/menuNavButton.svelte';
-  import MenuContents from '@src/components/menuContents.svelte';
   import MainMenu from '@src/components/menus/mainMenu.svelte';
   import Instructions from '@src/components/menus/instructions.svelte';
   import Options from '@src/components/menus/options.svelte';
   import type { Writable } from 'svelte/store';
   import type { BasicsStore, WorkStore } from '@src/data/data';
   // import { push, pop } from '@src/util/menuStack';
-  import { push, pop, visibleMenu, atMainMenu } from '@src/data/menuStack';
+  import { pop, atMainMenu } from '@src/data/menuStack';
 
   let open = false;
 
@@ -41,25 +39,9 @@
     </header>
     <div class="menu-contents-container">
       <!-- Menu contents components go in here -->
-      <MenuContents id="menu-contents-0" visible={$visibleMenu === 'menu-contents-0'}>
-        <MenuNavButton
-          id="instructions-menu-button"
-          textContent="Instructions"
-          onclick={() => push('menu-contents-1')}
-        />
-        <MenuNavButton
-          id="options-menu-button"
-          textContent="Options"
-          onclick={() => push('menu-contents-2')}
-        />
-        <MainMenu {basics} {work} />
-      </MenuContents>
-      <MenuContents id="menu-contents-1" visible={$visibleMenu === 'menu-contents-1'}>
-        <Instructions />
-      </MenuContents>
-      <MenuContents id="menu-contents-2" visible={$visibleMenu === 'menu-contents-2'}>
-        <Options />
-      </MenuContents>
+      <MainMenu {basics} {work} />
+      <Instructions />
+      <Options />
     </div>
   </div>
 </div>

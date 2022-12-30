@@ -1,9 +1,9 @@
 <script lang="ts">
   export let id: string;
-  export let visible = false;
+  import { visibleMenu } from '@src/data/menuStack';
 </script>
 
-<div {id} class:visible class="menu-contents">
+<div {id} class:visible={$visibleMenu == id} class="menu-contents">
   <slot />
 </div>
 
