@@ -37,7 +37,7 @@
 
 <style>
   legend {
-    width: 100%;
+    width: var(--input-width);
     display: flex;
     justify-content: space-between;
     align-items: center;

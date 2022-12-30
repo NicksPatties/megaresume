@@ -23,3 +23,6 @@
   {textContent}
   <i class="fa-solid fa-angle-right" />
 </button>
+
+<style>
+</style>
