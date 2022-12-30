@@ -1,7 +1,7 @@
 <script lang="ts">
+  import MenuContents from '@src/components/menuContents.svelte';
   import MenuNavButton from '@src/components/menuNavButton.svelte';
   import { push } from '@src/data/menuStack';
-  import MenuContents from '@src/components/menuContents.svelte';
 </script>
 
 <MenuContents id="menu-main">

@@ -1,6 +1,6 @@
 <script lang="ts">
   import MenuContents from '@src/components/menuContents.svelte';
-  import CollapsableDropdown from '../collapsableDropdown.svelte';
+  import CollapsableDropdown from '@src/components/collapsableDropdown.svelte';
   import {
     clearResumeStores,
     loadData,

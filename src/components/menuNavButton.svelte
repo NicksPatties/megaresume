@@ -15,7 +15,7 @@
       currentTarget: EventTarget & HTMLButtonElement;
     }
   ) => void = () => {
-    console.warn('IconButton: this button does nothing!');
+    console.warn('MenuNavButton: this button does nothing!');
   };
 </script>
 

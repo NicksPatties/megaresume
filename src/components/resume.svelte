@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { basicsStore, workStores, type BasicsStore, type WorkStore } from '@src/data/data';
-  import { type Writable, get } from 'svelte/store';
-  import WorkResume from './workResume.svelte';
+  import WorkResume from '@src/components/workResume.svelte';
+  import IconButton from '@src/components/iconButton.svelte';
+  import { basicsStore, workStores } from '@src/data/data';
+  import { get } from 'svelte/store';
   import { onMount } from 'svelte';
-  import IconButton from './iconButton.svelte';
 
-  let basics: BasicsStore = basicsStore;
-  let work: Writable<WorkStore[]> = workStores;
+  let basics = basicsStore;
+  let work = workStores;
 
   const name = basics.name;
   const label = basics.label;

@@ -4,8 +4,8 @@
   import WorkMenuEntry from '@src/components/workMenuEntry.svelte';
   import { workStores, saveResumeDataToLocalStorage, WorkStore } from '@src/data/data';
   import { arrayMove } from '@src/util/arrayMove';
-  import { get, type Writable } from 'svelte/store';
-  let work: Writable<WorkStore[]> = workStores;
+  import { get } from 'svelte/store';
+  let work = workStores;
 
   function deleteWork(i: number, name: string) {
     if (window.confirm(`Are you sure you would like to delete this work experience? ${name}`)) {

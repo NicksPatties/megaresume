@@ -1,8 +1,8 @@
 <script lang="ts">
   import MenuContents from '@src/components/menuContents.svelte';
   import Input from '@src/components/input.svelte';
-  import { basicsStore, BasicsStore } from '@src/data/data';
-  let basics: BasicsStore = basicsStore;
+  import { basicsStore } from '@src/data/data';
+  let basics = basicsStore;
 </script>
 
 <MenuContents id="menu-resume-basics">
