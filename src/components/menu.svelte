@@ -1,25 +1,14 @@
 <script lang="ts">
   import IconButton from '@src/components/iconButton.svelte';
-  import MenuContents from '@src/components/menuContents.svelte';
   import MainMenu from '@src/components/menus/mainMenu.svelte';
   import Instructions from '@src/components/menus/instructions.svelte';
   import Options from '@src/components/menus/options.svelte';
-  import type { Writable } from 'svelte/store';
-  import type { BasicsStore, WorkStore } from '@src/data/data';
-  import { push, pop } from '@src/util/menuStack';
+  import ResumeMenu from '@src/components/menus/resumeMenu.svelte';
+  import WorkMenu from '@src/components/menus/workMenu.svelte';
+  import BasicsMenu from '@src/components/menus/basicsMenu.svelte';
+  import { pop, atMainMenu } from '@src/data/menuStack';
 
   let open = false;
-  const firstMenu = 'menu-contents-0';
-  let menuStack = [firstMenu];
-  $: {
-    menuStackLength = menuStack.length;
-    visibleMenu = menuStack[menuStack.length - 1];
-  }
-  let menuStackLength = menuStack.length;
-  let visibleMenu = firstMenu;
-
-  export let basics: BasicsStore;
-  export let work: Writable<WorkStore[]>;
 </script>
 
 <div id="menu-component">
@@ -36,8 +25,8 @@
         buttonStyle="position: absolute; top: 0; left: 0;"
         iconClass={'fa-solid fa-arrow-left'}
         onclick={() => {
-          if (menuStackLength > 1) {
-            menuStack = pop(menuStack);
+          if (!atMainMenu()) {
+            pop();
           } else {
             open = false;
           }
@@ -47,29 +36,12 @@
     </header>
     <div class="menu-contents-container">
       <!-- Menu contents components go in here -->
-      <MenuContents id="menu-contents-0" visible={visibleMenu === 'menu-contents-0'}>
-        <button
-          id="instructions-menu-button"
-          class="big-btn"
-          on:click={() => (menuStack = push('menu-contents-1', menuStack))}
-        >
-          Instructions
-        </button>
-        <button
-          id="options-menu-button"
-          class="big-btn"
-          on:click={() => (menuStack = push('menu-contents-2', menuStack))}
-        >
-          Options
-        </button>
-        <MainMenu {basics} {work} />
-      </MenuContents>
-      <MenuContents id="menu-contents-1" visible={visibleMenu === 'menu-contents-1'}>
-        <Instructions />
-      </MenuContents>
-      <MenuContents id="menu-contents-2" visible={visibleMenu === 'menu-contents-2'}>
-        <Options />
-      </MenuContents>
+      <MainMenu />
+      <Instructions />
+      <Options />
+      <ResumeMenu />
+      <WorkMenu />
+      <BasicsMenu />
     </div>
   </div>
 </div>

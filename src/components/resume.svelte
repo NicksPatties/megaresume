@@ -1,12 +1,12 @@
 <script lang="ts">
-  import type { BasicsStore, WorkStore } from '@src/data/data';
-  import { type Writable, get } from 'svelte/store';
-  import WorkResume from './workResume.svelte';
+  import WorkResume from '@src/components/workResume.svelte';
+  import IconButton from '@src/components/iconButton.svelte';
+  import { basicsStore, workStores } from '@src/data/data';
+  import { get } from 'svelte/store';
   import { onMount } from 'svelte';
-  import IconButton from './iconButton.svelte';
 
-  export let basics: BasicsStore;
-  export let work: Writable<WorkStore[]>;
+  let basics = basicsStore;
+  let work = workStores;
 
   const name = basics.name;
   const label = basics.label;
@@ -20,8 +20,13 @@
     const margin = 42;
     const fittedResumeHeight = window.innerHeight - margin * 2;
     const scale = fittedResumeHeight / resumeHeight;
-    const resumeNode: HTMLElement | null = document.querySelector('.resume-container');
-    if (resumeNode != undefined) resumeNode.style.transform = `scale(${scale * scaleControl})`;
+    const resumeNode: HTMLElement | null = document.querySelector('.resume');
+    const resumeOverflowNode: HTMLElement | null = document.querySelector('.overflow-warning');
+    if (resumeNode != null && resumeOverflowNode != null) {
+      const newScale = `scale(${scale * scaleControl})`;
+      resumeNode.style.transform = newScale;
+      resumeOverflowNode.style.transform = newScale;
+    }
   }
 
   onMount(() => {
@@ -55,7 +60,7 @@
       </ul>
     </div>
   </div>
-  <div class="resume-overflow-warning">
+  <div class="resume overflow-warning">
     <div class="basics">
       <p class="name">{$name}</p>
       <p class="subname">{$label}</p>
@@ -107,34 +112,32 @@
   }
 
   .resume-container {
-    transform-origin: center top;
-    height: var(--A4height);
-    width: var(--A4width);
-    background: white;
-    box-shadow: 0px 0px 9px black;
-    transform: scale(1);
-    margin: 42px auto;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    height: 100%;
+    width: 100%;
   }
 
   .resume {
     position: absolute;
     overflow: hidden;
-    top: 0;
+    top: 42px;
     z-index: 5;
-    margin: var(--pointFiveIn);
-    width: calc(var(--A4width) - 2 * var(--pointFiveIn));
-    height: calc(var(--A4height) - 2 * var(--pointFiveIn));
+    padding: var(--pointFiveIn);
+    width: var(--A4width);
+    height: var(--A4height);
     background: white;
+    box-shadow: 0px 0px 9px black;
+    transform: scale(1);
+    transform-origin: center top;
   }
 
   /* Theme classes and such */
 
-  .resume-overflow-warning {
-    position: absolute;
-    top: 0;
-    width: calc(var(--A4width) - 2 * var(--pointFiveIn));
+  .resume.overflow-warning {
     z-index: 0;
-    margin: var(--pointFiveIn);
     color: red;
   }
 

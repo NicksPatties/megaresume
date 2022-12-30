@@ -146,10 +146,24 @@ legend {
 }
 
 .big-btn {
-  margin-bottom: var(--input-margin-bottom);
-  font-family: serif;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   font-weight: bold;
+  font-size: 1.17em; /* same as h3 */
   width: 100%;
-  font-size: 16px;
-  height: 32px;
+  height: 2.75em;
+  border: none;
+  background: white;
+  padding: 0;
+  text-align: start;
+  transition: background-color 0.1s ease-in;
+}
+
+.big-btn:hover {
+  background: #f5f5f5;
+}
+
+.big-btn:active {
+  background: #ddd;
 }
