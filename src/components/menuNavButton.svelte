@@ -1,6 +1,15 @@
 <script lang="ts">
-  export let id = '';
-  export let textContent = 'Menu button';
+  /**
+   * @param string The id of the button. Useful primarily for testing.
+   */
+  export let id: string;
+  /**
+   * @param string The text to appear in the menu button
+   */
+  export let textContent: string;
+  /**
+   * @param function Executes when the button is pressed
+   */
   export let onclick: (
     _e: MouseEvent & {
       currentTarget: EventTarget & HTMLButtonElement;

@@ -98,14 +98,13 @@
   <textarea
     id={`work_${i}_highlight_${k}`}
     placeholder={'A cool highlight'}
-    content={highlight.content}
     disabled={!$visible || !highlight.visible}
     on:input={(e) => {
       if (e != null) {
         onNewHighlightInput(e, highlights, k, saveResumeDataToLocalStorage);
       }
-    }}
-  />
+    }}>{highlight.content}</textarea
+  >
 {/each}
 <button
   id={`work_${i}_newHighlight`}

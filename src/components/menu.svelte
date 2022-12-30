@@ -3,8 +3,10 @@
   import MainMenu from '@src/components/menus/mainMenu.svelte';
   import Instructions from '@src/components/menus/instructions.svelte';
   import Options from '@src/components/menus/options.svelte';
-  import { pop, atMainMenu } from '@src/data/menuStack';
   import ResumeMenu from '@src/components/menus/resumeMenu.svelte';
+  import WorkMenu from '@src/components/menus/workMenu.svelte';
+  import BasicsMenu from '@src/components/menus/basicsMenu.svelte';
+  import { pop, atMainMenu } from '@src/data/menuStack';
 
   let open = false;
 </script>
@@ -38,6 +40,8 @@
       <Instructions />
       <Options />
       <ResumeMenu />
+      <WorkMenu />
+      <BasicsMenu />
     </div>
   </div>
 </div>

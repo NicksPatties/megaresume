@@ -1,4 +1,7 @@
 <script lang="ts">
+  /**
+   * The id of the menu. Push this onto the menu stack to make this menu visible.
+   */
   export let id: string;
   import { visibleMenu } from '@src/data/menuStack';
 </script>
