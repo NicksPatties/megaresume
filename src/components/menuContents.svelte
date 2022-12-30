@@ -15,7 +15,6 @@
     box-sizing: border-box;
     background: white;
     min-height: calc(100vh - var(--header-height));
-    padding: 1em;
     position: absolute;
     top: 0;
     left: calc(-1 * var(--mobile-width));

@@ -9,17 +9,19 @@
   --menu-transition-page-curve: cubic-bezier(0.22, 0.61, 0.36, 1);
   --input-margin-bottom: 1.5em;
   --label-margin-bottom: calc(var(--input-margin-bottom) * 0.5);
+  --menu-side-margin: 1rem;
+  --input-width: calc(100% - 2 * var(--menu-side-margin));
 }
 
 h1,
 h2,
 h3,
 h4 {
-  margin: 0 0 0.45em 0;
+  margin: 0 var(--menu-side-margin) 0.45em var(--menu-side-margin);
 }
 
 p {
-  margin: 0 0 0.9em 0;
+  margin: 0 var(--menu-side-margin) 0.9em var(--menu-side-margin);
 }
 
 .submenu-header {
@@ -52,7 +54,7 @@ p {
 
 label {
   display: block;
-  margin-bottom: var(--label-margin-bottom);
+  margin: 0 var(--menu-side-margin) var(--label-margin-bottom) var(--menu-side-margin);
 }
 
 input[type='text'] {
@@ -84,9 +86,9 @@ input[type='month'],
 input[type='week'],
 select,
 textarea {
+  margin: 0 var(--menu-side-margin) var(--input-margin-bottom) var(--menu-side-margin);
   box-sizing: border-box;
-  width: 100%;
-  margin-bottom: var(--input-margin-bottom);
+  width: var(--input-width);
   display: block;
   padding: 1px 2px;
   font-family: serif;
@@ -117,14 +119,14 @@ legend {
   float: left;
   font-weight: bold;
   padding: 0;
-  margin-bottom: var(--label-margin-bottom);
+  margin: 0 var(--menu-side-margin) var(--label-margin-bottom) var(--menu-side-margin);
 }
 
 .inline-input {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: var(--input-margin-bottom);
+  margin: 0 var(--menu-side-margin) var(--input-margin-bottom) var(--menu-side-margin);
 }
 
 .inline-input label {
@@ -151,6 +153,7 @@ legend {
   justify-content: space-between;
   font-weight: bold;
   font-size: 1.17em; /* same as h3 */
+  padding: 0 1rem !important; /* !important is required here otherwise the user agent styles overwrite this property */
   width: 100%;
   height: 2.75em;
   border: none;

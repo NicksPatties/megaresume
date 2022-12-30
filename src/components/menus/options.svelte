@@ -129,8 +129,10 @@
       <label for="color-input">Color input</label>
       <input id="color-input" type="color" />
     </div>
-    <label for="button-input">Button input</label>
-    <input id="button-input" type="button" value="Click me!" />
+    <div class="inline-input">
+      <label for="button-input">Button input</label>
+      <input id="button-input" type="button" value="Click me!" />
+    </div>
   </CollapsableDropdown>
 
   <div class="divider" />
