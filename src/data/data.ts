@@ -1,4 +1,5 @@
 import { writable, get, type Writable } from 'svelte/store';
+import type { Tag } from './tag';
 
 type Basics = {
   name: string;
@@ -45,6 +46,10 @@ export type Highlight = {
    * the content of the highlight itself
    */
   content: string;
+  /**
+   * the tags that have been assigned to the highlight
+   */
+  tags: Tag[];
 };
 
 export type Work = {
