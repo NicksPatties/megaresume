@@ -49,7 +49,7 @@ export type Highlight = {
   /**
    * the tags that have been assigned to the highlight
    */
-  tags: Tag[];
+  tagNames: string[];
 };
 
 export type Work = {

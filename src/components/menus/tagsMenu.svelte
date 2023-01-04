@@ -6,7 +6,7 @@
   function onDeleteButtonClick(tag: Tag) {
     const msg = `Are you sure you'd like to delete the "${tag.name}" tag?`;
     if (window.confirm(msg)) {
-      deleteTag(tag.id);
+      deleteTag(tag.name);
       saveTags();
     }
   }
@@ -41,10 +41,10 @@
   {#if $tagsStore.length > 0}
     {#each $tagsStore as tag}
       <div class="inline-input">
-        <label for="tag-visibility-input-{tag.id}">{tag.name}</label>
-        <button id="delete-tag-{tag.id}" on:click={() => onDeleteButtonClick(tag)}>Delete</button>
+        <label for="tag-visibility-input-{tag.name}">{tag.name}</label>
+        <button id="delete-tag-{tag.name}" on:click={() => onDeleteButtonClick(tag)}>Delete</button>
         <input
-          id="tag-visibility-input-{tag.id}"
+          id="tag-visibility-input-{tag.name}"
           type="checkbox"
           checked={tag.visible}
           on:click={() => onTagCheckboxClicked(tag)}
@@ -67,4 +67,10 @@
       <option value={tag.name} />
     {/each}
   </datalist>
+  <p>Currently visible tags</p>
+  <p>
+    {#each $tagsStore as tag, i}
+      {#if tag.visible}<span><strong>{tag.name}</strong> </span>{/if}
+    {/each}
+  </p>
 </MenuContents>

@@ -4,6 +4,7 @@
   import { get, type Writable } from 'svelte/store';
   import { saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
   import { arrayMove } from '@src/util/arrayMove';
+  import { tagsStore } from '@src/data/tag';
 
   export let i: number;
   export let visible: Writable<boolean>;
@@ -52,6 +53,19 @@
       array[i].content = target.value;
       s.set(array);
       saveData();
+    }
+  }
+
+  function onTagKeydown(e: KeyboardEvent, highlightI: number) {
+    const target: HTMLInputElement = e.target as HTMLInputElement;
+    const currValue = target ? target.value : '';
+    if (e.key == 'Enter' && currValue.length > 0) {
+      highlights.update((h) => {
+        if (h[highlightI].tagNames == undefined) h[highlightI].tagNames = [];
+        h[highlightI].tagNames.push(currValue);
+        return h;
+      });
+      target.value = '';
     }
   }
 </script>
@@ -105,13 +119,27 @@
       }
     }}>{highlight.content}</textarea
   >
+  <label for={`work_${i}_highlight_${k}_tags_input`}
+    >Add tags<span class="hint">(press Enter to submit tag)</span></label
+  >
+  <input
+    id={`work_${i}_highlight_${k}_tags_input`}
+    type="text"
+    list="existing-tags"
+    on:keydown={(e) => onTagKeydown(e, k)}
+  />
+  <p>
+    {#each highlight.tagNames as name, i}
+      <span class="highlight-tag"><strong>{name}</strong></span>
+    {/each}
+  </p>
 {/each}
 <button
   id={`work_${i}_newHighlight`}
   class="big-btn"
   on:click={() => {
     highlights.update((h) => {
-      h.push({ visible: true, content: '' });
+      h.push({ visible: true, content: '', tagNames: [] });
       return h;
     });
   }}
@@ -123,5 +151,9 @@
   label {
     display: flex;
     justify-content: space-between;
+  }
+
+  .highlight-tag:not(:last-child)::after {
+    content: ', ';
   }
 </style>
