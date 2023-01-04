@@ -9,17 +9,16 @@
   export let endDate: Writable<string>;
   export let highlights: Writable<Array<Highlight>>;
 
-  function isHighlightVisible(h: Highlight, tags: Tag[]): boolean {
-    let hasVisibleTag = false;
+  export function isHighlightVisible(h: Highlight, tags: Tag[]): boolean {
+    if (!h.visible) return false;
     for (let i = 0; i < h.tagNames.length; i++) {
       const currTag = h.tagNames[i];
       const savedTag = tags.find((t) => t.name == currTag);
       if (savedTag && savedTag.visible) {
-        hasVisibleTag = true;
-        break;
+        return true;
       }
     }
-    return hasVisibleTag && h.visible;
+    return false;
   }
 </script>
 
