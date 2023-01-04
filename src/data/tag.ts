@@ -50,7 +50,7 @@ export function saveTags(store = tagsStore) {
   localStorage.setItem('tags', JSON.stringify(tags));
 }
 
-export function loadTags(jsonString: string) {
+export function loadTags(jsonString: string, store = tagsStore) {
   const tags = JSON.parse(jsonString);
-  tagsStore.set(tags);
+  store.set(tags);
 }
