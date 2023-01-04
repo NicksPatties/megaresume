@@ -67,6 +67,13 @@
       target.value = '';
     }
   }
+
+  function onTagDelete(e: Event, highlightI: number, tagI: number) {
+    highlights.update((h) => {
+      h[highlightI].tagNames.splice(tagI, 1);
+      return h;
+    });
+  }
 </script>
 
 <Input id={`work_${i}_name`} label={'Name'} value={name} disabled={!$visible} />
@@ -128,8 +135,11 @@
     on:keydown={(e) => onTagKeydown(e, k)}
   />
   <p>
-    {#each highlight.tagNames as name, i}
-      <span class="highlight-tag"><strong>{name}</strong></span>
+    {#each highlight.tagNames as name, ti}
+      <span class="highlight-tag">
+        <strong>{name}</strong>
+        <button on:click={(e) => onTagDelete(e, k, ti)}>Delete</button>
+      </span>
     {/each}
   </p>
 {/each}
