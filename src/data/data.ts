@@ -1,5 +1,4 @@
 import { writable, get, type Writable } from 'svelte/store';
-import type { Tag } from './tag';
 
 type Basics = {
   name: string;

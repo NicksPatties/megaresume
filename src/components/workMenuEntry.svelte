@@ -4,7 +4,6 @@
   import { get, type Writable } from 'svelte/store';
   import { saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
   import { arrayMove } from '@src/util/arrayMove';
-  import { tagsStore } from '@src/data/tag';
 
   export let i: number;
   export let visible: Writable<boolean>;
