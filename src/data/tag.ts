@@ -31,7 +31,7 @@ export function deleteTag(name: string, store = tagsStore) {
     return;
   }
   tags.splice(iToDelete, 1);
-  tagsStore.set(tags);
+  store.set(tags);
 }
 
 export function updateTag(tag: Tag, store = tagsStore) {
@@ -42,7 +42,13 @@ export function updateTag(tag: Tag, store = tagsStore) {
     return;
   }
   tags[iToUpdate] = tag;
-  tagsStore.set(tags);
+  store.set(tags);
+}
+
+export function updateAllTags(visible: boolean, store = tagsStore) {
+  const tags = get(store);
+  tags.forEach((t) => (t.visible = visible));
+  store.set(tags);
 }
 
 export function saveTags(store = tagsStore) {
