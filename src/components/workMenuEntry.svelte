@@ -17,6 +17,13 @@
 
   const maxDate = getDateValue();
 
+  function reportValidity(e: Event) {
+    const target = e.target as HTMLInputElement;
+    if (target) {
+      target.reportValidity();
+    }
+  }
+
   function deleteHighlight(i: number) {
     if (window.confirm('Are you sure you would like to delete this highlight?')) {
       highlights.update((h) => {
@@ -90,6 +97,7 @@
   value={$startDate}
   max={$endDate ? $endDate : maxDate}
   on:input={(e) => onInput(e, startDate)}
+  on:blur={(e) => reportValidity(e)}
 />
 <label for={`work_${i}_endDate`}>End date</label>
 <input
@@ -100,6 +108,7 @@
   min={$startDate ? $startDate : maxDate}
   max={maxDate}
   on:input={(e) => onInput(e, endDate)}
+  on:blur={(e) => reportValidity(e)}
 />
 
 {#each $highlights as highlight, k}
