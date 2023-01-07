@@ -4,6 +4,7 @@
   import { get, type Writable } from 'svelte/store';
   import { saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
   import { arrayMove } from '@src/util/arrayMove';
+  import { onInput } from '@src/util/eventListeners';
 
   export let i: number;
   export let visible: Writable<boolean>;
@@ -78,19 +79,23 @@
 
 <Input id={`work_${i}_name`} label={'Name'} value={name} disabled={!$visible} />
 <Input id={`work_${i}_position`} label={'Position'} value={position} disabled={!$visible} />
-<Input
+<label for={`work_${i}_startDate`}>Start date</label>
+<input
   id={`work_${i}_startDate`}
-  label={'Start Date'}
-  type={'month'}
-  value={startDate}
+  type="month"
   disabled={!$visible}
+  value={$startDate}
+  max={$endDate}
+  on:input={(e) => onInput(e, startDate)}
 />
-<Input
+<label for={`work_${i}_endDate`}>End date</label>
+<input
   id={`work_${i}_endDate`}
-  label={'End Date'}
-  type={'month'}
-  value={endDate}
+  type="month"
   disabled={!$visible}
+  value={$endDate}
+  min={$startDate}
+  on:input={(e) => onInput(e, endDate)}
 />
 
 {#each $highlights as highlight, k}
