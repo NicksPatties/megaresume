@@ -23,6 +23,11 @@ export function addTag(tag: Tag, store = tagsStore) {
   store.set(tags);
 }
 
+export function getTag(name: string, store = tagsStore) {
+  const tags = get(store);
+  return tags.find((t) => t.name == name);
+}
+
 export function deleteTag(name: string, store = tagsStore) {
   const tags = get(store);
   const iToDelete = tags.findIndex((t) => t.name == name);
