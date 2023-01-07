@@ -1,5 +1,6 @@
 <script lang="ts">
   import MenuContents from '@src/components/menuContents.svelte';
+  import IconButton from '@src/components/iconButton.svelte';
   import {
     tagsStore,
     addTag,
@@ -57,16 +58,13 @@
   }
 
   onMount(() => {
-    const jsonString = localStorage.getItem('tags');
-    if (jsonString) {
-      loadTags(jsonString);
-    }
+    loadTags();
   });
 </script>
 
 <MenuContents id="menu-tags">
-  <h1>Hello this is tags</h1>
-  <p>Filter unecessary entries and experience by controlling which tags are visible</p>
+  <h1>Tags</h1>
+  <p>Tags will control which entries in the resume are visible.</p>
   <div class="inline-input">
     <label for="search-current-tags">Search tags</label>
     <input
@@ -83,7 +81,12 @@
     {#each $filteredTags as tag}
       <div class="inline-input">
         <label for="tag-visibility-input-{tag.name}">{tag.name}</label>
-        <button id="delete-tag-{tag.name}" on:click={() => onDeleteButtonClick(tag)}>Delete</button>
+        <IconButton
+          size="small"
+          id="delete-tag-{tag.name}"
+          iconClass="fa-regular fa-trash-can"
+          onclick={() => onDeleteButtonClick(tag)}
+        />
         <input
           id="tag-visibility-input-{tag.name}"
           type="checkbox"
@@ -103,4 +106,9 @@
     <label for="add-tag-input">Add new tag</label>
     <input id="add-tag-input" type="text" on:keydown={(e) => onAddTagKeydown(e)} />
   </div>
+  <datalist id="existing-tags">
+    {#each $tagsStore as tag}
+      <option value={tag.name} />
+    {/each}
+  </datalist>
 </MenuContents>

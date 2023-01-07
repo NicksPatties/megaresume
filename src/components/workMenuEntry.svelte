@@ -129,6 +129,7 @@
     >Add tags<span class="hint">(press Enter to submit tag)</span></label
   >
   <input
+    class="input-add-tags"
     id={`work_${i}_highlight_${k}_tags_input`}
     type="text"
     list="existing-tags"
@@ -138,7 +139,12 @@
     {#each highlight.tagNames as name, ti}
       <span class="highlight-tag">
         <strong>{name}</strong>
-        <button on:click={(e) => onTagDelete(e, k, ti)}>Delete</button>
+        <IconButton
+          size="small"
+          id="work-{i}-highlight-{k}-delete-tag-{name}"
+          iconClass="fa-regular fa-circle-xmark"
+          onclick={(e) => onTagDelete(e, k, ti)}
+        />
       </span>
     {/each}
   </p>
@@ -162,7 +168,14 @@
     justify-content: space-between;
   }
 
-  .highlight-tag:not(:last-child)::after {
-    content: ', ';
+  .input-add-tags {
+    margin-bottom: 5px;
+  }
+
+  .highlight-tag {
+    background: #ddd;
+    padding: 0 5px;
+    border-radius: 5px;
+    margin-right: 5px;
   }
 </style>

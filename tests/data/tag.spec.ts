@@ -79,9 +79,22 @@ describe('Tag', () => {
     it('should load the tags from a json string into the store', () => {
       const mockTags = [new Tag('js', true), new Tag('css', false)];
       const mockJsonString = JSON.stringify(mockTags);
+      vi.stubGlobal('localStorage', {
+        getItem: () => mockJsonString
+      });
       const mockStore: Writable<Tag[]> = writable([]);
-      loadTags(mockJsonString, mockStore);
+      loadTags(mockStore);
       expect(get(mockStore)).toEqual(mockTags);
+    });
+
+    it('should do nothing if there is no tag data in localStorage', () => {
+      vi.stubGlobal('localStorage', {
+        getItem: () => null
+      });
+      const mockStore: Writable<Tag[]> = writable([]);
+      loadTags(mockStore);
+      expect(get(mockStore)).toEqual([]);
+      expect(get(mockStore).length).toBe(0);
     });
   });
 });

@@ -32,4 +32,14 @@ describe('isHighlightVisible', () => {
     const tags = [new Tag('js', true), new Tag('css', false)];
     expect(isHighlightVisible(mockHighlight, tags)).toBe(true);
   });
+
+  it('should return true if the highlight is visible and has no tags', () => {
+    const mockHighlight = {
+      visible: true,
+      content: 'A highlight',
+      tagNames: []
+    };
+    const tags = [new Tag('js', true), new Tag('css', true)];
+    expect(isHighlightVisible(mockHighlight, tags)).toBe(true);
+  });
 });

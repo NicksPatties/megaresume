@@ -3,6 +3,7 @@ import type { Tag } from '@src/data/tag';
 
 export function isHighlightVisible(h: Highlight, tags: Tag[]): boolean {
   if (!h.visible) return false;
+  if (h.visible && h.tagNames.length == 0) return true;
   for (let i = 0; i < h.tagNames.length; i++) {
     const currTag = h.tagNames[i];
     const savedTag = tags.find((t) => t.name == currTag);

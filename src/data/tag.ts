@@ -56,7 +56,11 @@ export function saveTags(store = tagsStore) {
   localStorage.setItem('tags', JSON.stringify(tags));
 }
 
-export function loadTags(jsonString: string, store = tagsStore) {
-  const tags = JSON.parse(jsonString);
-  store.set(tags);
+export function loadTags(store = tagsStore) {
+  const jsonString = localStorage.getItem('tags');
+  if (jsonString) {
+    store.set(JSON.parse(jsonString));
+  } else {
+    console.error('Failed to load tags from localStorage');
+  }
 }
