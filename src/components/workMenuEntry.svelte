@@ -5,6 +5,7 @@
   import { saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
   import { arrayMove } from '@src/util/arrayMove';
   import { onInput } from '@src/util/eventListeners';
+  import { getDateValue } from '@src/util/getDateValue';
 
   export let i: number;
   export let visible: Writable<boolean>;
@@ -13,6 +14,8 @@
   export let startDate: Writable<string>;
   export let endDate: Writable<string>;
   export let highlights: Writable<Array<Highlight>>;
+
+  const maxDate = getDateValue();
 
   function deleteHighlight(i: number) {
     if (window.confirm('Are you sure you would like to delete this highlight?')) {
@@ -85,7 +88,7 @@
   type="month"
   disabled={!$visible}
   value={$startDate}
-  max={$endDate}
+  max={$endDate ? $endDate : maxDate}
   on:input={(e) => onInput(e, startDate)}
 />
 <label for={`work_${i}_endDate`}>End date</label>
@@ -94,7 +97,8 @@
   type="month"
   disabled={!$visible}
   value={$endDate}
-  min={$startDate}
+  min={$startDate ? $startDate : maxDate}
+  max={maxDate}
   on:input={(e) => onInput(e, endDate)}
 />
 
@@ -155,7 +159,7 @@
   <p>
     {#each highlight.tagNames as name, ti}
       <span class="highlight-tag">
-        <strong>{name}</strong>
+        {name}
         <IconButton
           size="small"
           id="work-{i}-highlight-{k}-delete-tag-{name}"
@@ -186,10 +190,12 @@
   }
 
   .input-add-tags {
-    margin-bottom: 5px;
+    margin-bottom: 0;
   }
 
   .highlight-tag {
+    margin-top: 5px;
+    display: inline-block;
     background: #ddd;
     padding: 0 5px;
     border-radius: 5px;
