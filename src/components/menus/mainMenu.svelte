@@ -18,4 +18,6 @@
   />
 
   <MenuNavButton id="menu-button-resume" textContent="Resume" onclick={() => push('menu-resume')} />
+
+  <MenuNavButton id="menu-button-tags" textContent="Tags" onclick={() => push('menu-tags')} />
 </MenuContents>

@@ -54,6 +54,26 @@
       saveData();
     }
   }
+
+  function onTagKeydown(e: KeyboardEvent, highlightI: number) {
+    const target: HTMLInputElement = e.target as HTMLInputElement;
+    const currValue = target ? target.value : '';
+    if (e.key == 'Enter' && currValue.length > 0) {
+      highlights.update((h) => {
+        if (h[highlightI].tagNames == undefined) h[highlightI].tagNames = [];
+        h[highlightI].tagNames.push(currValue);
+        return h;
+      });
+      target.value = '';
+    }
+  }
+
+  function onTagDelete(e: Event, highlightI: number, tagI: number) {
+    highlights.update((h) => {
+      h[highlightI].tagNames.splice(tagI, 1);
+      return h;
+    });
+  }
 </script>
 
 <Input id={`work_${i}_name`} label={'Name'} value={name} disabled={!$visible} />
@@ -105,13 +125,36 @@
       }
     }}>{highlight.content}</textarea
   >
+  <label for={`work_${i}_highlight_${k}_tags_input`}
+    >Add tags<span class="hint">(press Enter to submit tag)</span></label
+  >
+  <input
+    class="input-add-tags"
+    id={`work_${i}_highlight_${k}_tags_input`}
+    type="text"
+    list="existing-tags"
+    on:keydown={(e) => onTagKeydown(e, k)}
+  />
+  <p>
+    {#each highlight.tagNames as name, ti}
+      <span class="highlight-tag">
+        <strong>{name}</strong>
+        <IconButton
+          size="small"
+          id="work-{i}-highlight-{k}-delete-tag-{name}"
+          iconClass="fa-regular fa-circle-xmark"
+          onclick={(e) => onTagDelete(e, k, ti)}
+        />
+      </span>
+    {/each}
+  </p>
 {/each}
 <button
   id={`work_${i}_newHighlight`}
   class="big-btn"
   on:click={() => {
     highlights.update((h) => {
-      h.push({ visible: true, content: '' });
+      h.push({ visible: true, content: '', tagNames: [] });
       return h;
     });
   }}
@@ -123,5 +166,16 @@
   label {
     display: flex;
     justify-content: space-between;
+  }
+
+  .input-add-tags {
+    margin-bottom: 5px;
+  }
+
+  .highlight-tag {
+    background: #ddd;
+    padding: 0 5px;
+    border-radius: 5px;
+    margin-right: 5px;
   }
 </style>

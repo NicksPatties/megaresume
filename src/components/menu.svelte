@@ -7,6 +7,7 @@
   import WorkMenu from '@src/components/menus/workMenu.svelte';
   import BasicsMenu from '@src/components/menus/basicsMenu.svelte';
   import { pop, atMainMenu } from '@src/data/menuStack';
+  import TagsMenu from './menus/tagsMenu.svelte';
 
   let open = false;
 </script>
@@ -42,6 +43,7 @@
       <ResumeMenu />
       <WorkMenu />
       <BasicsMenu />
+      <TagsMenu />
     </div>
   </div>
 </div>

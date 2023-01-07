@@ -45,6 +45,10 @@ export type Highlight = {
    * the content of the highlight itself
    */
   content: string;
+  /**
+   * the tags that have been assigned to the highlight
+   */
+  tagNames: string[];
 };
 
 export type Work = {
