@@ -4,6 +4,8 @@
   import { get, type Writable } from 'svelte/store';
   import { saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
   import { arrayMove } from '@src/util/arrayMove';
+  import { onInput } from '@src/util/eventListeners';
+  import { getDateValue } from '@src/util/getDateValue';
 
   export let i: number;
   export let visible: Writable<boolean>;
@@ -12,6 +14,15 @@
   export let startDate: Writable<string>;
   export let endDate: Writable<string>;
   export let highlights: Writable<Array<Highlight>>;
+
+  const maxDate = getDateValue();
+
+  function reportValidity(e: Event) {
+    const target = e.target as HTMLInputElement;
+    if (target) {
+      target.reportValidity();
+    }
+  }
 
   function deleteHighlight(i: number) {
     if (window.confirm('Are you sure you would like to delete this highlight?')) {
@@ -78,8 +89,27 @@
 
 <Input id={`work_${i}_name`} label={'Name'} value={name} disabled={!$visible} />
 <Input id={`work_${i}_position`} label={'Position'} value={position} disabled={!$visible} />
-<Input id={`work_${i}_startDate`} label={'Start Date'} value={startDate} disabled={!$visible} />
-<Input id={`work_${i}_endDate`} label={'End Date'} value={endDate} disabled={!$visible} />
+<label for={`work_${i}_startDate`}>Start date</label>
+<input
+  id={`work_${i}_startDate`}
+  type="month"
+  disabled={!$visible}
+  value={$startDate}
+  max={$endDate ? $endDate : maxDate}
+  on:input={(e) => onInput(e, startDate)}
+  on:blur={(e) => reportValidity(e)}
+/>
+<label for={`work_${i}_endDate`}>End date</label>
+<input
+  id={`work_${i}_endDate`}
+  type="month"
+  disabled={!$visible}
+  value={$endDate}
+  min={$startDate ? $startDate : maxDate}
+  max={maxDate}
+  on:input={(e) => onInput(e, endDate)}
+  on:blur={(e) => reportValidity(e)}
+/>
 
 {#each $highlights as highlight, k}
   <label for="work_{i}_highlight_{k}">
@@ -138,7 +168,7 @@
   <p>
     {#each highlight.tagNames as name, ti}
       <span class="highlight-tag">
-        <strong>{name}</strong>
+        {name}
         <IconButton
           size="small"
           id="work-{i}-highlight-{k}-delete-tag-{name}"
@@ -169,10 +199,12 @@
   }
 
   .input-add-tags {
-    margin-bottom: 5px;
+    margin-bottom: 0;
   }
 
   .highlight-tag {
+    margin-top: 5px;
+    display: inline-block;
     background: #ddd;
     padding: 0 5px;
     border-radius: 5px;
