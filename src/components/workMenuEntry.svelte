@@ -78,8 +78,20 @@
 
 <Input id={`work_${i}_name`} label={'Name'} value={name} disabled={!$visible} />
 <Input id={`work_${i}_position`} label={'Position'} value={position} disabled={!$visible} />
-<Input id={`work_${i}_startDate`} label={'Start Date'} value={startDate} disabled={!$visible} />
-<Input id={`work_${i}_endDate`} label={'End Date'} value={endDate} disabled={!$visible} />
+<Input
+  id={`work_${i}_startDate`}
+  label={'Start Date'}
+  type={'month'}
+  value={startDate}
+  disabled={!$visible}
+/>
+<Input
+  id={`work_${i}_endDate`}
+  label={'End Date'}
+  type={'month'}
+  value={endDate}
+  disabled={!$visible}
+/>
 
 {#each $highlights as highlight, k}
   <label for="work_{i}_highlight_{k}">
