@@ -13,7 +13,7 @@
   } from '@src/data/tag';
   import { derived, writable } from 'svelte/store';
   import { onMount } from 'svelte';
-  import { removeTagFromWorkStores } from '@src/data/data';
+  import { removeTagFromWorkStores, saveResumeDataToLocalStorage } from '@src/data/data';
 
   let searchTerm = writable('');
   let filteredTags = derived([tagsStore, searchTerm], ([$tagsStore, $searchTerm]) =>
@@ -23,8 +23,9 @@
   function onDeleteButtonClick(tag: Tag) {
     const msg = `Are you sure you'd like to delete the "${tag.name}" tag?`;
     if (window.confirm(msg)) {
-      // remove tag from all highlights ... o_o
+      // remove tag from all highlights
       removeTagFromWorkStores(tag.name);
+      saveResumeDataToLocalStorage();
 
       // remove the tag
       deleteTag(tag.name);

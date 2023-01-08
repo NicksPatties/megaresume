@@ -90,6 +90,7 @@
       h[highlightI].tagNames.splice(tagI, 1);
       return h;
     });
+    saveResumeDataToLocalStorage();
   }
 </script>
 
