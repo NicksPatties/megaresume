@@ -97,6 +97,17 @@ export class WorkStore {
   }
 }
 
+export function removeTagFromWorkStores(tagName: string, stores = workStores) {
+  const workEntries = get(stores);
+  workEntries.forEach((workStore) => {
+    const highlights = get(workStore.highlights);
+    highlights.forEach((h) => {
+      h.tagNames = h.tagNames.filter((t) => t !== tagName);
+    });
+    workStore.highlights.set(highlights);
+  });
+}
+
 export type SaveData = {
   basics: Basics;
   work: Work[];

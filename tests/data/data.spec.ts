@@ -5,7 +5,8 @@ import {
   WorkStore,
   loadData,
   blankBasics,
-  createBlankWork
+  createBlankWork,
+  removeTagFromWorkStores
 } from '@src/data/data';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type Writable, writable, get } from 'svelte/store';
@@ -129,5 +130,45 @@ describe('loadData', () => {
     expect(console.error).toHaveBeenCalledWith(
       "The data doesn't match the expected save format! Perhaps something was corrupted?"
     );
+  });
+});
+
+describe('removeTagFromWorkStores', () => {
+  it('should remove the tag from all the highlights in all work stores', () => {
+    const mockHighlights = [
+      {
+        visible: true,
+        content: 'content',
+        tagNames: ['js', 'css']
+      },
+      {
+        visible: true,
+        content: 'content 2',
+        tagNames: ['js', 'html']
+      }
+    ];
+    const mockWorkStore = new WorkStore();
+    mockWorkStore.highlights.set(mockHighlights);
+    const expectedHighlights = [
+      {
+        visible: true,
+        content: 'content',
+        tagNames: ['css']
+      },
+      {
+        visible: true,
+        content: 'content 2',
+        tagNames: ['html']
+      }
+    ];
+
+    const mockWorkStores = writable([mockWorkStore, mockWorkStore]);
+    removeTagFromWorkStores('js', mockWorkStores);
+
+    const actualHighlights = get(get(mockWorkStores)[0].highlights);
+    expect(expectedHighlights).toStrictEqual(actualHighlights);
+
+    const actualHighlights2 = get(get(mockWorkStores)[1].highlights);
+    expect(expectedHighlights).toStrictEqual(actualHighlights2);
   });
 });
