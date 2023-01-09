@@ -21,6 +21,7 @@ export function addTag(tag: Tag, store = tagsStore) {
   }
   tags.push(tag);
   store.set(tags);
+  saveTags(store);
 }
 
 export function getTag(name: string, store = tagsStore) {
@@ -37,6 +38,7 @@ export function deleteTag(name: string, store = tagsStore) {
   }
   tags.splice(iToDelete, 1);
   store.set(tags);
+  saveTags(store);
 }
 
 export function updateTag(tag: Tag, store = tagsStore) {
@@ -48,12 +50,14 @@ export function updateTag(tag: Tag, store = tagsStore) {
   }
   tags[iToUpdate] = tag;
   store.set(tags);
+  saveTags(store);
 }
 
 export function updateAllTags(visible: boolean, store = tagsStore) {
   const tags = get(store);
   tags.forEach((t) => (t.visible = visible));
   store.set(tags);
+  saveTags(store);
 }
 
 export function saveTags(store = tagsStore) {

@@ -5,7 +5,6 @@
     tagsStore,
     addTag,
     deleteTag,
-    saveTags,
     loadTags,
     Tag,
     updateTag,
@@ -29,14 +28,12 @@
 
       // remove the tag
       deleteTag(tag.name);
-      saveTags();
     }
   }
 
   function onTagCheckboxClicked(tag: Tag) {
     tag.visible = !tag.visible;
     updateTag(tag);
-    saveTags();
   }
 
   function onAddTagKeydown(e: KeyboardEvent) {
@@ -44,7 +41,6 @@
     const currValue = target ? target.value : '';
     if (e.key == 'Enter' && currValue.length > 0) {
       addTag(new Tag(currValue));
-      saveTags();
       target.value = '';
     }
   }
