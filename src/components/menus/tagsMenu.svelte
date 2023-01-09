@@ -5,7 +5,6 @@
     tagsStore,
     addTag,
     deleteTag,
-    saveTags,
     loadTags,
     Tag,
     updateTag,
@@ -13,6 +12,7 @@
   } from '@src/data/tag';
   import { derived, writable } from 'svelte/store';
   import { onMount } from 'svelte';
+  import { removeTagFromWorkStores, saveResumeDataToLocalStorage } from '@src/data/data';
 
   let searchTerm = writable('');
   let filteredTags = derived([tagsStore, searchTerm], ([$tagsStore, $searchTerm]) =>
@@ -22,15 +22,18 @@
   function onDeleteButtonClick(tag: Tag) {
     const msg = `Are you sure you'd like to delete the "${tag.name}" tag?`;
     if (window.confirm(msg)) {
+      // remove tag from all highlights
+      removeTagFromWorkStores(tag.name);
+      saveResumeDataToLocalStorage();
+
+      // remove the tag
       deleteTag(tag.name);
-      saveTags();
     }
   }
 
   function onTagCheckboxClicked(tag: Tag) {
     tag.visible = !tag.visible;
     updateTag(tag);
-    saveTags();
   }
 
   function onAddTagKeydown(e: KeyboardEvent) {
@@ -38,7 +41,6 @@
     const currValue = target ? target.value : '';
     if (e.key == 'Enter' && currValue.length > 0) {
       addTag(new Tag(currValue));
-      saveTags();
       target.value = '';
     }
   }

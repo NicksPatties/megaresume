@@ -6,6 +6,7 @@
   import { arrayMove } from '@src/util/arrayMove';
   import { onInput } from '@src/util/eventListeners';
   import { getDateValue } from '@src/util/getDateValue';
+  import { Tag, addTag, getTag } from '@src/data/tag';
 
   export let i: number;
   export let visible: Writable<boolean>;
@@ -70,6 +71,11 @@
     const target: HTMLInputElement = e.target as HTMLInputElement;
     const currValue = target ? target.value : '';
     if (e.key == 'Enter' && currValue.length > 0) {
+      // if the tag is not in the tags, add the tag into the store
+      if (getTag(currValue) == undefined) {
+        addTag(new Tag(currValue));
+      }
+      // add tag to a highlight
       highlights.update((h) => {
         if (h[highlightI].tagNames == undefined) h[highlightI].tagNames = [];
         h[highlightI].tagNames.push(currValue);
@@ -84,6 +90,7 @@
       h[highlightI].tagNames.splice(tagI, 1);
       return h;
     });
+    saveResumeDataToLocalStorage();
   }
 </script>
 
