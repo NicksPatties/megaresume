@@ -13,14 +13,14 @@
   --input-width: calc(100% - 2 * var(--menu-side-margin));
 }
 
-h1,
-h2,
-h3,
-h4 {
+.menu h1,
+.menu h2,
+.menu h3,
+.menu h4 {
   margin: 0 var(--menu-side-margin) 0.45em var(--menu-side-margin);
 }
 
-p {
+.menu p {
   margin: 0 var(--menu-side-margin) 0.9em var(--menu-side-margin);
 }
 
