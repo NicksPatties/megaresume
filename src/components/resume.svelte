@@ -1,6 +1,6 @@
 <script lang="ts">
-  import WorkResume from '@src/components/workResume.svelte';
   import IconButton from '@src/components/iconButton.svelte';
+  import WorkResumeEntry from '@src/components/resume/workResumeEntry.svelte';
   import { basicsStore, workStores } from '@src/data/data';
   import { get } from 'svelte/store';
   import { onMount } from 'svelte';
@@ -38,26 +38,36 @@
 <div class="resume-container">
   <div class="resume">
     <div class="basics">
-      <p class="name">{$name}</p>
-      <p class="subname">{$label}</p>
-      <p class="subname">{$phone}</p>
-      <p class="subname">{$email}</p>
+      <p class="name" class:placeholder={$name.length == 0}>{$name ? $name : 'Your name'}</p>
+      <p class="subname" class:placeholder={$label.length == 0}>
+        {$label ? $label : 'Your profession'}
+      </p>
+      <p class="subname" class:placeholder={$phone.length == 0}>
+        {$phone ? $phone : '(555) 555-5555'}
+      </p>
+      <p class="subname" class:placeholder={$email.length == 0}>
+        {$email ? $email : 'youremail@email.com'}
+      </p>
     </div>
     <div class="experience">
-      <h3>Work Experience</h3>
-      <ul>
-        {#each $work as w}
-          {#if get(w.visible) == true}
-            <WorkResume
-              name={w.name}
-              position={w.position}
-              startDate={w.startDate}
-              endDate={w.endDate}
-              highlights={w.highlights}
-            />
-          {/if}
-        {/each}
-      </ul>
+      {#if $work.length > 0}
+        <h3>Work Experience</h3>
+        <ul>
+          {#each $work as w}
+            {#if get(w.visible) == true}
+              <WorkResumeEntry
+                name={w.name}
+                position={w.position}
+                startDate={w.startDate}
+                endDate={w.endDate}
+                highlights={w.highlights}
+              />
+            {/if}
+          {/each}
+        </ul>
+      {:else}
+        <h3 class="placeholder">Your work experience will go here.</h3>
+      {/if}
     </div>
   </div>
   <div class="resume overflow-warning">
@@ -72,7 +82,7 @@
       <ul>
         {#each $work as w}
           {#if get(w.visible) == true}
-            <WorkResume
+            <WorkResumeEntry
               name={w.name}
               position={w.position}
               startDate={w.startDate}
@@ -166,5 +176,9 @@
     flex-direction: column;
     bottom: 20px;
     right: 20px;
+  }
+
+  .placeholder {
+    color: gray;
   }
 </style>

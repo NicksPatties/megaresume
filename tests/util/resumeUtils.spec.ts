@@ -1,4 +1,4 @@
-import { isHighlightVisible } from '@src/util/resumeUtils';
+import { dateInputToDecoratedString, isHighlightVisible } from '@src/util/resumeUtils';
 import { Tag } from '@src/data/tag';
 import { describe, it, expect } from 'vitest';
 
@@ -41,5 +41,15 @@ describe('isHighlightVisible', () => {
     };
     const tags = [new Tag('js', true), new Tag('css', true)];
     expect(isHighlightVisible(mockHighlight, tags)).toBe(true);
+  });
+});
+
+describe('dateInputToDecoratedString', () => {
+  it('returns the placeholder if the date input is not an actual date', () => {
+    expect(dateInputToDecoratedString('fart', 'placeholder')).toBe('placeholder');
+  });
+
+  it('returns a decorated date string if the date input is correct', () => {
+    expect(dateInputToDecoratedString('2000-01', 'placeholder')).toBe('January 2000');
   });
 });

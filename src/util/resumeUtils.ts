@@ -13,3 +13,17 @@ export function isHighlightVisible(h: Highlight, tags: Tag[]): boolean {
   }
   return false;
 }
+
+export function dateInputToDecoratedString(date: string, placeholder: string): string {
+  const sdmillis = Date.parse(date);
+  if (isNaN(sdmillis)) {
+    return placeholder;
+  }
+  const opts: Intl.DateTimeFormatOptions = {
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC'
+  };
+  const d = new Date(date);
+  return Intl.DateTimeFormat('en-US', opts).format(d);
+}
