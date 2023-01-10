@@ -39,11 +39,15 @@
   >
 </li>
 <ul>
-  {#each $highlights as highlight}
-    {#if isHighlightVisible(highlight, $tagsStore)}
-      <li>{highlight.content}</li>
-    {/if}
-  {/each}
+  {#if $highlights.length > 0}
+    {#each $highlights as highlight}
+      {#if isHighlightVisible(highlight, $tagsStore)}
+        <li>{highlight.content}</li>
+      {/if}
+    {/each}
+  {:else}
+    <li class="placeholder">Highlights</li>
+  {/if}
 </ul>
 
 <style>
