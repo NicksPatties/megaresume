@@ -2,7 +2,7 @@
   import type { Highlight } from '@src/data/data';
   import { derived, type Writable } from 'svelte/store';
   import { tagsStore } from '@src/data/tag';
-  import { isHighlightVisible } from '@src/util/resumeUtils';
+  import { isHighlightVisible, dateInputToDecoratedString } from '@src/util/resumeUtils';
 
   export let name: Writable<string>;
   export let position: Writable<string>;
@@ -14,20 +14,6 @@
   let n = derived(name, ($name) => ($name ? $name : 'Name of employer'));
   let sd = derived(startDate, ($startDate) => dateInputToDecoratedString($startDate, 'Start date'));
   let ed = derived(endDate, ($endDate) => dateInputToDecoratedString($endDate, 'End date'));
-
-  function dateInputToDecoratedString(date: string, placeholder: string): string {
-    const sdmillis = Date.parse(date);
-    if (isNaN(sdmillis)) {
-      return placeholder;
-    }
-    let opts: Intl.DateTimeFormatOptions = {
-      month: 'long',
-      year: 'numeric',
-      timeZone: 'UTC'
-    };
-    let d = new Date(date);
-    return Intl.DateTimeFormat('en-US', opts).format(d);
-  }
 </script>
 
 <li>
