@@ -88,11 +88,16 @@
   }
 
   function hideHighlight(k: number) {
-    workStore.highlights.update((highlights) => {
-      const currVisibility = highlights[k].visible;
-      highlights[k].visible = !currVisibility;
-      saveResumeDataToLocalStorage();
-      return highlights;
+    workStores.update((ws) => {
+      const currWorkStore = ws[i];
+      currWorkStore.highlights.update((highlights) => {
+        const currVisibility = highlights[k].visible;
+        highlights[k].visible = !currVisibility;
+        saveResumeDataToLocalStorage();
+        return highlights;
+      });
+      ws[i] = currWorkStore;
+      return ws;
     });
   }
 
@@ -116,7 +121,7 @@
    * @param k the index of the highlight that is being edited
    * @param saveData
    */
-  function onNewHighlightInput(e: Event, k: number) {
+  function onHighlightInput(e: Event, k: number) {
     const target = e.target as HTMLInputElement;
     if (target) {
       workStores.update((ws) => {
@@ -262,7 +267,7 @@
     placeholder={'A cool highlight'}
     disabled={!$visible || !highlight.visible}
     on:input={(e) => {
-      onNewHighlightInput(e, k);
+      onHighlightInput(e, k);
     }}>{highlight.content}</textarea
   >
   <label for={`work_${i}_highlight_${k}_tags_input`}
