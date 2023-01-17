@@ -1,7 +1,7 @@
 <script lang="ts">
   import IconButton from '@src/components/iconButton.svelte';
   import Input from '@src/components/input.svelte';
-  import { get, type Writable } from 'svelte/store';
+  import { derived, get, type Writable } from 'svelte/store';
   import {
     saveResumeDataToLocalStorage,
     WorkStore,
@@ -13,40 +13,46 @@
   import { getDateValue } from '@src/util/getDateValue';
   import { Tag, addTag, getTag } from '@src/data/tag';
 
+  /**
+   * The index of the workStore. Required for operations on a specific workStore.
+   */
   export let i: number;
   export let workStore: WorkStore;
-  export let visible: Writable<boolean>;
-  export let name: Writable<string>;
-  export let position: Writable<string>;
-  export let startDate: Writable<string>;
-  export let endDate: Writable<string>;
-  export let highlights: Writable<Array<Highlight>>;
-  let realHighlights = workStore.highlights;
+  let visible = derived(workStore.visible, ($v) => $v);
+  let name = derived(workStore.name, ($n) => $n);
+  let startDate = derived(workStore.startDate, ($sd) => $sd);
+  let endDate = derived(workStore.endDate, ($ed) => $ed);
+  let highlights = derived(workStore.highlights, ($h) => $h);
 
   const maxDate = getDateValue();
 
-  function deleteWork(i: number, name: string) {
+  /**
+   * Delete the current work entry from the workEntries store
+   * @param k
+   * @param name
+   */
+  function deleteWork(k: number, name: string) {
     if (window.confirm(`Are you sure you would like to delete this work experience? ${name}`)) {
       workStores.update((w) => {
-        w.splice(i, 1);
+        w.splice(k, 1);
         saveResumeDataToLocalStorage();
         return w;
       });
     }
   }
 
-  function hideWork(i: number) {
+  function hideWork(k: number) {
     workStores.update((w) => {
-      const currVisibility = get(w[i].visible);
-      w[i].visible.set(!currVisibility);
+      const currVisibility = get(w[k].visible);
+      w[k].visible.set(!currVisibility);
       saveResumeDataToLocalStorage();
       return w;
     });
   }
 
-  function moveWork(i: number, up: boolean) {
+  function moveWork(k: number, up: boolean) {
     workStores.update((w) => {
-      w = up ? arrayMove(w, i, i - 1) : arrayMove(w, i, i + 1);
+      w = up ? arrayMove(w, k, k - 1) : arrayMove(w, k, k + 1);
       saveResumeDataToLocalStorage();
       return w;
     });
@@ -59,20 +65,32 @@
     }
   }
 
-  function deleteHighlight(i: number) {
-    if (window.confirm('Are you sure you would like to delete this highlight?')) {
-      highlights.update((h) => {
-        h.splice(i, 1);
-        saveResumeDataToLocalStorage();
+  function addHighlight() {
+    workStores.update((ws) => {
+      const currWorkStore = ws[i];
+      currWorkStore.highlights.update((h) => {
+        h.push({ visible: true, content: '', tagNames: [] });
         return h;
       });
+      ws[i] = currWorkStore;
+      return ws;
+    });
+  }
+
+  function deleteHighlight(k: number) {
+    if (window.confirm('Are you sure you would like to delete this highlight?')) {
+      // highlights.update((h) => {
+      //   h.splice(k, 1);
+      //   saveResumeDataToLocalStorage();
+      //   return h;
+      // });
     }
   }
 
-  function hideHighlight(i: number) {
+  function hideHighlight(k: number) {
     workStore.highlights.update((highlights) => {
-      const currVisibility = highlights[i].visible;
-      highlights[i].visible = !currVisibility;
+      const currVisibility = highlights[k].visible;
+      highlights[k].visible = !currVisibility;
       saveResumeDataToLocalStorage();
       return highlights;
     });
@@ -115,20 +133,20 @@
         addTag(new Tag(currValue));
       }
       // add tag to a highlight
-      highlights.update((h) => {
-        if (h[highlightI].tagNames == undefined) h[highlightI].tagNames = [];
-        h[highlightI].tagNames.push(currValue);
-        return h;
-      });
+      // highlights.update((h) => {
+      //   if (h[highlightI].tagNames == undefined) h[highlightI].tagNames = [];
+      //   h[highlightI].tagNames.push(currValue);
+      //   return h;
+      // });
       target.value = '';
     }
   }
 
   function onTagDelete(e: Event, highlightI: number, tagI: number) {
-    highlights.update((h) => {
-      h[highlightI].tagNames.splice(tagI, 1);
-      return h;
-    });
+    // highlights.update((h) => {
+    //   h[highlightI].tagNames.splice(tagI, 1);
+    //   return h;
+    // });
     saveResumeDataToLocalStorage();
   }
 </script>
@@ -167,8 +185,13 @@
   </div>
 </h3>
 
-<Input id={`work_${i}_name`} label={'Name'} value={name} disabled={!$visible} />
-<Input id={`work_${i}_position`} label={'Position'} value={position} disabled={!$visible} />
+<Input id={`work_${i}_name`} label={'Name'} value={workStore.name} disabled={!$visible} />
+<Input
+  id={`work_${i}_position`}
+  label={'Position'}
+  value={workStore.position}
+  disabled={!$visible}
+/>
 <label for={`work_${i}_startDate`}>Start date</label>
 <input
   id={`work_${i}_startDate`}
@@ -176,7 +199,7 @@
   disabled={!$visible}
   value={$startDate}
   max={$endDate ? $endDate : maxDate}
-  on:input={(e) => onInput(e, startDate)}
+  on:input={(e) => onInput(e, workStore.startDate)}
   on:blur={(e) => reportValidity(e)}
 />
 <label for={`work_${i}_endDate`}>End date</label>
@@ -187,11 +210,11 @@
   value={$endDate}
   min={$startDate ? $startDate : maxDate}
   max={maxDate}
-  on:input={(e) => onInput(e, endDate)}
+  on:input={(e) => onInput(e, workStore.endDate)}
   on:blur={(e) => reportValidity(e)}
 />
 
-{#each $realHighlights as highlight, k}
+{#each $highlights as highlight, k}
   <label for="work_{i}_highlight_{k}">
     New Highlight {k + 1}
     <div class="label-controls">
@@ -259,16 +282,7 @@
     {/each}
   </p>
 {/each}
-<button
-  id={`work_${i}_newHighlight`}
-  class="big-btn"
-  on:click={() => {
-    highlights.update((h) => {
-      h.push({ visible: true, content: '', tagNames: [] });
-      return h;
-    });
-  }}
->
+<button id={`work_${i}_newHighlight`} class="big-btn" on:click={() => addHighlight()}>
   Add new highlight
 </button>
 

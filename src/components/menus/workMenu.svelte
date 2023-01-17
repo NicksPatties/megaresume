@@ -7,16 +7,7 @@
 <MenuContents id="menu-resume-work">
   <h2>Work Experience</h2>
   {#each $workStores as w, i}
-    <WorkMenuEntry
-      {i}
-      workStore={w}
-      visible={w.visible}
-      name={w.name}
-      position={w.position}
-      startDate={w.startDate}
-      endDate={w.endDate}
-      highlights={w.highlights}
-    />
+    <WorkMenuEntry {i} workStore={w} />
   {/each}
   <button
     id="newWork"

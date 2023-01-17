@@ -19,18 +19,6 @@
   const barStore: Writable<Bar[]> = writable([{ content: 'three' }, { content: 'four' }]);
 
   /**
-   * changing the string store inside the foo word without updating the fooStore doesn't
-   * update the fooStore properly. This looks like what is going on with my actual app.
-   */
-  function modifyFooWord(e: Event, strStore: Writable<string>): void {
-    const target = e.target as HTMLInputElement;
-    if (target) {
-      const value = target.value;
-      strStore.set(value);
-    }
-  }
-
-  /**
    * It's still possible to live update the content of the stores, but I need to make sure
    * I update the entire store if I want to do any updates. This makes having stores inside
    * the objects pretty pointless, since I'll be updating their contents while updating the
