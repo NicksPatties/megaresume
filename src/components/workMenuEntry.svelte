@@ -143,7 +143,7 @@
     }
   }
 
-  function onTagKeydown(e: KeyboardEvent, highlightI: number) {
+  function onTagKeydown(e: KeyboardEvent, k: number) {
     const target: HTMLInputElement = e.target as HTMLInputElement;
     const currValue = target ? target.value : '';
     if (e.key == 'Enter' && currValue.length > 0) {
@@ -151,12 +151,18 @@
       if (getTag(currValue) == undefined) {
         addTag(new Tag(currValue));
       }
-      // add tag to a highlight
-      // highlights.update((h) => {
-      //   if (h[highlightI].tagNames == undefined) h[highlightI].tagNames = [];
-      //   h[highlightI].tagNames.push(currValue);
-      //   return h;
-      // });
+
+      workStores.update((ws) => {
+        const currWorkStore = ws[i];
+        currWorkStore.highlights.update((h) => {
+          if (h[k].tagNames == undefined) h[k].tagNames = [];
+          h[k].tagNames.push(currValue);
+          return h;
+        });
+        ws[i] = currWorkStore;
+        return ws;
+      });
+
       target.value = '';
     }
   }
