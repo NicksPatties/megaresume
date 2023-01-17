@@ -109,18 +109,27 @@
     });
   }
 
-  function onNewHighlightInput(
-    e: Event,
-    s: Writable<Highlight[]>,
-    i: number,
-    saveData: () => void
-  ) {
+  /**
+   *
+   * @param e
+   * @param s
+   * @param k the index of the highlight that is being edited
+   * @param saveData
+   */
+  function onNewHighlightInput(e: Event, k: number) {
     const target = e.target as HTMLInputElement;
     if (target) {
-      const array = get(s);
-      array[i].content = target.value;
-      s.set(array);
-      saveData();
+      workStores.update((ws) => {
+        const currWorkStore = ws[i];
+        currWorkStore.highlights.update((h) => {
+          const currHighlight = h[k];
+          currHighlight.content = target.value;
+          h[k] = currHighlight;
+          saveResumeDataToLocalStorage();
+          return h;
+        });
+        return ws;
+      });
     }
   }
 
@@ -253,9 +262,7 @@
     placeholder={'A cool highlight'}
     disabled={!$visible || !highlight.visible}
     on:input={(e) => {
-      if (e != null) {
-        onNewHighlightInput(e, highlights, k, saveResumeDataToLocalStorage);
-      }
+      onNewHighlightInput(e, k);
     }}>{highlight.content}</textarea
   >
   <label for={`work_${i}_highlight_${k}_tags_input`}
