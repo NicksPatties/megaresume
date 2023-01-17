@@ -2,7 +2,7 @@
   import IconButton from '@src/components/iconButton.svelte';
   import Input from '@src/components/input.svelte';
   import { get, type Writable } from 'svelte/store';
-  import { saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
+  import { saveResumeDataToLocalStorage, workStores, type Highlight } from '@src/data/data';
   import { arrayMove } from '@src/util/arrayMove';
   import { onInput } from '@src/util/eventListeners';
   import { getDateValue } from '@src/util/getDateValue';
@@ -17,6 +17,33 @@
   export let highlights: Writable<Array<Highlight>>;
 
   const maxDate = getDateValue();
+
+  function deleteWork(i: number, name: string) {
+    if (window.confirm(`Are you sure you would like to delete this work experience? ${name}`)) {
+      workStores.update((w) => {
+        w.splice(i, 1);
+        saveResumeDataToLocalStorage();
+        return w;
+      });
+    }
+  }
+
+  function hideWork(i: number) {
+    workStores.update((w) => {
+      const currVisibility = get(w[i].visible);
+      w[i].visible.set(!currVisibility);
+      saveResumeDataToLocalStorage();
+      return w;
+    });
+  }
+
+  function moveWork(i: number, up: boolean) {
+    workStores.update((w) => {
+      w = up ? arrayMove(w, i, i - 1) : arrayMove(w, i, i + 1);
+      saveResumeDataToLocalStorage();
+      return w;
+    });
+  }
 
   function reportValidity(e: Event) {
     const target = e.target as HTMLInputElement;
@@ -93,6 +120,40 @@
     saveResumeDataToLocalStorage();
   }
 </script>
+
+<h3 class="submenu-header">
+  {#if $name}{$name}{:else}Work {i + 1}{/if}
+  <div class="label-controls">
+    {#if i > 0}
+      <IconButton
+        size="small"
+        id="work_{i}_up"
+        iconClass="fa-solid fa-arrow-up"
+        onclick={() => moveWork(i, true)}
+      />
+    {/if}
+    {#if i < $workStores.length - 1}
+      <IconButton
+        size="small"
+        id="work_{i}_down"
+        iconClass="fa-solid fa-arrow-down"
+        onclick={() => moveWork(i, false)}
+      />
+    {/if}
+    <IconButton
+      size="small"
+      id="work_{i}_hide"
+      iconClass={$visible ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'}
+      onclick={() => hideWork(i)}
+    />
+    <IconButton
+      size="small"
+      id="work_{i}_delete"
+      iconClass="fa-regular fa-trash-can"
+      onclick={() => deleteWork(i, $name)}
+    />
+  </div>
+</h3>
 
 <Input id={`work_${i}_name`} label={'Name'} value={name} disabled={!$visible} />
 <Input id={`work_${i}_position`} label={'Position'} value={position} disabled={!$visible} />
