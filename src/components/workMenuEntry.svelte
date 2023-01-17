@@ -2,19 +2,26 @@
   import IconButton from '@src/components/iconButton.svelte';
   import Input from '@src/components/input.svelte';
   import { get, type Writable } from 'svelte/store';
-  import { saveResumeDataToLocalStorage, workStores, type Highlight } from '@src/data/data';
+  import {
+    saveResumeDataToLocalStorage,
+    WorkStore,
+    workStores,
+    type Highlight
+  } from '@src/data/data';
   import { arrayMove } from '@src/util/arrayMove';
   import { onInput } from '@src/util/eventListeners';
   import { getDateValue } from '@src/util/getDateValue';
   import { Tag, addTag, getTag } from '@src/data/tag';
 
   export let i: number;
+  export let workStore: WorkStore;
   export let visible: Writable<boolean>;
   export let name: Writable<string>;
   export let position: Writable<string>;
   export let startDate: Writable<string>;
   export let endDate: Writable<string>;
   export let highlights: Writable<Array<Highlight>>;
+  let realHighlights = workStore.highlights;
 
   const maxDate = getDateValue();
 
@@ -63,7 +70,7 @@
   }
 
   function hideHighlight(i: number) {
-    highlights.update((highlights) => {
+    workStore.highlights.update((highlights) => {
       const currVisibility = highlights[i].visible;
       highlights[i].visible = !currVisibility;
       saveResumeDataToLocalStorage();
@@ -71,11 +78,16 @@
     });
   }
 
-  function moveHighlight(i: number, up: boolean) {
-    highlights.update((h) => {
-      h = up ? arrayMove(h, i, i - 1) : arrayMove(h, i, i + 1);
-      saveResumeDataToLocalStorage();
-      return h;
+  function moveHighlight(k: number, up: boolean) {
+    workStores.update((ws) => {
+      const currStore = ws[i];
+      currStore.highlights.update((h) => {
+        h = up ? arrayMove(h, k, k - 1) : arrayMove(h, k, k + 1);
+        saveResumeDataToLocalStorage();
+        return h;
+      });
+      ws[i] = currStore;
+      return ws;
     });
   }
 
@@ -179,7 +191,7 @@
   on:blur={(e) => reportValidity(e)}
 />
 
-{#each $highlights as highlight, k}
+{#each $realHighlights as highlight, k}
   <label for="work_{i}_highlight_{k}">
     New Highlight {k + 1}
     <div class="label-controls">

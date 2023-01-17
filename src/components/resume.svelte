@@ -6,7 +6,6 @@
   import { onMount } from 'svelte';
 
   let basics = basicsStore;
-  let work = workStores;
 
   const name = basics.name;
   const label = basics.label;
@@ -22,9 +21,12 @@
     const scale = fittedResumeHeight / resumeHeight;
     const resumeNode: HTMLElement | null = document.querySelector('.resume');
     const resumeOverflowNode: HTMLElement | null = document.querySelector('.overflow-warning');
-    if (resumeNode != null && resumeOverflowNode != null) {
-      const newScale = `scale(${scale * scaleControl})`;
+    const newScale = `scale(${scale * scaleControl})`;
+    if (resumeNode != null) {
       resumeNode.style.transform = newScale;
+    }
+
+    if (resumeOverflowNode != null) {
       resumeOverflowNode.style.transform = newScale;
     }
   }
@@ -50,48 +52,20 @@
       </p>
     </div>
     <div class="experience">
-      {#if $work.length > 0}
+      {#if $workStores.length > 0}
         <h3>Work Experience</h3>
         <ul>
-          {#each $work as w}
-            {#if get(w.visible) == true}
-              <WorkResumeEntry
-                name={w.name}
-                position={w.position}
-                startDate={w.startDate}
-                endDate={w.endDate}
-                highlights={w.highlights}
-              />
-            {/if}
-          {/each}
+          {#if $workStores != null}
+            {#each $workStores as w}
+              {#if get(w.visible) == true}
+                <WorkResumeEntry workStore={w} />
+              {/if}
+            {/each}
+          {/if}
         </ul>
       {:else}
         <h3 class="placeholder">Your work experience will go here.</h3>
       {/if}
-    </div>
-  </div>
-  <div class="resume overflow-warning">
-    <div class="basics">
-      <p class="name">{$name}</p>
-      <p class="subname">{$label}</p>
-      <p class="subname">{$phone}</p>
-      <p class="subname">{$email}</p>
-    </div>
-    <div class="experience">
-      <h3>Work Experience</h3>
-      <ul>
-        {#each $work as w}
-          {#if get(w.visible) == true}
-            <WorkResumeEntry
-              name={w.name}
-              position={w.position}
-              startDate={w.startDate}
-              endDate={w.endDate}
-              highlights={w.highlights}
-            />
-          {/if}
-        {/each}
-      </ul>
     </div>
   </div>
 </div>
@@ -145,12 +119,6 @@
   }
 
   /* Theme classes and such */
-
-  .resume.overflow-warning {
-    z-index: 0;
-    color: red;
-  }
-
   .basics {
     display: flex;
     flex-direction: column;

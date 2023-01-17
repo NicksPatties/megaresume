@@ -9,6 +9,7 @@
   {#each $workStores as w, i}
     <WorkMenuEntry
       {i}
+      workStore={w}
       visible={w.visible}
       name={w.name}
       position={w.position}
