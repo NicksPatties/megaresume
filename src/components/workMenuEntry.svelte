@@ -79,11 +79,16 @@
 
   function deleteHighlight(k: number) {
     if (window.confirm('Are you sure you would like to delete this highlight?')) {
-      // highlights.update((h) => {
-      //   h.splice(k, 1);
-      //   saveResumeDataToLocalStorage();
-      //   return h;
-      // });
+      workStores.update((ws) => {
+        const currWorkStore = ws[i];
+        currWorkStore.highlights.update((h) => {
+          h.splice(k, 1);
+          saveResumeDataToLocalStorage();
+          return h;
+        });
+        ws[i] = currWorkStore;
+        return ws;
+      });
     }
   }
 
