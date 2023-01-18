@@ -113,5 +113,22 @@ test.describe('Work experience menu input', () => {
       await expect(page.locator('#work_0_highlight_0')).not.toBeVisible();
       await expect(page.locator('#resume_work_0_highlight_0')).not.toBeVisible();
     });
+
+    test('Adding and removing a tag to a highlight should show and hide the tag below the highlight respectively', async ({
+      page
+    }) => {
+      await addWorkExperience(page);
+      await page.locator('#work_0_newHighlight').click();
+      const tagName = 'tagName';
+      const tagsInput = page.locator('#work_0_highlight_0_tags_input');
+      await tagsInput.type(tagName);
+      await tagsInput.press('Enter');
+      const tagId = `#work_0_highlight_0_tag_${tagName}`;
+      // test if the tag showed up
+      await expectToBeVisibleAndHaveText(page, tagId, tagName);
+      // remove the tag and test if it's gone
+      await page.locator(`#work_0_highlight_0_delete_tag_${tagName}`).click();
+      await expect(page.locator(tagId)).not.toBeVisible();
+    });
   });
 });

@@ -281,23 +281,23 @@
       onHighlightInput(e, k);
     }}>{highlight.content}</textarea
   >
-  <label for={`work_${i}_highlight_${k}_tags_input`}
+  <label for={`work_${i}_highlight_${k}_tagsInput`}
     >Add tags<span class="hint">(press Enter to submit tag)</span></label
   >
   <input
     class="input-add-tags"
-    id={`work_${i}_highlight_${k}_tags_input`}
+    id={`work_${i}_highlight_${k}_tagsInput`}
     type="text"
     list="existing-tags"
     on:keydown={(e) => onTagKeydown(e, k)}
   />
   <p>
     {#each highlight.tagNames as name, ti}
-      <span class="highlight-tag">
+      <span id="work_{i}_highlight_{k}_tag_{name}" class="highlight-tag">
         {name}
         <IconButton
           size="small"
-          id="work-{i}-highlight-{k}-delete-tag-{name}"
+          id="work_{i}_highlight_{k}_delete_tag_{name}"
           iconClass="fa-regular fa-circle-xmark"
           onclick={() => onTagDelete(k, ti)}
         />
