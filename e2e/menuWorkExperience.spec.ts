@@ -10,6 +10,11 @@ async function goToWorkMenu(page: Page) {
   await page.locator('#menu-resume-work-button').click();
 }
 
+async function addWorkExperience(page: Page) {
+  await goToWorkMenu(page);
+  await page.click('#newWork');
+}
+
 test.describe('Work experience menu input', () => {
   test('#14 Work highlights do not duplicate when creating new work object', async ({ page }) => {
     await goToWorkMenu(page);
@@ -39,6 +44,24 @@ test.describe('Work experience menu input', () => {
       expect(
         await page.evaluate('document.getElementById("work_0_startDate").checkValidity()')
       ).toBe(false);
+    });
+  });
+
+  test.describe('Work menu operations and resume display syncing', () => {
+    test('Adding work experience shows a blank work experience entry with placeholder info in the resume', async ({
+      page
+    }) => {
+      await addWorkExperience(page);
+      async function expectToBeVisibleAndHaveText(id: string, text: string) {
+        const l = page.locator(id);
+        await expect(l).toBeVisible();
+        await expect(l).toHaveText(text);
+      }
+      await expectToBeVisibleAndHaveText('#resume_work_0_position', 'Position');
+      await expectToBeVisibleAndHaveText('#resume_work_0_name', 'Name');
+      await expectToBeVisibleAndHaveText('#resume_work_0_startDate', 'Start date');
+      await expectToBeVisibleAndHaveText('#resume_work_0_endDate', 'End date');
+      await expectToBeVisibleAndHaveText('#resume_work_0_highlight_placeholder', 'Highlights');
     });
   });
 });
