@@ -15,6 +15,12 @@ async function addWorkExperience(page: Page) {
   await page.click('#newWork');
 }
 
+async function expectToBeVisibleAndHaveText(page: Page, id: string, text: string) {
+  const l = page.locator(id);
+  await expect(l).toBeVisible();
+  await expect(l).toHaveText(text);
+}
+
 test.describe('Work experience menu input', () => {
   test('#14 Work highlights do not duplicate when creating new work object', async ({ page }) => {
     await goToWorkMenu(page);
@@ -52,16 +58,48 @@ test.describe('Work experience menu input', () => {
       page
     }) => {
       await addWorkExperience(page);
-      async function expectToBeVisibleAndHaveText(id: string, text: string) {
-        const l = page.locator(id);
-        await expect(l).toBeVisible();
-        await expect(l).toHaveText(text);
+
+      await expectToBeVisibleAndHaveText(page, '#resume_work_0_position', 'Position');
+      await expectToBeVisibleAndHaveText(page, '#resume_work_0_name', 'Name');
+      await expectToBeVisibleAndHaveText(page, '#resume_work_0_startDate', 'Start date');
+      await expectToBeVisibleAndHaveText(page, '#resume_work_0_endDate', 'End date');
+      await expectToBeVisibleAndHaveText(
+        page,
+        '#resume_work_0_highlight_placeholder',
+        'Highlights'
+      );
+    });
+
+    test('Updating fields in work menu correctly updates fields in resume component', async ({
+      page
+    }) => {
+      await addWorkExperience(page);
+
+      /**
+       * @param p
+       * @param inputId id of the input field without the '#' character
+       * @param inputText
+       * @param expectedText
+       */
+      async function fillAndVerify(
+        p: Page,
+        inputId: string,
+        inputText: string,
+        expectedText = inputText
+      ) {
+        await p.locator(`#${inputId}`).fill(inputText);
+        await expectToBeVisibleAndHaveText(p, `#resume_${inputId}`, expectedText);
       }
-      await expectToBeVisibleAndHaveText('#resume_work_0_position', 'Position');
-      await expectToBeVisibleAndHaveText('#resume_work_0_name', 'Name');
-      await expectToBeVisibleAndHaveText('#resume_work_0_startDate', 'Start date');
-      await expectToBeVisibleAndHaveText('#resume_work_0_endDate', 'End date');
-      await expectToBeVisibleAndHaveText('#resume_work_0_highlight_placeholder', 'Highlights');
+
+      await fillAndVerify(page, 'work_0_position', 'Position');
+      await fillAndVerify(page, 'work_0_name', 'Name');
+      await fillAndVerify(page, 'work_0_startDate', '2000-01', 'January 2000');
+      await fillAndVerify(page, 'work_0_startDate', '2000-12', 'December 2000');
+
+      await page.locator('#work_0_newHighlight').click();
+      const highlightText = 'A new highlight';
+      await page.locator('#work_0_highlight_0').fill(highlightText);
+      await expectToBeVisibleAndHaveText(page, '#resume_work_0_highlight_0', highlightText);
     });
   });
 });
