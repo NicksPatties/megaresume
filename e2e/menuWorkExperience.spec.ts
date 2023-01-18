@@ -101,5 +101,17 @@ test.describe('Work experience menu input', () => {
       await page.locator('#work_0_highlight_0').fill(highlightText);
       await expectToBeVisibleAndHaveText(page, '#resume_work_0_highlight_0', highlightText);
     });
+
+    test('Removing a highlight from a work field should update the resume components list correctly', async ({
+      page
+    }) => {
+      await addWorkExperience(page);
+      await page.locator('#work_0_newHighlight').click();
+      await page.locator('#work_0_highlight_0').fill('Some highlight that I will delete.');
+      page.on('dialog', (dialog) => dialog.accept()); // click ok when the delete confirmation dialog occurs
+      await page.locator('#work_0_highlight_0_delete').click();
+      await expect(page.locator('#work_0_highlight_0')).not.toBeVisible();
+      await expect(page.locator('#resume_work_0_highlight_0')).not.toBeVisible();
+    });
   });
 });
