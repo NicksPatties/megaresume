@@ -1,13 +1,8 @@
 <script lang="ts">
   import IconButton from '@src/components/iconButton.svelte';
   import Input from '@src/components/input.svelte';
-  import { derived, get, type Writable } from 'svelte/store';
-  import {
-    saveResumeDataToLocalStorage,
-    WorkStore,
-    workStores,
-    type Highlight
-  } from '@src/data/data';
+  import { derived, get } from 'svelte/store';
+  import { saveResumeDataToLocalStorage, WorkStore, workStores } from '@src/data/data';
   import { arrayMove } from '@src/util/arrayMove';
   import { onInput } from '@src/util/eventListeners';
   import { getDateValue } from '@src/util/getDateValue';
@@ -167,11 +162,16 @@
     }
   }
 
-  function onTagDelete(e: Event, highlightI: number, tagI: number) {
-    // highlights.update((h) => {
-    //   h[highlightI].tagNames.splice(tagI, 1);
-    //   return h;
-    // });
+  function onTagDelete(highlightI: number, tagI: number) {
+    workStores.update((ws) => {
+      const currWorkStore = ws[i];
+      currWorkStore.highlights.update((h) => {
+        h[highlightI].tagNames.splice(tagI, 1);
+        return h;
+      });
+      ws[i] = currWorkStore;
+      return ws;
+    });
     saveResumeDataToLocalStorage();
   }
 </script>
@@ -299,7 +299,7 @@
           size="small"
           id="work-{i}-highlight-{k}-delete-tag-{name}"
           iconClass="fa-regular fa-circle-xmark"
-          onclick={(e) => onTagDelete(e, k, ti)}
+          onclick={() => onTagDelete(k, ti)}
         />
       </span>
     {/each}
