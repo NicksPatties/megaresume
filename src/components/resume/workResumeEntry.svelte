@@ -5,6 +5,7 @@
   import { isHighlightVisible, dateInputToDecoratedString } from '@src/util/resumeUtils';
 
   export let workStore: WorkStore;
+  export let i: number;
   let name = derived(workStore.name, ($n) => ($n == '' ? 'Name' : $n));
   let position = derived(workStore.position, ($p) => ($p == '' ? 'Position' : $p));
   let startDate = derived(workStore.startDate, ($sd) =>
@@ -14,22 +15,29 @@
 </script>
 
 <li>
-  <span class:placeholder={$position == 'Position'}>{$position}</span>,
-  <span class:placeholder={$name == 'Name'}>{$name}</span>
+  <span id={`resume_work_${i}_position`} class:placeholder={$position == 'Position'}
+    >{$position}</span
+  >,
+  <span id={`resume_work_${i}_name`} class:placeholder={$name == 'Name'}>{$name}</span>
   <i>
-    <span class:placeholder={$startDate == 'Start date'}>{$startDate}</span> -
-    <span class:placeholder={$endDate == 'End date'}>{$endDate}</span>
+    <span id={`resume_work_${i}_startDate`} class:placeholder={$startDate == 'Start date'}
+      >{$startDate}</span
+    >
+    -
+    <span id={`resume_work_${i}_endDate`} class:placeholder={$endDate == 'End date'}
+      >{$endDate}</span
+    >
   </i>
 </li>
 <ul>
   {#if get(workStore.highlights).length > 0}
-    {#each get(workStore.highlights) as highlight}
+    {#each get(workStore.highlights) as highlight, k}
       {#if isHighlightVisible(highlight, $tagsStore)}
-        <li>{highlight.content}</li>
+        <li id={`resume_work_${i}_highlight_${k}`}>{highlight.content}</li>
       {/if}
     {/each}
   {:else}
-    <li class="placeholder">Highlights</li>
+    <li id={`resume_work_${i}_highlight_placeholder`} class="placeholder">Highlights</li>
   {/if}
 </ul>
 

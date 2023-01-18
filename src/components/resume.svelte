@@ -56,9 +56,9 @@
         <h3>Work Experience</h3>
         <ul>
           {#if $workStores != null}
-            {#each $workStores as w}
+            {#each $workStores as w, i}
               {#if get(w.visible) == true}
-                <WorkResumeEntry workStore={w} />
+                <WorkResumeEntry workStore={w} {i} />
               {/if}
             {/each}
           {/if}
