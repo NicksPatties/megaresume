@@ -26,10 +26,10 @@
    * @param k
    * @param name
    */
-  function deleteWork(k: number, name: string) {
+  function deleteWork(name: string) {
     if (window.confirm(`Are you sure you would like to delete this work experience? ${name}`)) {
       workStores.update((w) => {
-        w.splice(k, 1);
+        w.splice(i, 1);
         saveResumeDataToLocalStorage();
         return w;
       });
@@ -176,7 +176,7 @@
   }
 </script>
 
-<h3 class="submenu-header">
+<h3 id="work_{i}_header" class="submenu-header">
   {#if $name}{$name}{:else}Work {i + 1}{/if}
   <div class="label-controls">
     {#if i > 0}
@@ -205,7 +205,7 @@
       size="small"
       id="work_{i}_delete"
       iconClass="fa-regular fa-trash-can"
-      onclick={() => deleteWork(i, $name)}
+      onclick={() => deleteWork($name)}
     />
   </div>
 </h3>

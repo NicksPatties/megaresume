@@ -130,5 +130,104 @@ test.describe('Work experience menu input', () => {
       await page.locator(`#work_0_highlight_0_delete_tag_${tagName}`).click();
       await expect(page.locator(tagId)).not.toBeVisible();
     });
+
+    test('Changing the order of highlights updates the list of highlights in the resume properly', async ({
+      page
+    }) => {
+      await addWorkExperience(page);
+      // fill in highlights
+      const firstHighlight = 'First highlight';
+      const secondHighlight = 'Second highlight';
+      const firstHighlightLocator = page.locator('#work_0_highlight_0');
+      const secondHighlightLocator = page.locator('#work_0_highlight_1');
+      await page.locator('#work_0_newHighlight').click();
+      await firstHighlightLocator.fill(firstHighlight);
+      await page.locator('#work_0_newHighlight').click();
+      await secondHighlightLocator.fill(secondHighlight);
+
+      // move first highlight down and verify
+      await page.locator('#work_0_highlight_0_down').click();
+      await expect(page.locator('#work_0_highlight_0')).toHaveValue(secondHighlight);
+      await expectToBeVisibleAndHaveText(page, '#resume_work_0_highlight_0', secondHighlight);
+      await expect(page.locator('#work_0_highlight_1')).toHaveValue(firstHighlight);
+      await expectToBeVisibleAndHaveText(page, '#resume_work_0_highlight_1', firstHighlight);
+
+      // move the second highlight up and verify
+      // list should be back to its initial order
+      await page.locator('#work_0_highlight_1_up').click();
+      await expect(page.locator('#work_0_highlight_0')).toHaveValue(firstHighlight);
+      await expectToBeVisibleAndHaveText(page, '#resume_work_0_highlight_0', firstHighlight);
+      await expect(page.locator('#work_0_highlight_1')).toHaveValue(secondHighlight);
+      await expectToBeVisibleAndHaveText(page, '#resume_work_0_highlight_1', secondHighlight);
+    });
+
+    test('Changing the order of work entries updates the resume with the correct information', async ({
+      page
+    }) => {
+      await goToWorkMenu(page);
+      const work1 = {
+        name: 'Work 1 Name',
+        position: 'Work 1 Position',
+        startDate: '2001-01',
+        endDate: '2001-12',
+        highlight: 'Work 1 highlight'
+      };
+
+      const work2 = {
+        name: 'Work 2 Name',
+        position: 'Work 2 Position',
+        startDate: '2002-01',
+        endDate: '2002-12',
+        highlight: 'Work 2 highlight'
+      };
+
+      // add first work experience
+      await page.locator('#newWork').click();
+      await page.locator('#work_0_name').fill(work1.name);
+      await page.locator('#work_0_position').fill(work1.position);
+      await page.locator('#work_0_startDate').fill(work1.startDate);
+      await page.locator('#work_0_endDate').fill(work1.endDate);
+      await page.locator('#work_0_newHighlight').click();
+      await page.locator('#work_0_highlight_0').fill(work1.highlight);
+      // add second work experience
+      await page.locator('#newWork').click();
+      await page.locator('#work_1_name').fill(work2.name);
+      await page.locator('#work_1_position').fill(work2.position);
+      await page.locator('#work_1_startDate').fill(work2.startDate);
+      await page.locator('#work_1_endDate').fill(work2.endDate);
+      await page.locator('#work_1_newHighlight').click();
+      await page.locator('#work_1_highlight_0').fill(work2.highlight);
+
+      // swap work
+      await page.locator('#work_0_down').click();
+
+      // verify the swap is correct in the menu
+      await expect(page.locator('#work_0_header')).toHaveText(work2.name);
+      await expect(page.locator('#work_0_name')).toHaveValue(work2.name);
+      await expect(page.locator('#work_0_position')).toHaveValue(work2.position);
+      await expect(page.locator('#work_0_startDate')).toHaveValue(work2.startDate);
+      await expect(page.locator('#work_0_endDate')).toHaveValue(work2.endDate);
+      await expect(page.locator('#work_0_highlight_0')).toHaveValue(work2.highlight);
+
+      await expect(page.locator('#work_1_header')).toHaveText(work1.name);
+      await expect(page.locator('#work_1_name')).toHaveValue(work1.name);
+      await expect(page.locator('#work_1_position')).toHaveValue(work1.position);
+      await expect(page.locator('#work_1_startDate')).toHaveValue(work1.startDate);
+      await expect(page.locator('#work_1_endDate')).toHaveValue(work1.endDate);
+      await expect(page.locator('#work_1_highlight_0')).toHaveValue(work1.highlight);
+
+      // verify the swap is correct in the resume component
+      await expect(page.locator('#resume_work_0_name')).toHaveValue(work2.name);
+      await expect(page.locator('#resume_work_0_position')).toHaveValue(work2.position);
+      await expect(page.locator('#resume_work_0_startDate')).toHaveValue(work2.startDate);
+      await expect(page.locator('#resume_work_0_endDate')).toHaveValue(work2.endDate);
+      await expect(page.locator('#resume_work_0_highlight_0')).toHaveValue(work2.highlight);
+
+      await expect(page.locator('#resume_work_1_name')).toHaveValue(work1.name);
+      await expect(page.locator('#resume_work_1_position')).toHaveValue(work1.position);
+      await expect(page.locator('#resume_work_1_startDate')).toHaveValue(work1.startDate);
+      await expect(page.locator('#resume_work_1_endDate')).toHaveValue(work1.endDate);
+      await expect(page.locator('#resume_work_1_highlight_0')).toHaveValue(work1.highlight);
+    });
   });
 });

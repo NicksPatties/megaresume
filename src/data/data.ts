@@ -62,6 +62,8 @@ export type Work = {
   highlights: Highlight[];
 };
 
+export type NewWork = Work;
+
 export function createBlankWork(): Work {
   return {
     visible: true,
@@ -215,3 +217,4 @@ export function clearResumeStores() {
 
 export const basicsStore = new BasicsStore();
 export const workStores: Writable<WorkStore[]> = writable([]);
+export const newWorkStores: Writable<Work[]> = writable([]);
