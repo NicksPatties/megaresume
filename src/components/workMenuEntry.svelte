@@ -1,34 +1,50 @@
 <script lang="ts">
   import IconButton from '@src/components/iconButton.svelte';
-  import Input from '@src/components/input.svelte';
-  import { derived, get } from 'svelte/store';
-  import { saveResumeDataToLocalStorage, WorkStore, workStores } from '@src/data/data';
+  import {
+    saveResumeDataToLocalStorage,
+    type Work,
+    newWorkStores,
+    type Highlight
+  } from '@src/data/data';
   import { arrayMove } from '@src/util/arrayMove';
-  import { onInput } from '@src/util/eventListeners';
   import { getDateValue } from '@src/util/getDateValue';
-  import { Tag, addTag, getTag } from '@src/data/tag';
+  import { get } from 'svelte/store';
+  import HighlightsSubMenu from './highlightsSubMenu.svelte';
 
   /**
-   * The index of the workStore. Required for operations on a specific workStore.
+   * The index of the work item. Required for operations on a specific work item.
    */
   export let i: number;
-  export let workStore: WorkStore;
-  let visible = derived(workStore.visible, ($v) => $v);
-  let name = derived(workStore.name, ($n) => $n);
-  let startDate = derived(workStore.startDate, ($sd) => $sd);
-  let endDate = derived(workStore.endDate, ($ed) => $ed);
-  let highlights = derived(workStore.highlights, ($h) => $h);
+  export let visible: boolean;
+  export let name: string;
+  export let position: string;
+  export let startDate: string;
+  export let endDate: string;
+  export let highlights: Highlight[];
 
   const maxDate = getDateValue();
+
+  function updateWorkProperty(propname: keyof Work, value: string) {
+    newWorkStores.update((workArray) => {
+      // I hate this method, and I wish I could just easily assign a property by array index
+      // but hey, this is easier to do
+      if (propname == 'name') workArray[i].name = value;
+      else if (propname == 'position') workArray[i].position = value;
+      else if (propname == 'startDate') workArray[i].startDate = value;
+      else if (propname == 'endDate') workArray[i].endDate = value;
+      return workArray;
+    });
+  }
 
   /**
    * Delete the current work entry from the workEntries store
    * @param k
    * @param name
    */
-  function deleteWork(name: string) {
+  function deleteWork() {
+    const name = get(newWorkStores)[i].name;
     if (window.confirm(`Are you sure you would like to delete this work experience? ${name}`)) {
-      workStores.update((w) => {
+      newWorkStores.update((w) => {
         w.splice(i, 1);
         saveResumeDataToLocalStorage();
         return w;
@@ -36,20 +52,19 @@
     }
   }
 
-  function hideWork(k: number) {
-    workStores.update((w) => {
-      const currVisibility = get(w[k].visible);
-      w[k].visible.set(!currVisibility);
+  function hideWork() {
+    newWorkStores.update((workArray) => {
+      workArray[i].visible = !workArray[i].visible;
       saveResumeDataToLocalStorage();
-      return w;
+      return workArray;
     });
   }
 
-  function moveWork(k: number, up: boolean) {
-    workStores.update((w) => {
-      w = up ? arrayMove(w, k, k - 1) : arrayMove(w, k, k + 1);
+  function moveWork(up: boolean) {
+    newWorkStores.update((workArray) => {
+      workArray = up ? arrayMove(workArray, i, i - 1) : arrayMove(workArray, i, i + 1);
       saveResumeDataToLocalStorage();
-      return w;
+      return workArray;
     });
   }
 
@@ -59,272 +74,77 @@
       target.reportValidity();
     }
   }
-
-  function addHighlight() {
-    workStores.update((ws) => {
-      const currWorkStore = ws[i];
-      currWorkStore.highlights.update((h) => {
-        h.push({ visible: true, content: '', tagNames: [] });
-        return h;
-      });
-      ws[i] = currWorkStore;
-      return ws;
-    });
-  }
-
-  function deleteHighlight(k: number) {
-    if (window.confirm('Are you sure you would like to delete this highlight?')) {
-      workStores.update((ws) => {
-        const currWorkStore = ws[i];
-        currWorkStore.highlights.update((h) => {
-          h.splice(k, 1);
-          saveResumeDataToLocalStorage();
-          return h;
-        });
-        ws[i] = currWorkStore;
-        return ws;
-      });
-    }
-  }
-
-  function hideHighlight(k: number) {
-    workStores.update((ws) => {
-      const currWorkStore = ws[i];
-      currWorkStore.highlights.update((highlights) => {
-        const currVisibility = highlights[k].visible;
-        highlights[k].visible = !currVisibility;
-        saveResumeDataToLocalStorage();
-        return highlights;
-      });
-      ws[i] = currWorkStore;
-      return ws;
-    });
-  }
-
-  function moveHighlight(k: number, up: boolean) {
-    workStores.update((ws) => {
-      const currStore = ws[i];
-      currStore.highlights.update((h) => {
-        h = up ? arrayMove(h, k, k - 1) : arrayMove(h, k, k + 1);
-        saveResumeDataToLocalStorage();
-        return h;
-      });
-      ws[i] = currStore;
-      return ws;
-    });
-  }
-
-  /**
-   *
-   * @param e
-   * @param s
-   * @param k the index of the highlight that is being edited
-   * @param saveData
-   */
-  function onHighlightInput(e: Event, k: number) {
-    const target = e.target as HTMLInputElement;
-    if (target) {
-      workStores.update((ws) => {
-        const currWorkStore = ws[i];
-        currWorkStore.highlights.update((h) => {
-          const currHighlight = h[k];
-          currHighlight.content = target.value;
-          h[k] = currHighlight;
-          saveResumeDataToLocalStorage();
-          return h;
-        });
-        return ws;
-      });
-    }
-  }
-
-  function onTagKeydown(e: KeyboardEvent, k: number) {
-    const target: HTMLInputElement = e.target as HTMLInputElement;
-    const currValue = target ? target.value : '';
-    if (e.key == 'Enter' && currValue.length > 0) {
-      // if the tag is not in the tags, add the tag into the store
-      if (getTag(currValue) == undefined) {
-        addTag(new Tag(currValue));
-      }
-
-      workStores.update((ws) => {
-        const currWorkStore = ws[i];
-        currWorkStore.highlights.update((h) => {
-          if (h[k].tagNames == undefined) h[k].tagNames = [];
-          h[k].tagNames.push(currValue);
-          return h;
-        });
-        ws[i] = currWorkStore;
-        return ws;
-      });
-
-      target.value = '';
-    }
-  }
-
-  function onTagDelete(highlightI: number, tagI: number) {
-    workStores.update((ws) => {
-      const currWorkStore = ws[i];
-      currWorkStore.highlights.update((h) => {
-        h[highlightI].tagNames.splice(tagI, 1);
-        return h;
-      });
-      ws[i] = currWorkStore;
-      return ws;
-    });
-    saveResumeDataToLocalStorage();
-  }
 </script>
 
 <h3 id="work_{i}_header" class="submenu-header">
-  {#if $name}{$name}{:else}Work {i + 1}{/if}
+  {#if name}{name}{:else}Work {i + 1}{/if}
   <div class="label-controls">
     {#if i > 0}
       <IconButton
         size="small"
         id="work_{i}_up"
         iconClass="fa-solid fa-arrow-up"
-        onclick={() => moveWork(i, true)}
+        onclick={() => moveWork(true)}
       />
     {/if}
-    {#if i < $workStores.length - 1}
+    {#if i < $newWorkStores.length - 1}
       <IconButton
         size="small"
         id="work_{i}_down"
         iconClass="fa-solid fa-arrow-down"
-        onclick={() => moveWork(i, false)}
+        onclick={() => moveWork(false)}
       />
     {/if}
     <IconButton
       size="small"
       id="work_{i}_hide"
-      iconClass={$visible ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'}
-      onclick={() => hideWork(i)}
+      iconClass={visible ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'}
+      onclick={() => hideWork()}
     />
     <IconButton
       size="small"
       id="work_{i}_delete"
       iconClass="fa-regular fa-trash-can"
-      onclick={() => deleteWork($name)}
+      onclick={() => deleteWork()}
     />
   </div>
 </h3>
 
-<Input id={`work_${i}_name`} label={'Name'} value={workStore.name} disabled={!$visible} />
-<Input
+<label for={`work_${i}_name`}>Name</label>
+<input
+  id={`work_${i}_name`}
+  type="text"
+  disabled={!visible}
+  value={name}
+  on:input={(e) => updateWorkProperty('name', e.target.value)}
+/>
+<label for={`work_${i}_position`}>Position</label>
+<input
   id={`work_${i}_position`}
-  label={'Position'}
-  value={workStore.position}
-  disabled={!$visible}
+  type="text"
+  disabled={!visible}
+  value={position}
+  on:input={(e) => updateWorkProperty('position', e.target.value)}
 />
 <label for={`work_${i}_startDate`}>Start date</label>
 <input
   id={`work_${i}_startDate`}
   type="month"
-  disabled={!$visible}
-  value={$startDate}
-  max={$endDate ? $endDate : maxDate}
-  on:input={(e) => onInput(e, workStore.startDate)}
+  disabled={!visible}
+  value={startDate}
+  max={endDate ? endDate : maxDate}
+  on:input={(e) => updateWorkProperty('startDate', e.target.value)}
   on:blur={(e) => reportValidity(e)}
 />
 <label for={`work_${i}_endDate`}>End date</label>
 <input
   id={`work_${i}_endDate`}
   type="month"
-  disabled={!$visible}
-  value={$endDate}
-  min={$startDate ? $startDate : maxDate}
+  disabled={!visible}
+  value={endDate}
+  min={startDate ? startDate : maxDate}
   max={maxDate}
-  on:input={(e) => onInput(e, workStore.endDate)}
+  on:input={(e) => updateWorkProperty('endDate', e.target.value)}
   on:blur={(e) => reportValidity(e)}
 />
-
-{#each $highlights as highlight, k}
-  <label for="work_{i}_highlight_{k}">
-    New Highlight {k + 1}
-    <div class="label-controls">
-      {#if k > 0}
-        <IconButton
-          size="small"
-          id="work_{i}_highlight_{k}_up"
-          iconClass="fa-solid fa-arrow-up"
-          onclick={() => moveHighlight(k, true)}
-        />
-      {/if}
-      {#if k < $highlights.length - 1}
-        <IconButton
-          size="small"
-          id="work_{i}_highlight_{k}_down"
-          iconClass="fa-solid fa-arrow-down"
-          onclick={() => moveHighlight(k, false)}
-        />
-      {/if}
-      <IconButton
-        size="small"
-        id="work_{i}_highlight_{k}_hide"
-        iconClass={highlight.visible ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'}
-        onclick={() => hideHighlight(k)}
-      />
-      <IconButton
-        size="small"
-        id="work_{i}_highlight_{k}_delete"
-        iconClass="fa-regular fa-trash-can"
-        onclick={() => deleteHighlight(k)}
-      />
-    </div>
-  </label>
-  <textarea
-    id={`work_${i}_highlight_${k}`}
-    placeholder={'A cool highlight'}
-    disabled={!$visible || !highlight.visible}
-    on:input={(e) => {
-      onHighlightInput(e, k);
-    }}>{highlight.content}</textarea
-  >
-  <label for={`work_${i}_highlight_${k}_tagsInput`}
-    >Add tags<span class="hint">(press Enter to submit tag)</span></label
-  >
-  <input
-    class="input-add-tags"
-    id={`work_${i}_highlight_${k}_tagsInput`}
-    type="text"
-    list="existing-tags"
-    on:keydown={(e) => onTagKeydown(e, k)}
-  />
-  <p>
-    {#each highlight.tagNames as name, ti}
-      <span id="work_{i}_highlight_{k}_tag_{name}" class="highlight-tag">
-        {name}
-        <IconButton
-          size="small"
-          id="work_{i}_highlight_{k}_delete_tag_{name}"
-          iconClass="fa-regular fa-circle-xmark"
-          onclick={() => onTagDelete(k, ti)}
-        />
-      </span>
-    {/each}
-  </p>
-{/each}
-<button id={`work_${i}_newHighlight`} class="big-btn" on:click={() => addHighlight()}>
-  Add new highlight
-</button>
-
-<style>
-  label {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .input-add-tags {
-    margin-bottom: 0;
-  }
-
-  .highlight-tag {
-    margin-top: 5px;
-    display: inline-block;
-    background: #ddd;
-    padding: 0 5px;
-    border-radius: 5px;
-    margin-right: 5px;
-  }
-</style>
+<HighlightsSubMenu {highlights} {i} />

@@ -1,37 +1,36 @@
 <script lang="ts">
-  import type { WorkStore } from '@src/data/data';
-  import { derived, get } from 'svelte/store';
+  import type { Highlight, Work } from '@src/data/data';
   import { tagsStore } from '@src/data/tag';
   import { isHighlightVisible, dateInputToDecoratedString } from '@src/util/resumeUtils';
 
-  export let workStore: WorkStore;
   export let i: number;
-  let name = derived(workStore.name, ($n) => ($n == '' ? 'Name' : $n));
-  let position = derived(workStore.position, ($p) => ($p == '' ? 'Position' : $p));
-  let startDate = derived(workStore.startDate, ($sd) =>
-    dateInputToDecoratedString($sd, 'Start date')
-  );
-  let endDate = derived(workStore.endDate, ($ed) => dateInputToDecoratedString($ed, 'End date'));
+  export let name: string;
+  export let position: string;
+  export let startDate: string;
+  export let endDate: string;
+  export let highlights: Highlight[];
+  // let name = work.name || "Name"
+  // let position = work.position || "Position";
+  // let startDate = dateInputToDecoratedString(work.startDate, 'Start date')
+  // let endDate = dateInputToDecoratedString(work.endDate, 'End date');
 </script>
 
 <li>
-  <span id={`resume_work_${i}_position`} class:placeholder={$position == 'Position'}
-    >{$position}</span
+  <span id={`resume_work_${i}_position`} class:placeholder={position.length == 0}
+    >{position || 'Position'}</span
   >,
-  <span id={`resume_work_${i}_name`} class:placeholder={$name == 'Name'}>{$name}</span>
+  <span id={`resume_work_${i}_name`} class:placeholder={name.length == 0}>{name || 'Name'}</span>
   <i>
-    <span id={`resume_work_${i}_startDate`} class:placeholder={$startDate == 'Start date'}
-      >{$startDate}</span
+    <span id={`resume_work_${i}_startDate`} class:placeholder={startDate == 'Start date'}
+      >{startDate}</span
     >
     -
-    <span id={`resume_work_${i}_endDate`} class:placeholder={$endDate == 'End date'}
-      >{$endDate}</span
-    >
+    <span id={`resume_work_${i}_endDate`} class:placeholder={endDate == 'End date'}>{endDate}</span>
   </i>
 </li>
 <ul>
-  {#if get(workStore.highlights).length > 0}
-    {#each get(workStore.highlights) as highlight, k}
+  {#if highlights.length > 0}
+    {#each highlights as highlight, k}
       {#if isHighlightVisible(highlight, $tagsStore)}
         <li id={`resume_work_${i}_highlight_${k}`}>{highlight.content}</li>
       {/if}

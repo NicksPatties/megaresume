@@ -1,9 +1,10 @@
 <script lang="ts">
   import IconButton from '@src/components/iconButton.svelte';
   import WorkResumeEntry from '@src/components/resume/workResumeEntry.svelte';
-  import { basicsStore, workStores } from '@src/data/data';
+  import { basicsStore, workStores, newWorkStores } from '@src/data/data';
   import { get } from 'svelte/store';
   import { onMount } from 'svelte';
+  import { dateInputToDecoratedString } from '@src/util/resumeUtils';
 
   let basics = basicsStore;
 
@@ -52,13 +53,20 @@
       </p>
     </div>
     <div class="experience">
-      {#if $workStores.length > 0}
+      {#if $newWorkStores.length > 0}
         <h3>Work Experience</h3>
         <ul>
-          {#if $workStores != null}
-            {#each $workStores as w, i}
-              {#if get(w.visible) == true}
-                <WorkResumeEntry workStore={w} {i} />
+          {#if $newWorkStores != null}
+            {#each $newWorkStores as w, i}
+              {#if w.visible}
+                <WorkResumeEntry
+                  {i}
+                  name={w.name}
+                  position={w.position}
+                  startDate={dateInputToDecoratedString(w.startDate, 'Start date')}
+                  endDate={dateInputToDecoratedString(w.endDate, 'End date')}
+                  highlights={w.highlights}
+                />
               {/if}
             {/each}
           {/if}
