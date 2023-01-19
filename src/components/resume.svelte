@@ -1,7 +1,7 @@
 <script lang="ts">
   import IconButton from '@src/components/iconButton.svelte';
   import WorkResumeEntry from '@src/components/resume/workResumeEntry.svelte';
-  import { basicsStore, newWorkStores } from '@src/data/data';
+  import { basicsStore, workStore } from '@src/data/data';
   import { onMount } from 'svelte';
   import { dateInputToDecoratedString } from '@src/util/resumeUtils';
 
@@ -52,11 +52,11 @@
       </p>
     </div>
     <div class="experience">
-      {#if $newWorkStores.length > 0}
+      {#if $workStore.length > 0}
         <h3>Work Experience</h3>
         <ul>
-          {#if $newWorkStores != null}
-            {#each $newWorkStores as w, i}
+          {#if $workStore != null}
+            {#each $workStore as w, i}
               {#if w.visible}
                 <WorkResumeEntry
                   {i}

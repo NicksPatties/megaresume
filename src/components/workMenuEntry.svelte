@@ -3,7 +3,7 @@
   import {
     saveResumeDataToLocalStorage,
     type Work,
-    newWorkStores,
+    workStore,
     type Highlight
   } from '@src/data/data';
   import { arrayMove } from '@src/util/arrayMove';
@@ -25,7 +25,7 @@
   const maxDate = getDateValue();
 
   function updateWorkProperty(propname: keyof Work, value: string) {
-    newWorkStores.update((workArray) => {
+    workStore.update((workArray) => {
       // I hate this method, and I wish I could just easily assign a property by array index
       // but hey, this is easier to do
       if (propname == 'name') workArray[i].name = value;
@@ -42,9 +42,9 @@
    * @param name
    */
   function deleteWork() {
-    const name = get(newWorkStores)[i].name;
+    const name = get(workStore)[i].name;
     if (window.confirm(`Are you sure you would like to delete this work experience? ${name}`)) {
-      newWorkStores.update((w) => {
+      workStore.update((w) => {
         w.splice(i, 1);
         saveResumeDataToLocalStorage();
         return w;
@@ -53,7 +53,7 @@
   }
 
   function hideWork() {
-    newWorkStores.update((workArray) => {
+    workStore.update((workArray) => {
       workArray[i].visible = !workArray[i].visible;
       saveResumeDataToLocalStorage();
       return workArray;
@@ -61,7 +61,7 @@
   }
 
   function moveWork(up: boolean) {
-    newWorkStores.update((workArray) => {
+    workStore.update((workArray) => {
       workArray = up ? arrayMove(workArray, i, i - 1) : arrayMove(workArray, i, i + 1);
       saveResumeDataToLocalStorage();
       return workArray;
@@ -87,7 +87,7 @@
         onclick={() => moveWork(true)}
       />
     {/if}
-    {#if i < $newWorkStores.length - 1}
+    {#if i < $workStore.length - 1}
       <IconButton
         size="small"
         id="work_{i}_down"

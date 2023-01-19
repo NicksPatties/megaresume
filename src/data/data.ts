@@ -77,36 +77,14 @@ export function createBlankWork(): Work {
   };
 }
 
-export class WorkStore {
-  visible = writable(true);
-  name = writable('');
-  position = writable('');
-  url = writable('');
-  startDate = writable('');
-  endDate = writable('');
-  summary = writable('');
-  highlights: Writable<Highlight[]> = writable([]);
-
-  constructor(params: Work = createBlankWork()) {
-    this.visible.set(params.visible);
-    this.name.set(params.name);
-    this.position.set(params.position);
-    this.url.set(params.url);
-    this.startDate.set(params.startDate);
-    this.endDate.set(params.endDate);
-    this.summary.set(params.summary);
-    this.highlights.set(params.highlights);
-  }
-}
-
-export function removeTagFromWorkStores(tagName: string, stores = workStores) {
-  const workEntries = get(stores);
-  workEntries.forEach((workStore) => {
-    const highlights = get(workStore.highlights);
-    highlights.forEach((h) => {
-      h.tagNames = h.tagNames.filter((t) => t !== tagName);
+export function removeTagFromWorkStores(tagName: string, stores = workStore) {
+  stores.update((workArray) => {
+    workArray.forEach((work) => {
+      work.highlights.forEach((highlight) => {
+        highlight.tagNames = highlight.tagNames.filter((t) => t !== tagName);
+      });
     });
-    workStore.highlights.set(highlights);
+    return workArray;
   });
 }
 
@@ -115,10 +93,7 @@ export type SaveData = {
   work: Work[];
 };
 
-export function saveData(
-  basics: BasicsStore = basicsStore,
-  work: Writable<WorkStore[]> = workStores
-): SaveData {
+export function saveData(basics = basicsStore, work = workStore): SaveData {
   const saveData: SaveData = {
     basics: {
       name: get(basics.name),
@@ -131,16 +106,16 @@ export function saveData(
     work: []
   };
 
-  get(work).forEach((ws: WorkStore) => {
+  get(work).forEach((w) => {
     saveData.work.push({
-      visible: get(ws.visible),
-      name: get(ws.name),
-      position: get(ws.position),
-      url: get(ws.url),
-      startDate: get(ws.startDate),
-      endDate: get(ws.endDate),
-      summary: get(ws.summary),
-      highlights: get(ws.highlights)
+      visible: w.visible,
+      name: w.name,
+      position: w.position,
+      url: w.url,
+      startDate: w.startDate,
+      endDate: w.endDate,
+      summary: w.summary,
+      highlights: w.highlights
     });
   });
 
@@ -150,10 +125,7 @@ export function saveData(
 /**
  * Takes data from Basics, Work, and Education stores and saves it to localStorage as a JSON blob
  */
-export function saveResumeDataToLocalStorage(
-  basics: BasicsStore = basicsStore,
-  work: Writable<WorkStore[]> = workStores
-) {
+export function saveResumeDataToLocalStorage(basics: BasicsStore = basicsStore, work = workStore) {
   const data: SaveData = saveData(basics, work);
   window.localStorage.setItem('saveData', JSON.stringify(data));
 }
@@ -161,7 +133,7 @@ export function saveResumeDataToLocalStorage(
 export function loadData(
   saveDataString: string,
   basics: BasicsStore = basicsStore,
-  work: Writable<WorkStore[]> = workStores
+  workStore = workStore
 ) {
   const saveData: SaveData = JSON.parse(saveDataString);
   try {
@@ -175,11 +147,11 @@ export function loadData(
     basics.summary.set(saveData.basics.summary);
 
     // load work data
-    const workStoresArray: WorkStore[] = [];
+    const workStoresArray: Work[] = [];
     saveData.work.forEach((work) => {
-      workStoresArray.push(new WorkStore(work));
+      workStoresArray.push(work);
     });
-    work.set(workStoresArray);
+    workStore.set(workStoresArray);
   } catch (e) {
     if (e instanceof TypeError) {
       console.error(
@@ -191,10 +163,7 @@ export function loadData(
   }
 }
 
-export function loadLocalStorageData(
-  basics: BasicsStore = basicsStore,
-  work: Writable<WorkStore[]> = workStores
-) {
+export function loadLocalStorageData(basics: BasicsStore = basicsStore, work = workStore) {
   const saveDataString = localStorage.getItem('saveData');
   if (saveDataString != null) {
     loadData(saveDataString, basics, work);
@@ -203,18 +172,17 @@ export function loadLocalStorageData(
   }
 }
 
-export function clearResumeStores() {
-  basicsStore.name.set('');
-  basicsStore.label.set('');
-  basicsStore.image.set('');
-  basicsStore.label.set('');
-  basicsStore.phone.set('');
-  basicsStore.email.set('');
-  basicsStore.summary.set('');
+export function clearResumeStores(basics = basicsStore, work = workStore) {
+  basics.name.set('');
+  basics.label.set('');
+  basics.image.set('');
+  basics.label.set('');
+  basics.phone.set('');
+  basics.email.set('');
+  basics.summary.set('');
 
-  workStores.set([]);
+  work.set([]);
 }
 
 export const basicsStore = new BasicsStore();
-export const workStores: Writable<WorkStore[]> = writable([]);
-export const newWorkStores: Writable<Work[]> = writable([]);
+export const workStore: Writable<Work[]> = writable([]);

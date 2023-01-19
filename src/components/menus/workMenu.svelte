@@ -1,12 +1,12 @@
 <script lang="ts">
   import MenuContents from '@src/components/menuContents.svelte';
   import WorkMenuEntry from '@src/components/workMenuEntry.svelte';
-  import { newWorkStores, createBlankWork } from '@src/data/data';
+  import { workStore, createBlankWork } from '@src/data/data';
 </script>
 
 <MenuContents id="menu-resume-work">
   <h2>Work Experience</h2>
-  {#each $newWorkStores as w, i}
+  {#each $workStore as w, i}
     <WorkMenuEntry
       {i}
       visible={w.visible}
@@ -21,7 +21,7 @@
     id="newWork"
     class="big-btn"
     on:click={() => {
-      newWorkStores.update((w) => {
+      workStore.update((w) => {
         w.push(createBlankWork());
         return w;
       });

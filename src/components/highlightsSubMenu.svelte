@@ -1,6 +1,6 @@
 <script lang="ts">
   import IconButton from '@src/components/iconButton.svelte';
-  import { newWorkStores, saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
+  import { workStore, saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
   import { getTag, addTag, Tag } from '@src/data/tag';
   import { arrayMove } from '@src/util/arrayMove';
 
@@ -8,7 +8,7 @@
   export let i: number;
 
   function addHighlight() {
-    newWorkStores.update((workArray) => {
+    workStore.update((workArray) => {
       workArray[i].highlights.push({
         visible: true,
         content: '',
@@ -20,7 +20,7 @@
 
   function deleteHighlight(k: number) {
     if (window.confirm('Are you sure you would like to delete this highlight?')) {
-      newWorkStores.update((workArray) => {
+      workStore.update((workArray) => {
         workArray[i].highlights.splice(k, 1);
         return workArray;
       });
@@ -28,7 +28,7 @@
   }
 
   function hideHighlight(k: number) {
-    newWorkStores.update((workArray) => {
+    workStore.update((workArray) => {
       const visible = workArray[i].highlights[k].visible;
       workArray[i].highlights[k].visible = !visible;
       return workArray;
@@ -36,7 +36,7 @@
   }
 
   function moveHighlight(k: number, up: boolean) {
-    newWorkStores.update((workArray) => {
+    workStore.update((workArray) => {
       let highlights = workArray[i].highlights;
       highlights = up ? arrayMove(highlights, k, k - 1) : arrayMove(highlights, k, k + 1);
       workArray[i].highlights = highlights;
@@ -54,7 +54,7 @@
       }
 
       // add tag to the highlight
-      newWorkStores.update((workArray) => {
+      workStore.update((workArray) => {
         let tagNames = workArray[i].highlights[k].tagNames;
         if (tagNames == undefined) tagNames = [];
         tagNames.push(currValue);
@@ -76,7 +76,7 @@
   function onHighlightInput(e: Event, k: number) {
     const target = e.target as HTMLInputElement;
     if (target) {
-      newWorkStores.update((workArray) => {
+      workStore.update((workArray) => {
         workArray[i].highlights[k].content = target.value;
         return workArray;
       });
@@ -84,7 +84,7 @@
   }
 
   function onTagDelete(k: number, tagI: number) {
-    newWorkStores.update((workArray) => {
+    workStore.update((workArray) => {
       workArray[i].highlights[k].tagNames.splice(tagI, 1);
       return workArray;
     });
@@ -129,7 +129,7 @@
   <textarea
     id={`work_${i}_highlight_${k}`}
     placeholder={'A cool highlight'}
-    disabled={!$newWorkStores[i].visible || !highlight.visible}
+    disabled={!$workStore[i].visible || !highlight.visible}
     on:input={(e) => {
       onHighlightInput(e, k);
     }}>{highlight.content}</textarea
