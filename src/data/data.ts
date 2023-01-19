@@ -62,8 +62,6 @@ export type Work = {
   highlights: Highlight[];
 };
 
-export type NewWork = Work;
-
 export function createBlankWork(): Work {
   return {
     visible: true,
@@ -130,11 +128,7 @@ export function saveResumeDataToLocalStorage(basics: BasicsStore = basicsStore, 
   window.localStorage.setItem('saveData', JSON.stringify(data));
 }
 
-export function loadData(
-  saveDataString: string,
-  basics: BasicsStore = basicsStore,
-  workStore = workStore
-) {
+export function loadData(saveDataString: string, basics = basicsStore, work = workStore) {
   const saveData: SaveData = JSON.parse(saveDataString);
   try {
     // load basic data
@@ -151,7 +145,7 @@ export function loadData(
     saveData.work.forEach((work) => {
       workStoresArray.push(work);
     });
-    workStore.set(workStoresArray);
+    work.set(workStoresArray);
   } catch (e) {
     if (e instanceof TypeError) {
       console.error(

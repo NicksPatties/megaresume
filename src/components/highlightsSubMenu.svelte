@@ -14,6 +14,7 @@
         content: '',
         tagNames: []
       });
+      saveResumeDataToLocalStorage();
       return workArray;
     });
   }
@@ -22,6 +23,7 @@
     if (window.confirm('Are you sure you would like to delete this highlight?')) {
       workStore.update((workArray) => {
         workArray[i].highlights.splice(k, 1);
+        saveResumeDataToLocalStorage();
         return workArray;
       });
     }
@@ -31,6 +33,7 @@
     workStore.update((workArray) => {
       const visible = workArray[i].highlights[k].visible;
       workArray[i].highlights[k].visible = !visible;
+      saveResumeDataToLocalStorage();
       return workArray;
     });
   }
@@ -40,6 +43,7 @@
       let highlights = workArray[i].highlights;
       highlights = up ? arrayMove(highlights, k, k - 1) : arrayMove(highlights, k, k + 1);
       workArray[i].highlights = highlights;
+      saveResumeDataToLocalStorage();
       return workArray;
     });
   }
@@ -59,6 +63,7 @@
         if (tagNames == undefined) tagNames = [];
         tagNames.push(currValue);
         workArray[i].highlights[k].tagNames = tagNames;
+        saveResumeDataToLocalStorage();
         return workArray;
       });
 
@@ -66,18 +71,12 @@
     }
   }
 
-  /**
-   *
-   * @param e
-   * @param s
-   * @param k the index of the highlight that is being edited
-   * @param saveData
-   */
   function onHighlightInput(e: Event, k: number) {
     const target = e.target as HTMLInputElement;
     if (target) {
       workStore.update((workArray) => {
         workArray[i].highlights[k].content = target.value;
+        saveResumeDataToLocalStorage();
         return workArray;
       });
     }
@@ -86,9 +85,9 @@
   function onTagDelete(k: number, tagI: number) {
     workStore.update((workArray) => {
       workArray[i].highlights[k].tagNames.splice(tagI, 1);
+      saveResumeDataToLocalStorage();
       return workArray;
     });
-    saveResumeDataToLocalStorage();
   }
 </script>
 

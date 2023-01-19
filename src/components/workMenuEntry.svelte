@@ -24,14 +24,18 @@
 
   const maxDate = getDateValue();
 
-  function updateWorkProperty(propname: keyof Work, value: string) {
+  function updateWorkProperty(e: Event, propname: keyof Work) {
+    const target = e.target as HTMLInputElement;
+    if (target == null) return;
     workStore.update((workArray) => {
+      const value = target.value;
       // I hate this method, and I wish I could just easily assign a property by array index
       // but hey, this is easier to do
       if (propname == 'name') workArray[i].name = value;
       else if (propname == 'position') workArray[i].position = value;
       else if (propname == 'startDate') workArray[i].startDate = value;
       else if (propname == 'endDate') workArray[i].endDate = value;
+      saveResumeDataToLocalStorage();
       return workArray;
     });
   }
@@ -116,7 +120,7 @@
   type="text"
   disabled={!visible}
   value={name}
-  on:input={(e) => updateWorkProperty('name', e.target.value)}
+  on:input={(e) => updateWorkProperty(e, 'name')}
 />
 <label for={`work_${i}_position`}>Position</label>
 <input
@@ -124,7 +128,7 @@
   type="text"
   disabled={!visible}
   value={position}
-  on:input={(e) => updateWorkProperty('position', e.target.value)}
+  on:input={(e) => updateWorkProperty(e, 'position')}
 />
 <label for={`work_${i}_startDate`}>Start date</label>
 <input
@@ -133,7 +137,7 @@
   disabled={!visible}
   value={startDate}
   max={endDate ? endDate : maxDate}
-  on:input={(e) => updateWorkProperty('startDate', e.target.value)}
+  on:input={(e) => updateWorkProperty(e, 'startDate')}
   on:blur={(e) => reportValidity(e)}
 />
 <label for={`work_${i}_endDate`}>End date</label>
@@ -144,7 +148,7 @@
   value={endDate}
   min={startDate ? startDate : maxDate}
   max={maxDate}
-  on:input={(e) => updateWorkProperty('endDate', e.target.value)}
+  on:input={(e) => updateWorkProperty(e, 'endDate')}
   on:blur={(e) => reportValidity(e)}
 />
 <HighlightsSubMenu {highlights} {i} />

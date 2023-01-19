@@ -55,20 +55,18 @@
       {#if $workStore.length > 0}
         <h3>Work Experience</h3>
         <ul>
-          {#if $workStore != null}
-            {#each $workStore as w, i}
-              {#if w.visible}
-                <WorkResumeEntry
-                  {i}
-                  name={w.name}
-                  position={w.position}
-                  startDate={dateInputToDecoratedString(w.startDate, 'Start date')}
-                  endDate={dateInputToDecoratedString(w.endDate, 'End date')}
-                  highlights={w.highlights}
-                />
-              {/if}
-            {/each}
-          {/if}
+          {#each $workStore as w, i}
+            {#if w.visible}
+              <WorkResumeEntry
+                {i}
+                name={w.name}
+                position={w.position}
+                startDate={dateInputToDecoratedString(w.startDate, 'Start date')}
+                endDate={dateInputToDecoratedString(w.endDate, 'End date')}
+                highlights={w.highlights}
+              />
+            {/if}
+          {/each}
         </ul>
       {:else}
         <h3 class="placeholder">Your work experience will go here.</h3>
