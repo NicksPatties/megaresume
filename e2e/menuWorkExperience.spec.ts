@@ -120,7 +120,7 @@ test.describe('Work experience menu input', () => {
       await addWorkExperience(page);
       await page.locator('#work_0_newHighlight').click();
       const tagName = 'tagName';
-      const tagsInput = page.locator('#work_0_highlight_0_tags_input');
+      const tagsInput = page.locator('#work_0_highlight_0_tagsInput');
       await tagsInput.type(tagName);
       await tagsInput.press('Enter');
       const tagId = `#work_0_highlight_0_tag_${tagName}`;
@@ -169,7 +169,9 @@ test.describe('Work experience menu input', () => {
         name: 'Work 1 Name',
         position: 'Work 1 Position',
         startDate: '2001-01',
+        decoratedStartDate: 'January 2001',
         endDate: '2001-12',
+        decoratedEndDate: 'December 2001',
         highlight: 'Work 1 highlight'
       };
 
@@ -177,7 +179,9 @@ test.describe('Work experience menu input', () => {
         name: 'Work 2 Name',
         position: 'Work 2 Position',
         startDate: '2002-01',
+        decoratedStartDate: 'January 2002',
         endDate: '2002-12',
+        decoratedEndDate: 'December 2002',
         highlight: 'Work 2 highlight'
       };
 
@@ -217,17 +221,17 @@ test.describe('Work experience menu input', () => {
       await expect(page.locator('#work_1_highlight_0')).toHaveValue(work1.highlight);
 
       // verify the swap is correct in the resume component
-      await expect(page.locator('#resume_work_0_name')).toHaveValue(work2.name);
-      await expect(page.locator('#resume_work_0_position')).toHaveValue(work2.position);
-      await expect(page.locator('#resume_work_0_startDate')).toHaveValue(work2.startDate);
-      await expect(page.locator('#resume_work_0_endDate')).toHaveValue(work2.endDate);
-      await expect(page.locator('#resume_work_0_highlight_0')).toHaveValue(work2.highlight);
+      await expect(page.locator('#resume_work_0_name')).toHaveText(work2.name);
+      await expect(page.locator('#resume_work_0_position')).toHaveText(work2.position);
+      await expect(page.locator('#resume_work_0_startDate')).toHaveText(work2.decoratedStartDate);
+      await expect(page.locator('#resume_work_0_endDate')).toHaveText(work2.decoratedEndDate);
+      await expect(page.locator('#resume_work_0_highlight_0')).toHaveText(work2.highlight);
 
-      await expect(page.locator('#resume_work_1_name')).toHaveValue(work1.name);
-      await expect(page.locator('#resume_work_1_position')).toHaveValue(work1.position);
-      await expect(page.locator('#resume_work_1_startDate')).toHaveValue(work1.startDate);
-      await expect(page.locator('#resume_work_1_endDate')).toHaveValue(work1.endDate);
-      await expect(page.locator('#resume_work_1_highlight_0')).toHaveValue(work1.highlight);
+      await expect(page.locator('#resume_work_1_name')).toHaveText(work1.name);
+      await expect(page.locator('#resume_work_1_position')).toHaveText(work1.position);
+      await expect(page.locator('#resume_work_1_startDate')).toHaveText(work1.decoratedStartDate);
+      await expect(page.locator('#resume_work_1_endDate')).toHaveText(work1.decoratedEndDate);
+      await expect(page.locator('#resume_work_1_highlight_0')).toHaveText(work1.highlight);
     });
   });
 });
