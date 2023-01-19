@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { Highlight, Work } from '@src/data/data';
+  import type { Highlight } from '@src/data/data';
   import { tagsStore } from '@src/data/tag';
-  import { isHighlightVisible, dateInputToDecoratedString } from '@src/util/resumeUtils';
+  import { isHighlightVisible } from '@src/util/resumeUtils';
 
   export let i: number;
   export let name: string;
@@ -9,10 +9,6 @@
   export let startDate: string;
   export let endDate: string;
   export let highlights: Highlight[];
-  // let name = work.name || "Name"
-  // let position = work.position || "Position";
-  // let startDate = dateInputToDecoratedString(work.startDate, 'Start date')
-  // let endDate = dateInputToDecoratedString(work.endDate, 'End date');
 </script>
 
 <li>

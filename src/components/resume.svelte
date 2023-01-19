@@ -1,8 +1,7 @@
 <script lang="ts">
   import IconButton from '@src/components/iconButton.svelte';
   import WorkResumeEntry from '@src/components/resume/workResumeEntry.svelte';
-  import { basicsStore, workStores, newWorkStores } from '@src/data/data';
-  import { get } from 'svelte/store';
+  import { basicsStore, newWorkStores } from '@src/data/data';
   import { onMount } from 'svelte';
   import { dateInputToDecoratedString } from '@src/util/resumeUtils';
 

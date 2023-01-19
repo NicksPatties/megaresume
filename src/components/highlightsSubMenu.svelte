@@ -2,13 +2,18 @@
   import IconButton from '@src/components/iconButton.svelte';
   import { newWorkStores, saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
   import { getTag, addTag, Tag } from '@src/data/tag';
+  import { arrayMove } from '@src/util/arrayMove';
 
   export let highlights: Highlight[];
   export let i: number;
 
   function addHighlight() {
     newWorkStores.update((workArray) => {
-      console.log('addHighlight');
+      workArray[i].highlights.push({
+        visible: true,
+        content: '',
+        tagNames: []
+      });
       return workArray;
     });
   }
@@ -16,7 +21,7 @@
   function deleteHighlight(k: number) {
     if (window.confirm('Are you sure you would like to delete this highlight?')) {
       newWorkStores.update((workArray) => {
-        console.log('delete Highlight');
+        workArray[i].highlights.splice(k, 1);
         return workArray;
       });
     }
@@ -24,21 +29,17 @@
 
   function hideHighlight(k: number) {
     newWorkStores.update((workArray) => {
-      console.log('hideHighlight');
+      const visible = workArray[i].highlights[k].visible;
+      workArray[i].highlights[k].visible = !visible;
       return workArray;
     });
   }
 
   function moveHighlight(k: number, up: boolean) {
     newWorkStores.update((workArray) => {
-      console.log('moveHighlight');
-      return workArray;
-    });
-  }
-
-  function updateWorkHighlight(k: number, value: string) {
-    newWorkStores.update((workArray) => {
-      workArray[i].highlights[k].content = value;
+      let highlights = workArray[i].highlights;
+      highlights = up ? arrayMove(highlights, k, k - 1) : arrayMove(highlights, k, k + 1);
+      workArray[i].highlights = highlights;
       return workArray;
     });
   }
@@ -60,6 +61,8 @@
         workArray[i].highlights[k].tagNames = tagNames;
         return workArray;
       });
+
+      target.value = '';
     }
   }
 
@@ -74,7 +77,7 @@
     const target = e.target as HTMLInputElement;
     if (target) {
       newWorkStores.update((workArray) => {
-        console.log('onHighlightInput');
+        workArray[i].highlights[k].content = target.value;
         return workArray;
       });
     }
