@@ -2,11 +2,11 @@ import {
   saveResumeDataToLocalStorage,
   loadLocalStorageData,
   BasicsStore,
-  WorkStore,
   loadData,
   blankBasics,
   createBlankWork,
-  removeTagFromWorkStores
+  removeTagFromWorkStores,
+  type Work
 } from '@src/data/data';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type Writable, writable, get } from 'svelte/store';
@@ -42,8 +42,8 @@ describe('saveResumeDataToLocalStorage', () => {
   it('saves basics and work data to localStorage', () => {
     const expectedSaveData = blankSaveDataWithWork;
     const basicsStore = new BasicsStore();
-    const workStore = new WorkStore();
-    saveResumeDataToLocalStorage(basicsStore, writable([workStore]));
+    const workStore: Writable<Work[]> = writable([createBlankWork()]);
+    saveResumeDataToLocalStorage(basicsStore, workStore);
     expect(localStorage.setItem).toHaveBeenCalledOnce();
     expect(localStorage.setItem).toHaveBeenCalledWith('saveData', expectedSaveData);
   });
@@ -57,7 +57,7 @@ describe('loadLocalStorageData', () => {
   it('loads basics and work data from localStorage', () => {
     const fakeLocalStorage = blankSaveDataWithWork;
     const basicsStore = new BasicsStore();
-    const workStores: Writable<WorkStore[]> = writable([new WorkStore()]);
+    const workStores: Writable<Work[]> = writable([]);
 
     vi.stubGlobal('localStorage', {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -80,15 +80,15 @@ describe('loadLocalStorageData', () => {
     const actualWorkStores = get(workStores);
     expect(actualWorkStores.length).toBe(1);
     const actualWorkStore = actualWorkStores[0];
-    expect(get(actualWorkStore.visible)).toBe(true);
-    expect(get(actualWorkStore.name)).toBe('');
-    expect(get(actualWorkStore.position)).toBe('');
-    expect(get(actualWorkStore.position)).toBe('');
-    expect(get(actualWorkStore.url)).toBe('');
-    expect(get(actualWorkStore.startDate)).toBe('');
-    expect(get(actualWorkStore.endDate)).toBe('');
-    expect(get(actualWorkStore.summary)).toBe('');
-    expect(get(actualWorkStore.highlights)).toStrictEqual([]);
+    expect(actualWorkStore.visible).toBe(true);
+    expect(actualWorkStore.name).toBe('');
+    expect(actualWorkStore.position).toBe('');
+    expect(actualWorkStore.position).toBe('');
+    expect(actualWorkStore.url).toBe('');
+    expect(actualWorkStore.startDate).toBe('');
+    expect(actualWorkStore.endDate).toBe('');
+    expect(actualWorkStore.summary).toBe('');
+    expect(actualWorkStore.highlights).toStrictEqual([]);
   });
 
   it('errors in the console if no save data is loaded', () => {
@@ -122,7 +122,7 @@ describe('loadData', () => {
   it('should error with the correct message if there is a TypeError', () => {
     const garbageData = JSON.stringify({ garbage: 'data' });
     const basicsStore = new BasicsStore();
-    const workStores: Writable<WorkStore[]> = writable([]);
+    const workStores: Writable<Work[]> = writable([]);
 
     loadData(garbageData, basicsStore, workStores);
 
@@ -147,8 +147,16 @@ describe('removeTagFromWorkStores', () => {
         tagNames: ['js', 'html']
       }
     ];
-    const mockWorkStore = new WorkStore();
-    mockWorkStore.highlights.set(mockHighlights);
+    const mockWorkStore: Writable<Work[]> = writable([
+      {
+        ...createBlankWork(),
+        highlights: mockHighlights
+      },
+      {
+        ...createBlankWork(),
+        highlights: mockHighlights
+      }
+    ]);
     const expectedHighlights = [
       {
         visible: true,
@@ -161,14 +169,12 @@ describe('removeTagFromWorkStores', () => {
         tagNames: ['html']
       }
     ];
+    removeTagFromWorkStores('js', mockWorkStore);
 
-    const mockWorkStores = writable([mockWorkStore, mockWorkStore]);
-    removeTagFromWorkStores('js', mockWorkStores);
-
-    const actualHighlights = get(get(mockWorkStores)[0].highlights);
+    const actualHighlights = get(mockWorkStore)[0].highlights;
     expect(expectedHighlights).toStrictEqual(actualHighlights);
 
-    const actualHighlights2 = get(get(mockWorkStores)[1].highlights);
+    const actualHighlights2 = get(mockWorkStore)[1].highlights;
     expect(expectedHighlights).toStrictEqual(actualHighlights2);
   });
 });
