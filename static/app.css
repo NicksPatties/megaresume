@@ -20,34 +20,37 @@ p {
 in different components */
 
 @media print {
-  .open-button,
+  #open-button,
   .menu,
   .controls-container,
   .resume-overflow-warning {
     display: none !important;
   }
   .resume-container {
-    transform: none !important;
-    height: 100vh !important;
-    width: 100vh !important;
-    box-shadow: none !important;
-    margin: 0 !important;
-  }
-  .resume {
     position: static !important;
     overflow: visible !important;
     margin: initial !important;
     width: initial !important;
     height: initial !important;
   }
+  .resume {
+    box-sizing: border-box;
+    padding: var(--pointFiveIn);
+    top: 0 !important;
+    transform: none !important;
+    height: var(--A4height) !important;
+    width: var(--A4width) !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
 
   .name {
-    font-size: 0.32in !important;
+    font-size: 0.27in !important;
   }
 
   .subname,
   ul,
   h3 {
-    font-size: 0.22in !important;
+    font-size: 0.16in !important;
   }
 }
