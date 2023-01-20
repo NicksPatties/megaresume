@@ -65,7 +65,7 @@
     font-family: sans-serif;
     user-select: none;
     transition: left var(--menu-transition-time) var(--menu-transition-page-curve);
-    z-index: 10;
+    z-index: 20;
   }
 
   .menu.open {
