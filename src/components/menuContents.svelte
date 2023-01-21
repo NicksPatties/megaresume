@@ -17,8 +17,8 @@
     min-height: calc(100vh - var(--header-height));
     position: absolute;
     top: 0;
-    left: calc(-1 * var(--mobile-width));
-    width: var(--mobile-width);
+    left: calc(-1 * var(--menu-width));
+    width: var(--menu-width);
     overflow: hidden;
     transition: left var(--menu-transition-time) var(--menu-transition-page-curve);
   }

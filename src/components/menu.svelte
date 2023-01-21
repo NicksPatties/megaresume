@@ -49,23 +49,28 @@
 </div>
 
 <style>
+  :root {
+    --menu-width: var(--mobile-width);
+  }
+
   .menu {
     background-color: white;
     box-shadow: none;
     position: fixed;
     top: 0;
-    left: calc(-1 * var(--mobile-width));
-    width: var(--mobile-width);
+    left: calc(-1 * var(--menu-width));
+    width: var(--menu-width);
     height: var(--menu-height);
     font-size: 18px;
     font-family: sans-serif;
     user-select: none;
     transition: left var(--menu-transition-time) var(--menu-transition-page-curve);
-    z-index: 10;
+    z-index: 20;
   }
 
   .menu.open {
     left: 0;
+    /* right: var(--mobile-width); */
     box-shadow: var(--divider-color) 0 0 var(--menu-box-shadow-width);
   }
 
@@ -88,9 +93,13 @@
   }
 
   @media only screen and (max-width: 400px) {
-    /* should use var but whatever */
+    :root {
+      --menu-width: 100%;
+      --menu-height: 100%; /* Since 100vh works unexpectedly on mobile devices */
+    }
+
     .menu {
-      width: 100%;
+      font-size: 24px;
     }
 
     .menu.open {
