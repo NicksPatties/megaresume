@@ -1,5 +1,5 @@
 <script lang="ts">
-  import MenuContents from '@src/components/menuContents.svelte';
+  import MenuContents from '@src/components/menu/menuContents.svelte';
   import { basicsStore, saveResumeDataToLocalStorage } from '@src/data/data';
   import type { Writable } from 'svelte/store';
 

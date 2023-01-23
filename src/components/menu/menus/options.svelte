@@ -1,5 +1,5 @@
 <script lang="ts">
-  import MenuContents from '@src/components/menuContents.svelte';
+  import MenuContents from '@src/components/menu/menuContents.svelte';
   import {
     clearResumeStores,
     loadData,

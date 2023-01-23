@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Menu from '@src/components/menu.svelte';
-  import Resume from '@src/components/resume.svelte';
+  import Menu from '@src/components/menu/menu.svelte';
+  import Resume from '@src/components/resume/resume.svelte';
   import { loadLocalStorageData } from '@src/data/data';
   import { onMount } from 'svelte';
 

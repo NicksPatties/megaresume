@@ -1,11 +1,11 @@
 <script lang="ts">
   import IconButton from '@src/components/iconButton.svelte';
-  import MainMenu from '@src/components/menus/mainMenu.svelte';
-  import Instructions from '@src/components/menus/instructions.svelte';
-  import Options from '@src/components/menus/options.svelte';
-  import ResumeMenu from '@src/components/menus/resumeMenu.svelte';
-  import WorkMenu from '@src/components/menus/workMenu.svelte';
-  import BasicsMenu from '@src/components/menus/basicsMenu.svelte';
+  import MainMenu from '@src/components/menu/menus/mainMenu.svelte';
+  import Instructions from '@src/components/menu/menus/instructions.svelte';
+  import Options from '@src/components/menu/menus/options.svelte';
+  import ResumeMenu from '@src/components/menu/menus/resumeMenu.svelte';
+  import WorkMenu from '@src/components/menu/menus/workMenu.svelte';
+  import BasicsMenu from '@src/components/menu/menus/basicsMenu.svelte';
   import { pop, atMainMenu } from '@src/data/menuStack';
   import TagsMenu from './menus/tagsMenu.svelte';
 
