@@ -99,7 +99,7 @@
     }
 
     .menu {
-      font-size: 24px;
+      font-size: 18px;
     }
 
     .menu.open {

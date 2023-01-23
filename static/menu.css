@@ -7,7 +7,7 @@
   --divider-color: gray;
   --menu-transition-time: 0.35s;
   --menu-transition-page-curve: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --input-margin-bottom: 1.5em;
+  --input-margin-bottom: 1.5rem;
   --label-margin-bottom: calc(var(--input-margin-bottom) * 0.5);
   --menu-side-margin: 1rem;
   --input-width: calc(100% - 2 * var(--menu-side-margin));
@@ -17,11 +17,11 @@
 .menu h2,
 .menu h3,
 .menu h4 {
-  margin: 0 var(--menu-side-margin) 0.45em var(--menu-side-margin);
+  margin: 0 var(--menu-side-margin) 0.45rem var(--menu-side-margin);
 }
 
 .menu p {
-  margin: 0 var(--menu-side-margin) 0.9em var(--menu-side-margin);
+  margin: 0 var(--menu-side-margin) 0.9rem var(--menu-side-margin);
 }
 
 .submenu-header {
@@ -33,12 +33,12 @@
   font-family: serif;
   font-weight: bold;
   background: lightgray;
-  padding: 0 0.3em;
+  padding: 0 0.3rem;
   border-radius: 5px;
 }
 
 .link-like {
-  font-size: 1em;
+  font-size: 1rem;
   display: inline-block;
   color: blue;
   text-decoration: underline;
@@ -92,17 +92,17 @@ textarea {
   display: block;
   padding: 1px 2px;
   font-family: serif;
-  font-size: 0.9em;
-  min-height: 2em;
+  font-size: 0.9rem;
+  min-height: 2rem;
 }
 
 .hint {
-  font-size: 0.75em;
+  font-size: 0.75rem;
 }
 
 textarea {
   resize: none;
-  min-height: 5em;
+  min-height: 5rem;
 }
 
 select {
@@ -136,7 +136,7 @@ legend {
 }
 
 .inline-input input {
-  min-height: 1em;
+  min-height: 1rem;
   margin: 0;
 }
 
@@ -144,7 +144,7 @@ legend {
   width: 80%;
   padding-top: 1px;
   background: linear-gradient(90deg, white, #bababa, #bababa, white);
-  margin: 1em auto;
+  margin: 1rem auto;
 }
 
 .big-btn {
@@ -152,10 +152,10 @@ legend {
   align-items: center;
   justify-content: space-between;
   font-weight: bold;
-  font-size: 1.17em; /* same as h3 */
+  font-size: 1.17rem; /* same as h3 */
   padding: 0 1rem !important; /* !important is required here otherwise the user agent styles overwrite this property */
   width: 100%;
-  height: 2.75em;
+  height: 2.75rem;
   border: none;
   background: white;
   padding: 0;
