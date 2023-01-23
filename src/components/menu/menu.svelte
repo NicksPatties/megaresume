@@ -61,7 +61,6 @@
     left: calc(-1 * var(--menu-width));
     width: var(--menu-width);
     height: var(--menu-height);
-    font-size: 18px;
     font-family: sans-serif;
     user-select: none;
     transition: left var(--menu-transition-time) var(--menu-transition-page-curve);
@@ -96,10 +95,6 @@
     :root {
       --menu-width: 100%;
       --menu-height: 100%; /* Since 100vh works unexpectedly on mobile devices */
-    }
-
-    .menu {
-      font-size: 18px;
     }
 
     .menu.open {

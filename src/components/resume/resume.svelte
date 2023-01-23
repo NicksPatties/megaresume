@@ -112,7 +112,7 @@
   .resume {
     position: absolute;
     overflow: hidden;
-    top: 42px;
+    top: var(--header-height);
     z-index: 5;
     padding: var(--pointFiveIn);
     width: var(--A4width);

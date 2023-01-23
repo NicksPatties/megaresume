@@ -1,8 +1,7 @@
 :root {
-  --header-height: 42px;
+  --header-height: 2.33rem;
   --mobile-width: 400px;
-  --menu-height: 100vh;
-  --header-height: 42px;
+  --menu-height: 100%;
   --menu-box-shadow-width: 12px;
   --divider-color: gray;
   --menu-transition-time: 0.35s;
@@ -59,13 +58,11 @@ label {
 
 input[type='text'] {
   font-family: serif;
-  font-size: 16px;
 }
 
 textarea {
   margin-top: 6px;
   font-family: serif;
-  font-size: 16px;
   resize: none;
   width: 100%;
 }
@@ -86,14 +83,13 @@ input[type='month'],
 input[type='week'],
 select,
 textarea {
+  font-size: 1rem;
   margin: 0 var(--menu-side-margin) var(--input-margin-bottom) var(--menu-side-margin);
   box-sizing: border-box;
   width: var(--input-width);
   display: block;
-  padding: 1px 2px;
+  padding: 0.5rem 0.1rem;
   font-family: serif;
-  font-size: 0.9rem;
-  min-height: 2rem;
 }
 
 .hint {
