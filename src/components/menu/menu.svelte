@@ -90,7 +90,7 @@
     overflow-x: hidden;
   }
 
-  @media (max-width: 400px) {
+  @media only screen and (max-width: 400px) {
     :root {
       --menu-width: 100%;
     }

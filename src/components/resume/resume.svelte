@@ -14,7 +14,7 @@
 
   let scaleControl = 1;
 
-  function scaleResume(scaleReset: boolean | undefined = undefined) {
+  function scaleResume() {
     const resumeHeight = 1056; // 11in
     const margin = 42;
     const fittedResumeHeight = window.innerHeight - margin * 2;
@@ -23,7 +23,7 @@
     const resumeOverflowNode: HTMLElement | null = document.querySelector('.overflow-warning');
     const newScale = `scale(${scale * scaleControl})`;
     if (resumeNode != null) {
-      if (scaleReset) {
+      if (window.innerWidth <= 400) {
         resumeNode.style.transform = `initial`;
       } else {
         resumeNode.style.transform = newScale;
@@ -31,7 +31,7 @@
     }
 
     if (resumeOverflowNode != null) {
-      if (scaleReset) {
+      if (window.innerWidth <= 400) {
         resumeOverflowNode.style.transform = `initial`;
       } else {
         resumeOverflowNode.style.transform = newScale;
@@ -42,24 +42,21 @@
   function fitResumeContainer() {
     const resumeContainer = document.querySelector('.resume-container') as HTMLElement;
 
-    if (window.innerWidth > 400) {
-      resumeContainer.style.height = `100%`;
-      resumeContainer.style.width = `100%`;
-    } else {
+    if (window.innerWidth <= 400) {
       resumeContainer.style.height = `${window.innerHeight}px`;
       resumeContainer.style.width = `${window.innerWidth}px`;
+    } else {
+      resumeContainer.style.height = `100%`;
+      resumeContainer.style.width = `100%`;
     }
   }
 
   onMount(() => {
     fitResumeContainer();
+    scaleResume();
     onresize = () => {
       fitResumeContainer();
-      if (window.innerWidth > 400) {
-        scaleResume();
-      } else {
-        scaleResume(true);
-      }
+      scaleResume();
     };
   });
 </script>

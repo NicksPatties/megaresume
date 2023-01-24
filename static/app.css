@@ -58,9 +58,3 @@ in different components */
     font-size: 0.16in !important;
   }
 }
-
-@media only screen and (max-width: 400px) {
-  html {
-    font-size: 26px;
-  }
-}

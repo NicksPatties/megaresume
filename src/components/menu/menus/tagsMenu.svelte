@@ -90,6 +90,7 @@
           onclick={() => onDeleteButtonClick(tag)}
         />
         <input
+          class="tag-visibility-checkbox"
           id="tag-visibility-input-{tag.name}"
           type="checkbox"
           checked={tag.visible}
@@ -106,7 +107,13 @@
   {/if}
   <div class="inline-input">
     <label for="add-tag-input">Add new tag</label>
-    <input id="add-tag-input" type="text" on:keydown={(e) => onAddTagKeydown(e)} />
+    <input
+      id="add-tag-input"
+      type="text"
+      enterkeyhint="enter"
+      autocapitalize="none"
+      on:keydown={(e) => onAddTagKeydown(e)}
+    />
   </div>
   <datalist id="existing-tags">
     {#each $tagsStore as tag}
@@ -114,3 +121,9 @@
     {/each}
   </datalist>
 </MenuContents>
+
+<style>
+  .tag-visibility-checkbox {
+    margin-left: 1rem;
+  }
+</style>
