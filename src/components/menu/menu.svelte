@@ -69,7 +69,6 @@
 
   .menu.open {
     left: 0;
-    /* right: var(--mobile-width); */
     box-shadow: var(--divider-color) 0 0 var(--menu-box-shadow-width);
   }
 
@@ -91,14 +90,9 @@
     overflow-x: hidden;
   }
 
-  @media only screen and (max-width: 400px) {
+  @media (max-width: 400px) {
     :root {
       --menu-width: 100%;
-      --menu-height: 100%; /* Since 100vh works unexpectedly on mobile devices */
-    }
-
-    .menu.open {
-      box-shadow: none;
     }
   }
 </style>
