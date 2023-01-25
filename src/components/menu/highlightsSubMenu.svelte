@@ -141,6 +141,8 @@
     id={`work_${i}_highlight_${k}_tagsInput`}
     type="text"
     list="existing-tags"
+    enterkeyhint="enter"
+    autocapitalize="none"
     on:keydown={(e) => onTagKeydown(e, k)}
   />
   <p>

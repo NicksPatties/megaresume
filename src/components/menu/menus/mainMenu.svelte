@@ -1,6 +1,6 @@
 <script lang="ts">
-  import MenuContents from '@src/components/menuContents.svelte';
-  import MenuNavButton from '@src/components/menuNavButton.svelte';
+  import MenuContents from '@src/components/menu/menuContents.svelte';
+  import MenuNavButton from '@src/components/menu/menuNavButton.svelte';
   import { push } from '@src/data/menuStack';
 </script>
 

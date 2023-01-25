@@ -23,17 +23,41 @@
     const resumeOverflowNode: HTMLElement | null = document.querySelector('.overflow-warning');
     const newScale = `scale(${scale * scaleControl})`;
     if (resumeNode != null) {
-      resumeNode.style.transform = newScale;
+      if (window.innerWidth <= 400) {
+        resumeNode.style.transform = `initial`;
+      } else {
+        resumeNode.style.transform = newScale;
+      }
     }
 
     if (resumeOverflowNode != null) {
-      resumeOverflowNode.style.transform = newScale;
+      if (window.innerWidth <= 400) {
+        resumeOverflowNode.style.transform = `initial`;
+      } else {
+        resumeOverflowNode.style.transform = newScale;
+      }
+    }
+  }
+
+  function fitResumeContainer() {
+    const resumeContainer = document.querySelector('.resume-container') as HTMLElement;
+
+    if (window.innerWidth <= 400) {
+      resumeContainer.style.height = `${window.innerHeight}px`;
+      resumeContainer.style.width = `${window.innerWidth}px`;
+    } else {
+      resumeContainer.style.height = `100%`;
+      resumeContainer.style.width = `100%`;
     }
   }
 
   onMount(() => {
+    fitResumeContainer();
     scaleResume();
-    onresize = scaleResume;
+    onresize = () => {
+      fitResumeContainer();
+      scaleResume();
+    };
   });
 </script>
 
@@ -112,7 +136,7 @@
   .resume {
     position: absolute;
     overflow: hidden;
-    top: 42px;
+    top: var(--header-height);
     z-index: 5;
     padding: var(--pointFiveIn);
     width: var(--A4width);
@@ -154,5 +178,39 @@
 
   .placeholder {
     color: gray;
+  }
+
+  @media only screen and (max-width: 400px) {
+    h3 {
+      font-size: 1rem;
+    }
+
+    .resume-container {
+      display: block;
+      justify-content: initial;
+      align-items: inital;
+      overflow-y: scroll;
+    }
+
+    .resume {
+      position: initial;
+      overflow-x: initial;
+      overflow-y: initial;
+      box-shadow: none;
+      width: 100%;
+      padding: 0;
+      transform: initial;
+      top: inital;
+      padding: var(--header-height) 0.5rem;
+      box-sizing: border-box;
+    }
+
+    ul {
+      padding-inline-start: 0.75rem;
+    }
+
+    .controls-container {
+      display: none;
+    }
   }
 </style>

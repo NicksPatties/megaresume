@@ -1,6 +1,6 @@
 <script lang="ts">
-  import MenuContents from '@src/components/menuContents.svelte';
-  import WorkMenuEntry from '@src/components/workMenuEntry.svelte';
+  import MenuContents from '@src/components/menu/menuContents.svelte';
+  import WorkMenuEntry from '@src/components/menu/workMenuEntry.svelte';
   import { workStore, createBlankWork } from '@src/data/data';
 </script>
 

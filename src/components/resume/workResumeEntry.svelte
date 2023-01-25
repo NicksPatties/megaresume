@@ -40,4 +40,10 @@
   .placeholder {
     color: gray;
   }
+
+  @media only screen and (max-width: 400px) {
+    ul {
+      padding-inline-start: 0.75rem;
+    }
+  }
 </style>

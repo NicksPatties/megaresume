@@ -42,7 +42,7 @@
   .big {
     width: var(--header-height);
     height: var(--header-height);
-    font-size: 1.5em;
+    font-size: 1.5rem;
   }
 
   .small {
