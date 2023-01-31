@@ -3,7 +3,6 @@
   import IconButton from '@src/components/iconButton.svelte';
   import { tagsStore, addTag, deleteTag, Tag, updateTag, updateAllTags } from '@src/data/tag';
   import { derived, writable } from 'svelte/store';
-  import { onMount } from 'svelte';
   import { removeTagFromWorkStores, saveResumeDataToLocalStorage } from '@src/data/data';
 
   let searchTerm = writable('');
@@ -53,10 +52,6 @@
       searchTerm.set(target.value);
     }
   }
-
-  onMount(() => {
-    //loadTags();
-  });
 </script>
 
 <MenuContents id="menu-tags">

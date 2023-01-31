@@ -122,7 +122,7 @@ export function saveData(basics = basicsStore, work = workStore, tags = tagsStor
  * Takes data from Basics, Work, and Education stores and saves it to localStorage as a JSON blob
  */
 export function saveResumeDataToLocalStorage(
-  basics: BasicsStore = basicsStore,
+  basics = basicsStore,
   work = workStore,
   tags = tagsStore
 ) {
