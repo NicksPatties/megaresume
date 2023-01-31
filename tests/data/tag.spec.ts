@@ -1,4 +1,5 @@
-import { Tag, addTag, deleteTag, updateTag, saveTags, loadTags } from '@src/data/tag';
+import { blankBasics } from '@src/data/data';
+import { Tag, addTag, deleteTag, updateTag, saveTags } from '@src/data/tag';
 import { type Writable, writable, get } from 'svelte/store';
 import { describe, it, expect, vi } from 'vitest';
 
@@ -69,32 +70,17 @@ describe('Tag', () => {
       });
       const mockStore = writable([new Tag('js', true), new Tag('css', false)]);
       saveTags(mockStore);
+      const expectedSaveData = {
+        basics: blankBasics,
+        work: [],
+        tags: get(mockStore)
+      };
       expect(localStorage.setItem).toHaveBeenCalledOnce();
-      expect(localStorage.setItem).toHaveBeenCalledWith('tags', JSON.stringify(get(mockStore)));
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        'saveData',
+        JSON.stringify(expectedSaveData)
+      );
       vi.resetAllMocks();
-    });
-  });
-
-  describe('loadTags', () => {
-    it('should load the tags from a json string into the store', () => {
-      const mockTags = [new Tag('js', true), new Tag('css', false)];
-      const mockJsonString = JSON.stringify(mockTags);
-      vi.stubGlobal('localStorage', {
-        getItem: () => mockJsonString
-      });
-      const mockStore: Writable<Tag[]> = writable([]);
-      loadTags(mockStore);
-      expect(get(mockStore)).toEqual(mockTags);
-    });
-
-    it('should do nothing if there is no tag data in localStorage', () => {
-      vi.stubGlobal('localStorage', {
-        getItem: () => null
-      });
-      const mockStore: Writable<Tag[]> = writable([]);
-      loadTags(mockStore);
-      expect(get(mockStore)).toEqual([]);
-      expect(get(mockStore).length).toBe(0);
     });
   });
 });
