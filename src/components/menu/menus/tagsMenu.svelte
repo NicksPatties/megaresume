@@ -1,15 +1,7 @@
 <script lang="ts">
   import MenuContents from '@src/components/menu/menuContents.svelte';
   import IconButton from '@src/components/iconButton.svelte';
-  import {
-    tagsStore,
-    addTag,
-    deleteTag,
-    loadTags,
-    Tag,
-    updateTag,
-    updateAllTags
-  } from '@src/data/tag';
+  import { tagsStore, addTag, deleteTag, Tag, updateTag, updateAllTags } from '@src/data/tag';
   import { derived, writable } from 'svelte/store';
   import { onMount } from 'svelte';
   import { removeTagFromWorkStores, saveResumeDataToLocalStorage } from '@src/data/data';
@@ -33,6 +25,7 @@
 
   function onTagCheckboxClicked(tag: Tag) {
     tag.visible = !tag.visible;
+    saveResumeDataToLocalStorage();
     updateTag(tag);
   }
 
@@ -41,6 +34,7 @@
     const currValue = target ? target.value : '';
     if (e.key == 'Enter' && currValue.length > 0) {
       addTag(new Tag(currValue));
+      saveResumeDataToLocalStorage();
       target.value = '';
     }
   }
@@ -49,6 +43,7 @@
     const target = e.target as HTMLInputElement;
     if (target) {
       target.checked ? updateAllTags(true) : updateAllTags(false);
+      saveResumeDataToLocalStorage();
     }
   }
 
@@ -60,7 +55,7 @@
   }
 
   onMount(() => {
-    loadTags();
+    //loadTags();
   });
 </script>
 

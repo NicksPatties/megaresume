@@ -1,4 +1,5 @@
 import { writable, get, type Writable } from 'svelte/store';
+import { basicsStore, saveResumeDataToLocalStorage, workStore } from './data';
 
 export class Tag {
   readonly name: string;
@@ -21,7 +22,7 @@ export function addTag(tag: Tag, store = tagsStore) {
   }
   tags.push(tag);
   store.set(tags);
-  saveTags(store);
+  saveTags();
 }
 
 export function getTag(name: string, store = tagsStore) {
@@ -38,7 +39,7 @@ export function deleteTag(name: string, store = tagsStore) {
   }
   tags.splice(iToDelete, 1);
   store.set(tags);
-  saveTags(store);
+  saveTags();
 }
 
 export function updateTag(tag: Tag, store = tagsStore) {
@@ -50,26 +51,16 @@ export function updateTag(tag: Tag, store = tagsStore) {
   }
   tags[iToUpdate] = tag;
   store.set(tags);
-  saveTags(store);
+  saveTags();
 }
 
 export function updateAllTags(visible: boolean, store = tagsStore) {
   const tags = get(store);
   tags.forEach((t) => (t.visible = visible));
   store.set(tags);
-  saveTags(store);
+  saveTags();
 }
 
-export function saveTags(store = tagsStore) {
-  const tags = get(store);
-  localStorage.setItem('tags', JSON.stringify(tags));
-}
-
-export function loadTags(store = tagsStore) {
-  const jsonString = localStorage.getItem('tags');
-  if (jsonString) {
-    store.set(JSON.parse(jsonString));
-  } else {
-    console.error('Failed to load tags from localStorage');
-  }
+export function saveTags(tags = tagsStore) {
+  saveResumeDataToLocalStorage(basicsStore, workStore, tags);
 }

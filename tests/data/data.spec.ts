@@ -10,15 +10,18 @@ import {
 } from '@src/data/data';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type Writable, writable, get } from 'svelte/store';
+import { Tag } from '@src/data/tag';
 
 const blankSaveData = JSON.stringify({
   basics: blankBasics,
-  work: []
+  work: [],
+  tags: []
 });
 
 const blankSaveDataWithWork = JSON.stringify({
   basics: blankBasics,
-  work: [createBlankWork()]
+  work: [createBlankWork()],
+  tags: [new Tag('tag', true)]
 });
 
 describe('saveResumeDataToLocalStorage', () => {
@@ -43,7 +46,8 @@ describe('saveResumeDataToLocalStorage', () => {
     const expectedSaveData = blankSaveDataWithWork;
     const basicsStore = new BasicsStore();
     const workStore: Writable<Work[]> = writable([createBlankWork()]);
-    saveResumeDataToLocalStorage(basicsStore, workStore);
+    const tagsStore: Writable<Tag[]> = writable([new Tag('tag', true)]);
+    saveResumeDataToLocalStorage(basicsStore, workStore, tagsStore);
     expect(localStorage.setItem).toHaveBeenCalledOnce();
     expect(localStorage.setItem).toHaveBeenCalledWith('saveData', expectedSaveData);
   });
@@ -54,10 +58,11 @@ describe('loadLocalStorageData', () => {
     vi.resetAllMocks();
   });
 
-  it('loads basics and work data from localStorage', () => {
+  it('loads basics, work, and tag data from localStorage', () => {
     const fakeLocalStorage = blankSaveDataWithWork;
     const basicsStore = new BasicsStore();
     const workStores: Writable<Work[]> = writable([]);
+    const tagsStore: Writable<Tag[]> = writable([]);
 
     vi.stubGlobal('localStorage', {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -66,7 +71,7 @@ describe('loadLocalStorageData', () => {
       }
     });
 
-    loadLocalStorageData(basicsStore, workStores);
+    loadLocalStorageData(basicsStore, workStores, tagsStore);
 
     // test basicsStore loaded properly
     expect(get(basicsStore.name)).toBe('');
@@ -89,6 +94,10 @@ describe('loadLocalStorageData', () => {
     expect(actualWorkStore.endDate).toBe('');
     expect(actualWorkStore.summary).toBe('');
     expect(actualWorkStore.highlights).toStrictEqual([]);
+
+    const actualTags = get(tagsStore);
+    expect(actualTags[0].name).toBe('tag');
+    expect(actualTags[0].visible).toBe(true);
   });
 
   it('errors in the console if no save data is loaded', () => {
@@ -123,8 +132,9 @@ describe('loadData', () => {
     const garbageData = JSON.stringify({ garbage: 'data' });
     const basicsStore = new BasicsStore();
     const workStores: Writable<Work[]> = writable([]);
+    const tagsStore: Writable<Tag[]> = writable([]);
 
-    loadData(garbageData, basicsStore, workStores);
+    loadData(garbageData, basicsStore, workStores, tagsStore);
 
     expect(console.error).toHaveBeenCalledOnce();
     expect(console.error).toHaveBeenCalledWith(

@@ -1,4 +1,5 @@
 import { writable, get, type Writable } from 'svelte/store';
+import { tagsStore, type Tag } from './tag';
 
 type Basics = {
   name: string;
@@ -89,9 +90,10 @@ export function removeTagFromWorkStores(tagName: string, stores = workStore) {
 export type SaveData = {
   basics: Basics;
   work: Work[];
+  tags: Tag[];
 };
 
-export function saveData(basics = basicsStore, work = workStore): SaveData {
+export function saveData(basics = basicsStore, work = workStore, tags = tagsStore): SaveData {
   const saveData: SaveData = {
     basics: {
       name: get(basics.name),
@@ -101,20 +103,16 @@ export function saveData(basics = basicsStore, work = workStore): SaveData {
       email: get(basics.email),
       summary: get(basics.summary)
     },
-    work: []
+    work: [],
+    tags: []
   };
 
   get(work).forEach((w) => {
-    saveData.work.push({
-      visible: w.visible,
-      name: w.name,
-      position: w.position,
-      url: w.url,
-      startDate: w.startDate,
-      endDate: w.endDate,
-      summary: w.summary,
-      highlights: w.highlights
-    });
+    saveData.work.push(w);
+  });
+
+  get(tags).forEach((t) => {
+    saveData.tags.push(t);
   });
 
   return saveData;
@@ -123,12 +121,21 @@ export function saveData(basics = basicsStore, work = workStore): SaveData {
 /**
  * Takes data from Basics, Work, and Education stores and saves it to localStorage as a JSON blob
  */
-export function saveResumeDataToLocalStorage(basics: BasicsStore = basicsStore, work = workStore) {
-  const data: SaveData = saveData(basics, work);
+export function saveResumeDataToLocalStorage(
+  basics: BasicsStore = basicsStore,
+  work = workStore,
+  tags = tagsStore
+) {
+  const data: SaveData = saveData(basics, work, tags);
   window.localStorage.setItem('saveData', JSON.stringify(data));
 }
 
-export function loadData(saveDataString: string, basics = basicsStore, work = workStore) {
+export function loadData(
+  saveDataString: string,
+  basics = basicsStore,
+  work = workStore,
+  tags = tagsStore
+) {
   const saveData: SaveData = JSON.parse(saveDataString);
   try {
     // load basic data
@@ -146,6 +153,13 @@ export function loadData(saveDataString: string, basics = basicsStore, work = wo
       workStoresArray.push(work);
     });
     work.set(workStoresArray);
+
+    // load tags
+    const loadedtags: Tag[] = [];
+    saveData.tags.forEach((tag) => {
+      loadedtags.push(tag);
+    });
+    tags.set(loadedtags);
   } catch (e) {
     if (e instanceof TypeError) {
       console.error(
@@ -157,16 +171,20 @@ export function loadData(saveDataString: string, basics = basicsStore, work = wo
   }
 }
 
-export function loadLocalStorageData(basics: BasicsStore = basicsStore, work = workStore) {
+export function loadLocalStorageData(
+  basics: BasicsStore = basicsStore,
+  work = workStore,
+  tags = tagsStore
+) {
   const saveDataString = localStorage.getItem('saveData');
   if (saveDataString != null) {
-    loadData(saveDataString, basics, work);
+    loadData(saveDataString, basics, work, tags);
   } else {
     console.error('Failed to load resume save data from localStorage!');
   }
 }
 
-export function clearResumeStores(basics = basicsStore, work = workStore) {
+export function clearResumeStores(basics = basicsStore, work = workStore, tags = tagsStore) {
   basics.name.set('');
   basics.label.set('');
   basics.image.set('');
@@ -176,6 +194,8 @@ export function clearResumeStores(basics = basicsStore, work = workStore) {
   basics.summary.set('');
 
   work.set([]);
+
+  tags.set([]);
 }
 
 export const basicsStore = new BasicsStore();
