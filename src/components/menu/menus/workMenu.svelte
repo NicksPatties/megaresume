@@ -14,8 +14,8 @@
       position={w.position}
       startDate={w.startDate}
       endDate={w.endDate}
-      highlights={w.highlights}
     />
+    <div class="divider" />
   {/each}
   <button
     id="newWork"

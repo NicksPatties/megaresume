@@ -96,11 +96,6 @@ textarea {
   font-size: 0.75rem;
 }
 
-textarea {
-  resize: none;
-  min-height: 5rem;
-}
-
 select {
   border-width: 2px;
 }

@@ -26,12 +26,18 @@ test.describe('Work experience menu input', () => {
     await goToWorkMenu(page);
     // click add new work
     await page.click('#newWork');
+    // go to highlights page
+    await page.click('#menu_highlights_0');
     // click add new highlight
     await page.click('#work_0_newHighlight');
     // type in new highlight
     await page.type('#work_0_highlight_0', 'A new highlight');
+    // go back to work menu
+    await page.click('#back-button');
     // click add new work
     await page.click('#newWork');
+    // go to the highlights of the new work you just created
+    await page.click('#menu_highlights_1');
     // check if there are no new highlights
     expect(await page.isVisible('#work_1_highlight_0', { strict: true })).toBe(false);
   });
@@ -94,11 +100,13 @@ test.describe('Work experience menu input', () => {
       await fillAndVerify(page, 'work_0_position', 'Position');
       await fillAndVerify(page, 'work_0_name', 'Name');
       await fillAndVerify(page, 'work_0_startDate', '2000-01', 'January 2000');
-      await fillAndVerify(page, 'work_0_startDate', '2000-12', 'December 2000');
+      await fillAndVerify(page, 'work_0_endDate', '2000-12', 'December 2000');
 
-      await page.locator('#work_0_newHighlight').click();
+      // go to highlights page
+      await page.click('#menu_highlights_0');
+      await page.click('#work_0_newHighlight');
       const highlightText = 'A new highlight';
-      await page.locator('#work_0_highlight_0').fill(highlightText);
+      await page.type('#work_0_highlight_0', highlightText);
       await expectToBeVisibleAndHaveText(page, '#resume_work_0_highlight_0', highlightText);
     });
 
@@ -106,6 +114,7 @@ test.describe('Work experience menu input', () => {
       page
     }) => {
       await addWorkExperience(page);
+      await page.click('#menu_highlights_0');
       await page.locator('#work_0_newHighlight').click();
       await page.locator('#work_0_highlight_0').fill('Some highlight that I will delete.');
       page.on('dialog', (dialog) => dialog.accept()); // click ok when the delete confirmation dialog occurs
@@ -118,6 +127,7 @@ test.describe('Work experience menu input', () => {
       page
     }) => {
       await addWorkExperience(page);
+      await page.click('#menu_highlights_0');
       await page.locator('#work_0_newHighlight').click();
       const tagName = 'tagName';
       const tagsInput = page.locator('#work_0_highlight_0_tagsInput');
@@ -135,6 +145,7 @@ test.describe('Work experience menu input', () => {
       page
     }) => {
       await addWorkExperience(page);
+      await page.click('#menu_highlights_0');
       // fill in highlights
       const firstHighlight = 'First highlight';
       const secondHighlight = 'Second highlight';
@@ -191,16 +202,20 @@ test.describe('Work experience menu input', () => {
       await page.locator('#work_0_position').fill(work1.position);
       await page.locator('#work_0_startDate').fill(work1.startDate);
       await page.locator('#work_0_endDate').fill(work1.endDate);
+      await page.click('#menu_highlights_0');
       await page.locator('#work_0_newHighlight').click();
       await page.locator('#work_0_highlight_0').fill(work1.highlight);
+      await page.click('#back-button');
       // add second work experience
       await page.locator('#newWork').click();
       await page.locator('#work_1_name').fill(work2.name);
       await page.locator('#work_1_position').fill(work2.position);
       await page.locator('#work_1_startDate').fill(work2.startDate);
       await page.locator('#work_1_endDate').fill(work2.endDate);
+      await page.click('#menu_highlights_1');
       await page.locator('#work_1_newHighlight').click();
       await page.locator('#work_1_highlight_0').fill(work2.highlight);
+      await page.click('#back-button');
 
       // swap work
       await page.locator('#work_0_down').click();
@@ -211,14 +226,18 @@ test.describe('Work experience menu input', () => {
       await expect(page.locator('#work_0_position')).toHaveValue(work2.position);
       await expect(page.locator('#work_0_startDate')).toHaveValue(work2.startDate);
       await expect(page.locator('#work_0_endDate')).toHaveValue(work2.endDate);
+      await page.click('#menu_highlights_0');
       await expect(page.locator('#work_0_highlight_0')).toHaveValue(work2.highlight);
+      await page.click('#back-button');
 
       await expect(page.locator('#work_1_header')).toHaveText(work1.name);
       await expect(page.locator('#work_1_name')).toHaveValue(work1.name);
       await expect(page.locator('#work_1_position')).toHaveValue(work1.position);
       await expect(page.locator('#work_1_startDate')).toHaveValue(work1.startDate);
       await expect(page.locator('#work_1_endDate')).toHaveValue(work1.endDate);
+      await page.click('#menu_highlights_1');
       await expect(page.locator('#work_1_highlight_0')).toHaveValue(work1.highlight);
+      await page.click('#back-button');
 
       // verify the swap is correct in the resume component
       await expect(page.locator('#resume_work_0_name')).toHaveText(work2.name);

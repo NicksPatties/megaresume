@@ -1,15 +1,10 @@
 <script lang="ts">
   import IconButton from '@src/components/iconButton.svelte';
-  import {
-    saveResumeDataToLocalStorage,
-    type Work,
-    workStore,
-    type Highlight
-  } from '@src/data/data';
+  import { saveResumeDataToLocalStorage, type Work, workStore, workI } from '@src/data/data';
+  import { push } from '@src/data/menuStack';
   import { arrayMove } from '@src/util/arrayMove';
   import { getDateValue } from '@src/util/getDateValue';
   import { get } from 'svelte/store';
-  import HighlightsSubMenu from './highlightsSubMenu.svelte';
 
   /**
    * The index of the work item. Required for operations on a specific work item.
@@ -20,7 +15,6 @@
   export let position: string;
   export let startDate: string;
   export let endDate: string;
-  export let highlights: Highlight[];
 
   const maxDate = getDateValue();
 
@@ -77,6 +71,11 @@
     if (target) {
       target.reportValidity();
     }
+  }
+
+  function goToHighlightsMenu() {
+    workI.set(i);
+    push('menu-highlights');
   }
 </script>
 
@@ -151,4 +150,7 @@
   on:input={(e) => updateWorkProperty(e, 'endDate')}
   on:blur={(e) => reportValidity(e)}
 />
-<HighlightsSubMenu {highlights} {i} />
+
+<button id={`menu_highlights_${i}`} class={'big-btn'} on:click={goToHighlightsMenu}
+  >Edit highlights</button
+>
