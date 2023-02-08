@@ -21,7 +21,6 @@ async function expectToBeVisibleAndHaveText(page: Page, id: string, text: string
   await expect(l).toHaveText(text);
 }
 
-// failed
 test.describe('Work experience menu input', () => {
   test('#14 Work highlights do not duplicate when creating new work object', async ({ page }) => {
     await goToWorkMenu(page);
@@ -173,7 +172,6 @@ test.describe('Work experience menu input', () => {
       await expectToBeVisibleAndHaveText(page, '#resume_work_0_highlight_1', secondHighlight);
     });
 
-    // todo fix
     test('Changing the order of work entries updates the resume with the correct information', async ({
       page
     }) => {
@@ -204,16 +202,20 @@ test.describe('Work experience menu input', () => {
       await page.locator('#work_0_position').fill(work1.position);
       await page.locator('#work_0_startDate').fill(work1.startDate);
       await page.locator('#work_0_endDate').fill(work1.endDate);
+      await page.click('#menu_highlights_0');
       await page.locator('#work_0_newHighlight').click();
       await page.locator('#work_0_highlight_0').fill(work1.highlight);
+      await page.click('#back-button');
       // add second work experience
       await page.locator('#newWork').click();
       await page.locator('#work_1_name').fill(work2.name);
       await page.locator('#work_1_position').fill(work2.position);
       await page.locator('#work_1_startDate').fill(work2.startDate);
       await page.locator('#work_1_endDate').fill(work2.endDate);
+      await page.click('#menu_highlights_1');
       await page.locator('#work_1_newHighlight').click();
       await page.locator('#work_1_highlight_0').fill(work2.highlight);
+      await page.click('#back-button');
 
       // swap work
       await page.locator('#work_0_down').click();
@@ -224,14 +226,18 @@ test.describe('Work experience menu input', () => {
       await expect(page.locator('#work_0_position')).toHaveValue(work2.position);
       await expect(page.locator('#work_0_startDate')).toHaveValue(work2.startDate);
       await expect(page.locator('#work_0_endDate')).toHaveValue(work2.endDate);
+      await page.click('#menu_highlights_0');
       await expect(page.locator('#work_0_highlight_0')).toHaveValue(work2.highlight);
+      await page.click('#back-button');
 
       await expect(page.locator('#work_1_header')).toHaveText(work1.name);
       await expect(page.locator('#work_1_name')).toHaveValue(work1.name);
       await expect(page.locator('#work_1_position')).toHaveValue(work1.position);
       await expect(page.locator('#work_1_startDate')).toHaveValue(work1.startDate);
       await expect(page.locator('#work_1_endDate')).toHaveValue(work1.endDate);
+      await page.click('#menu_highlights_1');
       await expect(page.locator('#work_1_highlight_0')).toHaveValue(work1.highlight);
+      await page.click('#back-button');
 
       // verify the swap is correct in the resume component
       await expect(page.locator('#resume_work_0_name')).toHaveText(work2.name);
