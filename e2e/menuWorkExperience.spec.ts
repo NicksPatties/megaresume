@@ -124,11 +124,11 @@ test.describe('Work experience menu input', () => {
       await expect(page.locator('#resume_work_0_highlight_0')).not.toBeVisible();
     });
 
-    // TODO fix
     test('Adding and removing a tag to a highlight should show and hide the tag below the highlight respectively', async ({
       page
     }) => {
       await addWorkExperience(page);
+      await page.click('#menu_highlights_0');
       await page.locator('#work_0_newHighlight').click();
       const tagName = 'tagName';
       const tagsInput = page.locator('#work_0_highlight_0_tagsInput');
