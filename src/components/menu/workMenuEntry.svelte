@@ -151,6 +151,6 @@
   on:blur={(e) => reportValidity(e)}
 />
 
-<button id={`highlights_menu_${i}`} class={'big-btn'} on:click={goToHighlightsMenu}
+<button id={`menu_highlights_${i}`} class={'big-btn'} on:click={goToHighlightsMenu}
   >Edit highlights</button
 >

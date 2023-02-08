@@ -21,17 +21,24 @@ async function expectToBeVisibleAndHaveText(page: Page, id: string, text: string
   await expect(l).toHaveText(text);
 }
 
+// failed
 test.describe('Work experience menu input', () => {
   test('#14 Work highlights do not duplicate when creating new work object', async ({ page }) => {
     await goToWorkMenu(page);
     // click add new work
     await page.click('#newWork');
+    // go to highlights page
+    await page.click('#menu_highlights_0');
     // click add new highlight
     await page.click('#work_0_newHighlight');
     // type in new highlight
     await page.type('#work_0_highlight_0', 'A new highlight');
+    // go back to work menu
+    await page.click('#back-button');
     // click add new work
     await page.click('#newWork');
+    // go to the highlights of the new work you just created
+    await page.click('#menu_highlights_1');
     // check if there are no new highlights
     expect(await page.isVisible('#work_1_highlight_0', { strict: true })).toBe(false);
   });
