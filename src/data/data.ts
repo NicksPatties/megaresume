@@ -200,3 +200,7 @@ export function clearResumeStores(basics = basicsStore, work = workStore, tags =
 
 export const basicsStore = new BasicsStore();
 export const workStore: Writable<Work[]> = writable([]);
+/**
+ * The index to determine which highlights to show in the highlights menu
+ */
+export const workI: Writable<number> = writable(0);

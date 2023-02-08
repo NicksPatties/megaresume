@@ -1,11 +1,14 @@
 <script lang="ts">
   import IconButton from '@src/components/iconButton.svelte';
-  import { workStore, saveResumeDataToLocalStorage, type Highlight } from '@src/data/data';
+  import { workStore, workI, saveResumeDataToLocalStorage } from '@src/data/data';
   import { getTag, addTag, Tag } from '@src/data/tag';
   import { arrayMove } from '@src/util/arrayMove';
+  import { derived } from 'svelte/store';
 
-  export let highlights: Highlight[];
   export let i: number;
+  let highlights = derived([workStore, workI], ([$workStore, $workI]) => {
+    return $workStore[$workI] ? $workStore[$workI].highlights : [];
+  });
 
   function addHighlight() {
     workStore.update((workArray) => {
@@ -91,9 +94,9 @@
   }
 </script>
 
-{#each highlights as highlight, k}
+{#each $highlights as highlight, k}
   <label for="work_{i}_highlight_{k}">
-    New Highlight {k + 1}
+    Highlight {k + 1}
     <div class="label-controls">
       {#if k > 0}
         <IconButton
@@ -103,7 +106,7 @@
           onclick={() => moveHighlight(k, true)}
         />
       {/if}
-      {#if k < highlights.length - 1}
+      {#if k < $highlights.length - 1}
         <IconButton
           size="small"
           id="work_{i}_highlight_{k}_down"
@@ -128,6 +131,7 @@
   <textarea
     id={`work_${i}_highlight_${k}`}
     placeholder={'A cool highlight'}
+    rows={5}
     disabled={!$workStore[i].visible || !highlight.visible}
     on:input={(e) => {
       onHighlightInput(e, k);
@@ -158,8 +162,9 @@
       </span>
     {/each}
   </p>
+  <div class="divider" />
 {/each}
-<button id={`work_${i}_newHighlight`} class="big-btn" on:click={() => addHighlight()}>
+<button id={`work_${i}_newHighlight`} class="big-btn bottom" on:click={() => addHighlight()}>
   Add new highlight
 </button>
 
@@ -180,5 +185,9 @@
     padding: 0 5px;
     border-radius: 5px;
     margin-right: 5px;
+  }
+
+  .bottom {
+    margin-bottom: 1rem;
   }
 </style>

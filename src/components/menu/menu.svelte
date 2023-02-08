@@ -6,6 +6,7 @@
   import ResumeMenu from '@src/components/menu/menus/resumeMenu.svelte';
   import WorkMenu from '@src/components/menu/menus/workMenu.svelte';
   import BasicsMenu from '@src/components/menu/menus/basicsMenu.svelte';
+  import HighlightsMenu from '@src/components/menu/menus/highlightsMenu.svelte';
   import { pop, atMainMenu } from '@src/data/menuStack';
   import TagsMenu from './menus/tagsMenu.svelte';
 
@@ -44,6 +45,7 @@
       <WorkMenu />
       <BasicsMenu />
       <TagsMenu />
+      <HighlightsMenu />
     </div>
   </div>
 </div>
