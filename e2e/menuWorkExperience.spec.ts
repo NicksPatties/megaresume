@@ -101,11 +101,13 @@ test.describe('Work experience menu input', () => {
       await fillAndVerify(page, 'work_0_position', 'Position');
       await fillAndVerify(page, 'work_0_name', 'Name');
       await fillAndVerify(page, 'work_0_startDate', '2000-01', 'January 2000');
-      await fillAndVerify(page, 'work_0_startDate', '2000-12', 'December 2000');
+      await fillAndVerify(page, 'work_0_endDate', '2000-12', 'December 2000');
 
-      await page.locator('#work_0_newHighlight').click();
+      // go to highlights page
+      await page.click('#menu_highlights_0');
+      await page.click('#work_0_newHighlight');
       const highlightText = 'A new highlight';
-      await page.locator('#work_0_highlight_0').fill(highlightText);
+      await page.type('#work_0_highlight_0', highlightText);
       await expectToBeVisibleAndHaveText(page, '#resume_work_0_highlight_0', highlightText);
     });
 
