@@ -142,11 +142,11 @@ test.describe('Work experience menu input', () => {
       await expect(page.locator(tagId)).not.toBeVisible();
     });
 
-    // todo fix
     test('Changing the order of highlights updates the list of highlights in the resume properly', async ({
       page
     }) => {
       await addWorkExperience(page);
+      await page.click('#menu_highlights_0');
       // fill in highlights
       const firstHighlight = 'First highlight';
       const secondHighlight = 'Second highlight';
