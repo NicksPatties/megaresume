@@ -115,6 +115,7 @@ test.describe('Work experience menu input', () => {
       page
     }) => {
       await addWorkExperience(page);
+      await page.click('#menu_highlights_0');
       await page.locator('#work_0_newHighlight').click();
       await page.locator('#work_0_highlight_0').fill('Some highlight that I will delete.');
       page.on('dialog', (dialog) => dialog.accept()); // click ok when the delete confirmation dialog occurs
@@ -123,6 +124,7 @@ test.describe('Work experience menu input', () => {
       await expect(page.locator('#resume_work_0_highlight_0')).not.toBeVisible();
     });
 
+    // TODO fix
     test('Adding and removing a tag to a highlight should show and hide the tag below the highlight respectively', async ({
       page
     }) => {
@@ -140,6 +142,7 @@ test.describe('Work experience menu input', () => {
       await expect(page.locator(tagId)).not.toBeVisible();
     });
 
+    // todo fix
     test('Changing the order of highlights updates the list of highlights in the resume properly', async ({
       page
     }) => {
@@ -170,6 +173,7 @@ test.describe('Work experience menu input', () => {
       await expectToBeVisibleAndHaveText(page, '#resume_work_0_highlight_1', secondHighlight);
     });
 
+    // todo fix
     test('Changing the order of work entries updates the resume with the correct information', async ({
       page
     }) => {
