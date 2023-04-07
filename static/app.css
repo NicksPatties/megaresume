@@ -26,35 +26,20 @@ in different components */
 @media print {
   #open-button,
   .menu,
-  .controls-container,
-  .resume-overflow-warning {
+  .controls-container {
     display: none !important;
   }
   .resume-container {
-    position: static !important;
-    overflow: visible !important;
-    margin: initial !important;
-    width: initial !important;
-    height: initial !important;
+    position: static;
+    overflow: visible;
+    margin: initial;
+    width: initial;
+    height: initial;
   }
   .resume {
     box-sizing: border-box;
-    padding: var(--pointFiveIn);
     top: 0 !important;
     transform: none !important;
-    height: var(--A4height) !important;
-    width: var(--A4width) !important;
     box-shadow: none !important;
-    margin: 0 !important;
-  }
-
-  .name {
-    font-size: 0.27in !important;
-  }
-
-  .subname,
-  ul,
-  h3 {
-    font-size: 0.16in !important;
   }
 }

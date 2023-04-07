@@ -62,7 +62,7 @@
 </script>
 
 <div class="resume-container">
-  <div class="resume">
+  <div class="resume" data-testid="resume">
     <div class="basics">
       <p class="name" class:placeholder={$name.length == 0}>{$name ? $name : 'Your name'}</p>
       <p class="subname" class:placeholder={$label.length == 0}>
@@ -143,6 +143,7 @@
     height: var(--A4height);
     background: white;
     box-shadow: 0px 0px 9px black;
+    box-sizing: border-box;
     transform: scale(1);
     transform-origin: center top;
   }
