@@ -32,23 +32,24 @@ in different components */
   }
   .resume-container {
     position: static !important;
-    overflow: visible !important;
+    overflow: none !important;
     margin: initial !important;
     width: initial !important;
     height: initial !important;
   }
   .resume {
     box-sizing: border-box;
-    padding: var(--pointFiveIn);
+    padding: 0 !important;
     top: 0 !important;
-    transform: none !important;
-    height: var(--A4height) !important;
-    width: var(--A4width) !important;
+    transform: scale(1) !important;
+    height: initial !important;
+    width: 100% !important;
     box-shadow: none !important;
     margin: 0 !important;
+    overflow: none;
   }
 
-  .name {
+  /* .name {
     font-size: 0.27in !important;
   }
 
@@ -56,5 +57,5 @@ in different components */
   ul,
   h3 {
     font-size: 0.16in !important;
-  }
+  } */
 }
