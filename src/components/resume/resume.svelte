@@ -143,6 +143,7 @@
     height: var(--A4height);
     background: white;
     box-shadow: 0px 0px 9px black;
+    box-sizing: border-box;
     transform: scale(1);
     transform-origin: center top;
   }

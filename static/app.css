@@ -39,23 +39,12 @@ in different components */
   }
   .resume {
     box-sizing: border-box;
-    padding: 0 !important;
     top: 0 !important;
     transform: scale(1) !important;
-    height: initial !important;
+    height: 100% !important;
     width: 100% !important;
     box-shadow: none !important;
     margin: 0 !important;
     overflow: none;
   }
-
-  /* .name {
-    font-size: 0.27in !important;
-  }
-
-  .subname,
-  ul,
-  h3 {
-    font-size: 0.16in !important;
-  } */
 }
