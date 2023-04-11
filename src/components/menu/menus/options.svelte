@@ -39,7 +39,7 @@
 </script>
 
 <MenuContents id="menu-options">
-  <h1>options menu</h1>
+  <h1>Options</h1>
 
   <button
     id="openResume"
@@ -58,8 +58,14 @@
     id="clearResume"
     class="big-btn"
     on:click={() => {
-      localStorage.removeItem('saveData');
-      clearResumeStores();
+      if (
+        window.confirm(
+          `Are you sure you would like to delete all of your resume data? This is not reversible!`
+        )
+      ) {
+        localStorage.removeItem('saveData');
+        clearResumeStores();
+      }
     }}>[DEBUG] Clear resume data</button
   >
 
