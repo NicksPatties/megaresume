@@ -1,27 +1,8 @@
 import { type Page, expect, test } from '@playwright/test';
+// @ts-expect-error Need file extension for module to work with Playwright
+import { goToWorkMenu, addWorkExperience, expectToBeVisibleAndHaveText } from './utils.ts';
 
-async function goToWorkMenu(page: Page) {
-  await page.goto('/');
-  // open the menu
-  await page.locator('#open-button').click();
-  // click the resume button
-  await page.locator('#menu-button-resume').click();
-  // click the work experience button
-  await page.locator('#menu-resume-work-button').click();
-}
-
-async function addWorkExperience(page: Page) {
-  await goToWorkMenu(page);
-  await page.click('#newWork');
-}
-
-async function expectToBeVisibleAndHaveText(page: Page, id: string, text: string) {
-  const l = page.locator(id);
-  await expect(l).toBeVisible();
-  await expect(l).toHaveText(text);
-}
-
-test.describe('Work experience menu input', () => {
+test.describe.parallel('Work experience menu input', () => {
   test('#14 Work highlights do not duplicate when creating new work object', async ({ page }) => {
     await goToWorkMenu(page);
     // click add new work
