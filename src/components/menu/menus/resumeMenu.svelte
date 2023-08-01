@@ -15,4 +15,9 @@
     textContent="Work experience"
     onclick={() => push('menu-resume-work')}
   />
+  <MenuNavButton
+    id="menu-resume-education-button"
+    textContent="Education"
+    onclick={() => push('menu-resume-education')}
+  />
 </MenuContents>
