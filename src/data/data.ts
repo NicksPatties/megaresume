@@ -87,6 +87,10 @@ export function removeTagFromWorkStores(tagName: string, stores = workStore) {
   });
 }
 
+export type Education = {
+  name: string;
+};
+
 export type SaveData = {
   basics: Basics;
   work: Work[];
@@ -200,6 +204,7 @@ export function clearResumeStores(basics = basicsStore, work = workStore, tags =
 
 export const basicsStore = new BasicsStore();
 export const workStore: Writable<Work[]> = writable([]);
+export const educationStore: Writable<Education[]> = writable([]);
 /**
  * The index to determine which highlights to show in the highlights menu
  */

@@ -1,14 +1,26 @@
 <script lang="ts">
   import MenuContents from '@src/components/menu/menuContents.svelte';
   import EducationMenuEntry from '@src/components/menu/educationMenuEntry.svelte';
-
-  let education = [{ name: '' }, { name: '' }];
+  import { educationStore } from '@src/data/data';
 </script>
 
 <MenuContents id="menu-resume-education">
   <h2>Education</h2>
 
-  {#each education as edu, i}
+  {#each $educationStore as edu, i}
     <EducationMenuEntry {i} name={edu.name} />
   {/each}
+
+  <button
+    id="newEducation"
+    class="big-btn"
+    on:click={() => {
+      educationStore.update((edu) => {
+        edu.push({
+          name: ''
+        });
+        return edu;
+      });
+    }}>Add new education entry</button
+  >
 </MenuContents>
