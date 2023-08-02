@@ -1,7 +1,8 @@
 <script lang="ts">
   import IconButton from '@src/components/iconButton.svelte';
   import WorkResumeEntry from '@src/components/resume/workResumeEntry.svelte';
-  import { basicsStore, workStore } from '@src/data/data';
+  import EducationResumeEntry from '@src/components/resume/educationResumeEntry.svelte';
+  import { basicsStore, educationStore, workStore } from '@src/data/data';
   import { onMount } from 'svelte';
   import { dateInputToDecoratedString } from '@src/util/resumeUtils';
 
@@ -78,24 +79,30 @@
     <div class="experience">
       {#if $workStore.length > 0}
         <h3>Work Experience</h3>
-        <ul>
-          {#each $workStore as w, i}
-            {#if w.visible}
-              <WorkResumeEntry
-                {i}
-                name={w.name}
-                position={w.position}
-                startDate={dateInputToDecoratedString(w.startDate, 'Start date')}
-                endDate={dateInputToDecoratedString(w.endDate, 'End date')}
-                highlights={w.highlights}
-              />
-            {/if}
-          {/each}
-        </ul>
+        {#each $workStore as w, i}
+          {#if w.visible}
+            <WorkResumeEntry
+              {i}
+              name={w.name}
+              position={w.position}
+              startDate={dateInputToDecoratedString(w.startDate, 'Start date')}
+              endDate={dateInputToDecoratedString(w.endDate, 'End date')}
+              highlights={w.highlights}
+            />
+          {/if}
+        {/each}
       {:else}
         <h3 class="placeholder">Your work experience will go here.</h3>
       {/if}
     </div>
+    {#if $educationStore.length > 0}
+      <div class="education">
+        <h3>Education</h3>
+        {#each $educationStore as e, i}
+          <EducationResumeEntry name={e.name} />
+        {/each}
+      </div>
+    {/if}
   </div>
 </div>
 <div class="controls-container">
@@ -164,8 +171,9 @@
     font-size: 18px;
   }
 
-  ul {
-    font-size: 18px;
+  .experience,
+  .education {
+    font-size: 15px;
   }
 
   .controls-container {
@@ -204,10 +212,6 @@
       top: inital;
       padding: var(--header-height) 0.5rem;
       box-sizing: border-box;
-    }
-
-    ul {
-      padding-inline-start: 0.75rem;
     }
 
     .controls-container {
