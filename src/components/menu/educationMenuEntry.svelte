@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { type Education, educationStore } from '@src/data/data';
+  import { type Education, educationStore, saveResumeDataToLocalStorage } from '@src/data/data';
   import IconButton from '@src/components/iconButton.svelte';
 
   export let i: number;
@@ -20,6 +20,7 @@
       else if (propname == 'degree') eduArray[i].degree = value;
       else if (propname == 'startDate') eduArray[i].startDate = value;
       else if (propname == 'endDate') eduArray[i].endDate = value;
+      saveResumeDataToLocalStorage();
       return eduArray;
     });
   }
@@ -27,12 +28,22 @@
   function hideEducation() {
     educationStore.update((eduArray) => {
       eduArray[i].visible = !eduArray[i].visible;
+      saveResumeDataToLocalStorage();
       return eduArray;
     });
   }
 
   function deleteEducation() {
-    console.log('deleteEducation', i);
+    if (
+      window.confirm(`Are you sure you'd like to delete this entry from your education? ${name}`)
+    ) {
+      educationStore.update((eduArray) => {
+        const eduCopy = eduArray.slice();
+        eduCopy.splice(i, 1);
+        saveResumeDataToLocalStorage();
+        return eduCopy;
+      });
+    }
   }
 </script>
 
@@ -59,7 +70,7 @@
   id="education_{i}_name"
   type="text"
   value={name}
-  disabled={visible}
+  disabled={!visible}
   on:input={(e) => updateEducationProperty(e, 'name')}
 />
 
@@ -69,7 +80,7 @@
   id="education_{i}_type"
   type="text"
   value={type}
-  disabled={visible}
+  disabled={!visible}
   on:input={(e) => updateEducationProperty(e, 'type')}
 />
 
@@ -79,7 +90,7 @@
   id="education_{i}_degree"
   type="text"
   value={degree}
-  disabled={visible}
+  disabled={!visible}
   on:input={(e) => updateEducationProperty(e, 'degree')}
 />
 
@@ -89,7 +100,7 @@
   id="education_{i}_startDate"
   type="month"
   value={startDate}
-  disabled={visible}
+  disabled={!visible}
   on:input={(e) => updateEducationProperty(e, 'startDate')}
 />
 
@@ -99,6 +110,6 @@
   id="education_{i}_endDate"
   type="month"
   value={endDate}
-  disabled={visible}
+  disabled={!visible}
   on:input={(e) => updateEducationProperty(e, 'endDate')}
 />
