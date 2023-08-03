@@ -122,8 +122,8 @@
             name={edu.name}
             type={edu.type}
             degree={edu.degree}
-            startDate={edu.startDate}
-            endDate={edu.endDate}
+            startDate={dateInputToDecoratedString(edu.startDate, 'Start date')}
+            endDate={dateInputToDecoratedString(edu.endDate, 'End date')}
           />
         {/each}
       </div>

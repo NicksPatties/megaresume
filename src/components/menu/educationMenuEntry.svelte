@@ -55,7 +55,7 @@
 <label for="education_{i}_startDate">Start Date</label>
 <input
   id="education_{i}_startDate"
-  type="text"
+  type="month"
   value={startDate}
   on:input={(e) => updateEducationProperty(e, 'startDate')}
 />
@@ -64,7 +64,7 @@
 <label for="education_{i}_endDate">End Date</label>
 <input
   id="education_{i}_endDate"
-  type="text"
+  type="month"
   value={endDate}
   on:input={(e) => updateEducationProperty(e, 'endDate')}
 />
