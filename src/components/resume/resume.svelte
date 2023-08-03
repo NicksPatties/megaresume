@@ -15,6 +15,23 @@
 
   let scaleControl = 1;
 
+  const education = [
+    {
+      name: 'University of California: Santa Cruz',
+      type: 'Masters of Science',
+      degree: 'Games and Playable Media',
+      startDate: '2013',
+      endDate: '2014'
+    },
+    {
+      name: 'University of California: Santa Cruz',
+      type: 'Bachelors of Science',
+      degree: 'Computer Science: Computer Game Design',
+      startDate: '2008',
+      endDate: '2014'
+    }
+  ];
+
   function scaleResume() {
     const resumeHeight = 1056; // 11in
     const margin = 42;
@@ -96,23 +113,20 @@
       {/if}
     </div>
 
-    <div class="education">
-      <h3>Education</h3>
-      <EducationResumeEntry
-        name={'University of California: Santa Cruz'}
-        type={'Masters of Science'}
-        degree={'Games and Playable Media'}
-        startDate={'2013'}
-        endDate={'2014'}
-      />
-      <EducationResumeEntry
-        name={'University of California: Santa Cruz'}
-        type={'Bachelors of Science'}
-        degree={'Computer Science: Computer Game Design'}
-        startDate={'2008'}
-        endDate={'2013'}
-      />
-    </div>
+    {#if education.length > 0}
+      <div class="education">
+        <h3>Education</h3>
+        {#each education as edu, i}
+          <EducationResumeEntry
+            name={edu.name}
+            type={edu.type}
+            degree={edu.degree}
+            startDate={edu.startDate}
+            endDate={edu.endDate}
+          />
+        {/each}
+      </div>
+    {/if}
   </div>
 </div>
 <div class="controls-container">
