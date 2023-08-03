@@ -2,7 +2,7 @@
   import IconButton from '@src/components/iconButton.svelte';
   import WorkResumeEntry from '@src/components/resume/workResumeEntry.svelte';
   import EducationResumeEntry from '@src/components/resume/educationResumeEntry.svelte';
-  import { basicsStore, workStore } from '@src/data/data';
+  import { basicsStore, workStore, educationStore } from '@src/data/data';
   import { onMount } from 'svelte';
   import { dateInputToDecoratedString } from '@src/util/resumeUtils';
 
@@ -116,8 +116,9 @@
     {#if education.length > 0}
       <div class="education">
         <h3>Education</h3>
-        {#each education as edu, i}
+        {#each $educationStore as edu, i}
           <EducationResumeEntry
+            {i}
             name={edu.name}
             type={edu.type}
             degree={edu.degree}

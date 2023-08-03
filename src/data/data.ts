@@ -89,6 +89,10 @@ export function removeTagFromWorkStores(tagName: string, stores = workStore) {
 
 export type Education = {
   name: string;
+  type: string;
+  degree: string;
+  startDate: string;
+  endDate: string;
 };
 
 export type SaveData = {

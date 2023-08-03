@@ -8,7 +8,14 @@
   <h2>Education</h2>
 
   {#each $educationStore as edu, i}
-    <EducationMenuEntry {i} name={edu.name} />
+    <EducationMenuEntry
+      {i}
+      name={edu.name}
+      type={edu.type}
+      degree={edu.degree}
+      startDate={edu.startDate}
+      endDate={edu.endDate}
+    />
   {/each}
 
   <button
@@ -17,7 +24,11 @@
     on:click={() => {
       educationStore.update((edu) => {
         edu.push({
-          name: ''
+          name: '',
+          type: '',
+          degree: '',
+          startDate: '',
+          endDate: ''
         });
         return edu;
       });
