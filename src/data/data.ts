@@ -88,6 +88,7 @@ export function removeTagFromWorkStores(tagName: string, stores = workStore) {
 }
 
 export type Education = {
+  visible: boolean;
   name: string;
   type: string;
   degree: string;

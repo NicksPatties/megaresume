@@ -1,7 +1,9 @@
 <script lang="ts">
   import { type Education, educationStore } from '@src/data/data';
+  import IconButton from '@src/components/iconButton.svelte';
 
   export let i: number;
+  export let visible: boolean;
   export let name: string;
   export let type: string;
   export let degree: string;
@@ -21,15 +23,43 @@
       return eduArray;
     });
   }
+
+  function hideEducation() {
+    educationStore.update((eduArray) => {
+      eduArray[i].visible = !eduArray[i].visible;
+      return eduArray;
+    });
+  }
+
+  function deleteEducation() {
+    console.log('deleteEducation', i);
+  }
 </script>
 
 <!-- name -->
-<h3>Education {i + 1}</h3>
+<h3 class="submenu-header">
+  Education {i + 1}
+  <div class="label-controls">
+    <IconButton
+      size="small"
+      id="education_{i}_hide"
+      iconClass={visible ? 'fa-regular fa-eye' : 'fa-regular fa-eye-slash'}
+      onclick={() => hideEducation()}
+    />
+    <IconButton
+      size="small"
+      id="education_{i}_delete"
+      iconClass="fa-regular fa-trash-can"
+      onclick={() => deleteEducation()}
+    />
+  </div>
+</h3>
 <label for="education_{i}_name">Name</label>
 <input
   id="education_{i}_name"
   type="text"
   value={name}
+  disabled={visible}
   on:input={(e) => updateEducationProperty(e, 'name')}
 />
 
@@ -39,6 +69,7 @@
   id="education_{i}_type"
   type="text"
   value={type}
+  disabled={visible}
   on:input={(e) => updateEducationProperty(e, 'type')}
 />
 
@@ -48,6 +79,7 @@
   id="education_{i}_degree"
   type="text"
   value={degree}
+  disabled={visible}
   on:input={(e) => updateEducationProperty(e, 'degree')}
 />
 
@@ -57,6 +89,7 @@
   id="education_{i}_startDate"
   type="month"
   value={startDate}
+  disabled={visible}
   on:input={(e) => updateEducationProperty(e, 'startDate')}
 />
 
@@ -66,5 +99,6 @@
   id="education_{i}_endDate"
   type="month"
   value={endDate}
+  disabled={visible}
   on:input={(e) => updateEducationProperty(e, 'endDate')}
 />

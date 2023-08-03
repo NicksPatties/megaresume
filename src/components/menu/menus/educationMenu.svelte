@@ -10,6 +10,7 @@
   {#each $educationStore as edu, i}
     <EducationMenuEntry
       {i}
+      visible={edu.visible}
       name={edu.name}
       type={edu.type}
       degree={edu.degree}
@@ -24,6 +25,7 @@
     on:click={() => {
       educationStore.update((edu) => {
         edu.push({
+          visible: true,
           name: '',
           type: '',
           degree: '',

@@ -15,7 +15,7 @@
 
   let scaleControl = 1;
 
-  const education = [
+  const mockEducation = [
     {
       name: 'University of California: Santa Cruz',
       type: 'Masters of Science',
@@ -113,18 +113,20 @@
       {/if}
     </div>
 
-    {#if education.length > 0}
+    {#if $educationStore.length > 0}
       <div class="education">
         <h3>Education</h3>
         {#each $educationStore as edu, i}
-          <EducationResumeEntry
-            {i}
-            name={edu.name}
-            type={edu.type}
-            degree={edu.degree}
-            startDate={dateInputToDecoratedString(edu.startDate, 'Start date')}
-            endDate={dateInputToDecoratedString(edu.endDate, 'End date')}
-          />
+          {#if edu.visible}
+            <EducationResumeEntry
+              {i}
+              name={edu.name}
+              type={edu.type}
+              degree={edu.degree}
+              startDate={dateInputToDecoratedString(edu.startDate, 'Start date')}
+              endDate={dateInputToDecoratedString(edu.endDate, 'End date')}
+            />
+          {/if}
         {/each}
       </div>
     {/if}
