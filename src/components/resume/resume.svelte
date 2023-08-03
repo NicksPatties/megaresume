@@ -2,7 +2,7 @@
   import IconButton from '@src/components/iconButton.svelte';
   import WorkResumeEntry from '@src/components/resume/workResumeEntry.svelte';
   import EducationResumeEntry from '@src/components/resume/educationResumeEntry.svelte';
-  import { basicsStore, educationStore, workStore } from '@src/data/data';
+  import { basicsStore, workStore } from '@src/data/data';
   import { onMount } from 'svelte';
   import { dateInputToDecoratedString } from '@src/util/resumeUtils';
 
@@ -95,14 +95,24 @@
         <h3 class="placeholder">Your work experience will go here.</h3>
       {/if}
     </div>
-    {#if $educationStore.length > 0}
-      <div class="education">
-        <h3>Education</h3>
-        {#each $educationStore as e, i}
-          <EducationResumeEntry name={e.name} />
-        {/each}
-      </div>
-    {/if}
+
+    <div class="education">
+      <h3>Education</h3>
+      <EducationResumeEntry
+        name={'University of California: Santa Cruz'}
+        type={'Masters of Science'}
+        degree={'Games and Playable Media'}
+        startDate={'2013'}
+        endDate={'2014'}
+      />
+      <EducationResumeEntry
+        name={'University of California: Santa Cruz'}
+        type={'Bachelors of Science'}
+        degree={'Computer Science: Computer Game Design'}
+        startDate={'2008'}
+        endDate={'2013'}
+      />
+    </div>
   </div>
 </div>
 <div class="controls-container">

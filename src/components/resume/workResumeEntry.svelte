@@ -14,19 +14,18 @@
 <p>
   <span id={`resume_work_${i}_position`} class:placeholder={position.length == 0}
     >{position || 'Position'}</span
-  >,<span id={`resume_work_${i}_name`} class:placeholder={name.length == 0}>
+  >,
+  <span id={`resume_work_${i}_name`} class:placeholder={name.length == 0}>
     {name || 'Name'}
   </span>
 </p>
 
 <p>
-  <i>
-    <span id={`resume_work_${i}_startDate`} class:placeholder={startDate == 'Start date'}
-      >{startDate}</span
-    >
-    -
-    <span id={`resume_work_${i}_endDate`} class:placeholder={endDate == 'End date'}>{endDate}</span>
-  </i>
+  <span id={`resume_work_${i}_startDate`} class:placeholder={startDate == 'Start date'}
+    >{startDate}</span
+  >
+  -
+  <span id={`resume_work_${i}_endDate`} class:placeholder={endDate == 'End date'}>{endDate}</span>
 </p>
 
 <ul>
