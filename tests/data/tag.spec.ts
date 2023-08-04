@@ -73,6 +73,7 @@ describe('Tag', () => {
       const expectedSaveData = {
         basics: blankBasics,
         work: [],
+        education: [], // The order of the props matters! Why?
         tags: get(mockStore)
       };
       expect(localStorage.setItem).toHaveBeenCalledOnce();
