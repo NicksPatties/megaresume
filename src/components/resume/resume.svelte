@@ -15,23 +15,6 @@
 
   let scaleControl = 1;
 
-  const mockEducation = [
-    {
-      name: 'University of California: Santa Cruz',
-      type: 'Masters of Science',
-      degree: 'Games and Playable Media',
-      startDate: '2013',
-      endDate: '2014'
-    },
-    {
-      name: 'University of California: Santa Cruz',
-      type: 'Bachelors of Science',
-      degree: 'Computer Science: Computer Game Design',
-      startDate: '2008',
-      endDate: '2014'
-    }
-  ];
-
   function scaleResume() {
     const resumeHeight = 1056; // 11in
     const margin = 42;
@@ -94,7 +77,7 @@
       </p>
     </div>
     <div class="experience">
-      {#if $workStore.length > 0}
+      {#if $workStore.filter((w) => w.visible).length > 0}
         <h3>Work Experience</h3>
         {#each $workStore as w, i}
           {#if w.visible}
@@ -113,7 +96,7 @@
       {/if}
     </div>
 
-    {#if $educationStore.length > 0}
+    {#if $educationStore.filter((ed) => ed.visible).length > 0}
       <div class="education">
         <h3>Education</h3>
         {#each $educationStore as edu, i}
