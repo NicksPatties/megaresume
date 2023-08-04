@@ -104,7 +104,7 @@
             <EducationResumeEntry
               {i}
               name={edu.name}
-              type={edu.degree}
+              degree={edu.degree}
               major={edu.major}
               startDate={dateInputToDecoratedString(edu.startDate, 'Start date')}
               endDate={dateInputToDecoratedString(edu.endDate, 'End date')}
