@@ -12,8 +12,8 @@
       {i}
       visible={edu.visible}
       name={edu.name}
-      type={edu.type}
       degree={edu.degree}
+      major={edu.major}
       startDate={edu.startDate}
       endDate={edu.endDate}
     />
@@ -27,8 +27,8 @@
         edu.push({
           visible: true,
           name: '',
-          type: '',
           degree: '',
+          major: '',
           startDate: '',
           endDate: ''
         });

@@ -5,8 +5,8 @@
   export let i: number;
   export let visible: boolean;
   export let name: string;
-  export let type: string;
   export let degree: string;
+  export let major: string;
   export let startDate: string;
   export let endDate: string;
 
@@ -16,8 +16,8 @@
     educationStore.update((eduArray) => {
       const value = target.value;
       if (propname == 'name') eduArray[i].name = value;
-      else if (propname == 'type') eduArray[i].type = value;
       else if (propname == 'degree') eduArray[i].degree = value;
+      else if (propname == 'major') eduArray[i].major = value;
       else if (propname == 'startDate') eduArray[i].startDate = value;
       else if (propname == 'endDate') eduArray[i].endDate = value;
       saveResumeDataToLocalStorage();
@@ -74,16 +74,6 @@
   on:input={(e) => updateEducationProperty(e, 'name')}
 />
 
-<!-- type -->
-<label for="education_{i}_type">Type</label>
-<input
-  id="education_{i}_type"
-  type="text"
-  value={type}
-  disabled={!visible}
-  on:input={(e) => updateEducationProperty(e, 'type')}
-/>
-
 <!-- degree -->
 <label for="education_{i}_degree">Degree</label>
 <input
@@ -92,6 +82,16 @@
   value={degree}
   disabled={!visible}
   on:input={(e) => updateEducationProperty(e, 'degree')}
+/>
+
+<!-- major -->
+<label for="education_{i}_major">Major</label>
+<input
+  id="education_{i}_major"
+  type="text"
+  value={major}
+  disabled={!visible}
+  on:input={(e) => updateEducationProperty(e, 'major')}
 />
 
 <!-- startDate -->

@@ -2,12 +2,12 @@
   export let i: number;
   export let name: string;
   export let type: string;
-  export let degree: string;
+  export let major: string;
   export let startDate: string;
   export let endDate: string;
 </script>
 
-<p id={`type_degree_name_${i}`}>{type}, {degree}, {name}</p>
+<p id={`type_major_name_${i}`}>{type}, {major}, {name}</p>
 <p id={`educaiton_name_${i}`} class={'education-date'}>{startDate} - {endDate}</p>
 
 <style>
