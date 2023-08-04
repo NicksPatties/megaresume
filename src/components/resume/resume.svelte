@@ -5,6 +5,7 @@
   import { basicsStore, workStore, educationStore } from '@src/data/data';
   import { onMount } from 'svelte';
   import { dateInputToDecoratedString } from '@src/util/resumeUtils';
+  import { derived } from 'svelte/store';
 
   let basics = basicsStore;
 
@@ -12,6 +13,14 @@
   const label = basics.label;
   const phone = basics.phone;
   const email = basics.email;
+
+  let anyVisibleWorkItems = derived(workStore, (work) => {
+    return work.filter((w) => w.visible).length > 0;
+  });
+
+  let anyVisibleEducationItems = derived(educationStore, (edu) => {
+    return edu.filter((ed) => ed.visible).length > 0;
+  });
 
   let scaleControl = 1;
 
@@ -77,7 +86,7 @@
       </p>
     </div>
     <div class="experience">
-      {#if $workStore.filter((w) => w.visible).length > 0}
+      {#if $anyVisibleWorkItems}
         <h3>Work Experience</h3>
         {#each $workStore as w, i}
           {#if w.visible}
@@ -96,7 +105,7 @@
       {/if}
     </div>
 
-    {#if $educationStore.filter((ed) => ed.visible).length > 0}
+    {#if $anyVisibleEducationItems}
       <div class="education">
         <h3>Education</h3>
         {#each $educationStore as edu, i}
