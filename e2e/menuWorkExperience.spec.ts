@@ -99,8 +99,8 @@ test.describe('Work experience menu input', () => {
 
       await fillAndVerify(page, 'work_0_position', 'Position');
       await fillAndVerify(page, 'work_0_name', 'Name');
-      await fillAndVerify(page, 'work_0_startDate', '2000-01', 'January 2000');
-      await fillAndVerify(page, 'work_0_endDate', '2000-12', 'December 2000');
+      await fillAndVerify(page, 'work_0_startDate', '2000-01', '2000');
+      await fillAndVerify(page, 'work_0_endDate', '2000-12', '2000');
 
       // go to highlights page
       await page.click('#menu_highlights_0');
@@ -180,9 +180,9 @@ test.describe('Work experience menu input', () => {
         name: 'Work 1 Name',
         position: 'Work 1 Position',
         startDate: '2001-01',
-        decoratedStartDate: 'January 2001',
+        decoratedStartDate: '2001',
         endDate: '2001-12',
-        decoratedEndDate: 'December 2001',
+        decoratedEndDate: '2001',
         highlight: 'Work 1 highlight'
       };
 
@@ -190,9 +190,9 @@ test.describe('Work experience menu input', () => {
         name: 'Work 2 Name',
         position: 'Work 2 Position',
         startDate: '2002-01',
-        decoratedStartDate: 'January 2002',
+        decoratedStartDate: '2002',
         endDate: '2002-12',
-        decoratedEndDate: 'December 2002',
+        decoratedEndDate: '2002',
         highlight: 'Work 2 highlight'
       };
 
