@@ -15,12 +15,14 @@ import { Tag } from '@src/data/tag';
 const blankSaveData = JSON.stringify({
   basics: blankBasics,
   work: [],
+  education: [],
   tags: []
 });
 
 const blankSaveDataWithWork = JSON.stringify({
   basics: blankBasics,
   work: [createBlankWork()],
+  education: [],
   tags: [new Tag('tag', true)]
 });
 
@@ -45,9 +47,10 @@ describe('saveResumeDataToLocalStorage', () => {
   it('saves basics and work data to localStorage', () => {
     const expectedSaveData = blankSaveDataWithWork;
     const basicsStore = new BasicsStore();
+    const educationStore = writable([]);
     const workStore: Writable<Work[]> = writable([createBlankWork()]);
     const tagsStore: Writable<Tag[]> = writable([new Tag('tag', true)]);
-    saveResumeDataToLocalStorage(basicsStore, workStore, tagsStore);
+    saveResumeDataToLocalStorage(basicsStore, workStore, educationStore, tagsStore);
     expect(localStorage.setItem).toHaveBeenCalledOnce();
     expect(localStorage.setItem).toHaveBeenCalledWith('saveData', expectedSaveData);
   });
@@ -61,6 +64,7 @@ describe('loadLocalStorageData', () => {
   it('loads basics, work, and tag data from localStorage', () => {
     const fakeLocalStorage = blankSaveDataWithWork;
     const basicsStore = new BasicsStore();
+    const educationStore = writable([]);
     const workStores: Writable<Work[]> = writable([]);
     const tagsStore: Writable<Tag[]> = writable([]);
 
@@ -71,7 +75,7 @@ describe('loadLocalStorageData', () => {
       }
     });
 
-    loadLocalStorageData(basicsStore, workStores, tagsStore);
+    loadLocalStorageData(basicsStore, workStores, educationStore, tagsStore);
 
     // test basicsStore loaded properly
     expect(get(basicsStore.name)).toBe('');
@@ -131,10 +135,11 @@ describe('loadData', () => {
   it('should error with the correct message if there is a TypeError', () => {
     const garbageData = JSON.stringify({ garbage: 'data' });
     const basicsStore = new BasicsStore();
+    const educationStore = writable([]);
     const workStores: Writable<Work[]> = writable([]);
     const tagsStore: Writable<Tag[]> = writable([]);
 
-    loadData(garbageData, basicsStore, workStores, tagsStore);
+    loadData(garbageData, basicsStore, workStores, educationStore, tagsStore);
 
     expect(console.error).toHaveBeenCalledOnce();
     expect(console.error).toHaveBeenCalledWith(

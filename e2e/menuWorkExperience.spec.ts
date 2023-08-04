@@ -1,4 +1,5 @@
 import { type Page, expect, test } from '@playwright/test';
+import { dateInputToDecoratedString as decorate } from '../src/util/resumeUtils.js';
 
 async function goToWorkMenu(page: Page) {
   await page.goto('/');
@@ -99,8 +100,12 @@ test.describe('Work experience menu input', () => {
 
       await fillAndVerify(page, 'work_0_position', 'Position');
       await fillAndVerify(page, 'work_0_name', 'Name');
-      await fillAndVerify(page, 'work_0_startDate', '2000-01', 'January 2000');
-      await fillAndVerify(page, 'work_0_endDate', '2000-12', 'December 2000');
+      const sd = '2000-01';
+      const dsd = decorate(sd, '');
+      const ed = '2000-12';
+      const ded = decorate(ed, '');
+      await fillAndVerify(page, 'work_0_startDate', sd, dsd);
+      await fillAndVerify(page, 'work_0_endDate', ed, ded);
 
       // go to highlights page
       await page.click('#menu_highlights_0');
@@ -176,23 +181,27 @@ test.describe('Work experience menu input', () => {
       page
     }) => {
       await goToWorkMenu(page);
+      const w1sd = '2001-01';
+      const w1ed = '2001-12';
       const work1 = {
         name: 'Work 1 Name',
         position: 'Work 1 Position',
-        startDate: '2001-01',
-        decoratedStartDate: 'January 2001',
-        endDate: '2001-12',
-        decoratedEndDate: 'December 2001',
+        startDate: w1sd,
+        decoratedStartDate: decorate(w1sd, ''),
+        endDate: w1ed,
+        decoratedEndDate: decorate(w1ed, ''),
         highlight: 'Work 1 highlight'
       };
 
+      const w2sd = '2002-01';
+      const w2ed = '2002-12';
       const work2 = {
         name: 'Work 2 Name',
         position: 'Work 2 Position',
-        startDate: '2002-01',
-        decoratedStartDate: 'January 2002',
-        endDate: '2002-12',
-        decoratedEndDate: 'December 2002',
+        startDate: w2sd,
+        decoratedStartDate: decorate(w2sd, ''),
+        endDate: w2ed,
+        decoratedEndDate: decorate(w2ed, ''),
         highlight: 'Work 2 highlight'
       };
 

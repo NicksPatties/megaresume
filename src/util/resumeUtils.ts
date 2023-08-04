@@ -20,7 +20,6 @@ export function dateInputToDecoratedString(date: string, placeholder: string): s
     return placeholder;
   }
   const opts: Intl.DateTimeFormatOptions = {
-    month: 'long',
     year: 'numeric',
     timeZone: 'UTC'
   };

@@ -70,9 +70,11 @@ describe('Tag', () => {
       });
       const mockStore = writable([new Tag('js', true), new Tag('css', false)]);
       saveTags(mockStore);
+      // order of the props matter because how it stringifies
       const expectedSaveData = {
         basics: blankBasics,
         work: [],
+        education: [],
         tags: get(mockStore)
       };
       expect(localStorage.setItem).toHaveBeenCalledOnce();

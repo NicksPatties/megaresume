@@ -4,11 +4,12 @@
   import Instructions from '@src/components/menu/menus/instructions.svelte';
   import Options from '@src/components/menu/menus/options.svelte';
   import ResumeMenu from '@src/components/menu/menus/resumeMenu.svelte';
+  import EducationMenu from '@src/components/menu/menus/educationMenu.svelte';
   import WorkMenu from '@src/components/menu/menus/workMenu.svelte';
   import BasicsMenu from '@src/components/menu/menus/basicsMenu.svelte';
   import HighlightsMenu from '@src/components/menu/menus/highlightsMenu.svelte';
-  import { pop, atMainMenu } from '@src/data/menuStack';
   import TagsMenu from './menus/tagsMenu.svelte';
+  import { pop, atMainMenu } from '@src/data/menuStack';
 
   let open = false;
 </script>
@@ -43,6 +44,7 @@
       <Options />
       <ResumeMenu />
       <WorkMenu />
+      <EducationMenu />
       <BasicsMenu />
       <TagsMenu />
       <HighlightsMenu />

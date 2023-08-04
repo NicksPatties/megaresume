@@ -87,13 +87,28 @@ export function removeTagFromWorkStores(tagName: string, stores = workStore) {
   });
 }
 
+export type Education = {
+  visible: boolean;
+  name: string;
+  degree: string;
+  major: string;
+  startDate: string;
+  endDate: string;
+};
+
 export type SaveData = {
   basics: Basics;
   work: Work[];
+  education: Education[];
   tags: Tag[];
 };
 
-export function saveData(basics = basicsStore, work = workStore, tags = tagsStore): SaveData {
+export function saveData(
+  basics = basicsStore,
+  work = workStore,
+  edu = educationStore,
+  tags = tagsStore
+): SaveData {
   const saveData: SaveData = {
     basics: {
       name: get(basics.name),
@@ -104,11 +119,16 @@ export function saveData(basics = basicsStore, work = workStore, tags = tagsStor
       summary: get(basics.summary)
     },
     work: [],
+    education: [],
     tags: []
   };
 
   get(work).forEach((w) => {
     saveData.work.push(w);
+  });
+
+  get(edu).forEach((ed) => {
+    saveData.education.push(ed);
   });
 
   get(tags).forEach((t) => {
@@ -124,9 +144,10 @@ export function saveData(basics = basicsStore, work = workStore, tags = tagsStor
 export function saveResumeDataToLocalStorage(
   basics = basicsStore,
   work = workStore,
+  education = educationStore,
   tags = tagsStore
 ) {
-  const data: SaveData = saveData(basics, work, tags);
+  const data: SaveData = saveData(basics, work, education, tags);
   window.localStorage.setItem('saveData', JSON.stringify(data));
 }
 
@@ -134,6 +155,7 @@ export function loadData(
   saveDataString: string,
   basics = basicsStore,
   work = workStore,
+  edu = educationStore,
   tags = tagsStore
 ) {
   const saveData: SaveData = JSON.parse(saveDataString);
@@ -149,10 +171,23 @@ export function loadData(
 
     // load work data
     const workStoresArray: Work[] = [];
+    if (saveData.work == undefined) {
+      saveData.work = [];
+    }
     saveData.work.forEach((work) => {
       workStoresArray.push(work);
     });
     work.set(workStoresArray);
+
+    // load education data
+    const educationStoresArray: Education[] = [];
+    if (saveData.education == undefined) {
+      saveData.education = [];
+    }
+    saveData.education.forEach((edu) => {
+      educationStoresArray.push(edu);
+    });
+    edu.set(educationStoresArray);
 
     // load tags
     const loadedtags: Tag[] = [];
@@ -174,17 +209,23 @@ export function loadData(
 export function loadLocalStorageData(
   basics: BasicsStore = basicsStore,
   work = workStore,
+  edu = educationStore,
   tags = tagsStore
 ) {
   const saveDataString = localStorage.getItem('saveData');
   if (saveDataString != null) {
-    loadData(saveDataString, basics, work, tags);
+    loadData(saveDataString, basics, work, edu, tags);
   } else {
     console.error('Failed to load resume save data from localStorage!');
   }
 }
 
-export function clearResumeStores(basics = basicsStore, work = workStore, tags = tagsStore) {
+export function clearResumeStores(
+  basics = basicsStore,
+  work = workStore,
+  edu = educationStore,
+  tags = tagsStore
+) {
   basics.name.set('');
   basics.label.set('');
   basics.image.set('');
@@ -194,12 +235,13 @@ export function clearResumeStores(basics = basicsStore, work = workStore, tags =
   basics.summary.set('');
 
   work.set([]);
-
+  edu.set([]);
   tags.set([]);
 }
 
 export const basicsStore = new BasicsStore();
 export const workStore: Writable<Work[]> = writable([]);
+export const educationStore: Writable<Education[]> = writable([]);
 /**
  * The index to determine which highlights to show in the highlights menu
  */

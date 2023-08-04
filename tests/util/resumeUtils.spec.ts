@@ -50,6 +50,6 @@ describe('dateInputToDecoratedString', () => {
   });
 
   it('returns a decorated date string if the date input is correct', () => {
-    expect(dateInputToDecoratedString('2000-01', 'placeholder')).toBe('January 2000');
+    expect(dateInputToDecoratedString('2000-01', 'placeholder')).toBe('2000');
   });
 });

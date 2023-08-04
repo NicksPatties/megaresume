@@ -1,9 +1,11 @@
 <script lang="ts">
   import IconButton from '@src/components/iconButton.svelte';
   import WorkResumeEntry from '@src/components/resume/workResumeEntry.svelte';
-  import { basicsStore, workStore } from '@src/data/data';
+  import EducationResumeEntry from '@src/components/resume/educationResumeEntry.svelte';
+  import { basicsStore, workStore, educationStore } from '@src/data/data';
   import { onMount } from 'svelte';
   import { dateInputToDecoratedString } from '@src/util/resumeUtils';
+  import { derived } from 'svelte/store';
 
   let basics = basicsStore;
 
@@ -11,6 +13,14 @@
   const label = basics.label;
   const phone = basics.phone;
   const email = basics.email;
+
+  let anyVisibleWorkItems = derived(workStore, (work) => {
+    return work.filter((w) => w.visible).length > 0;
+  });
+
+  let anyVisibleEducationItems = derived(educationStore, (edu) => {
+    return edu.filter((ed) => ed.visible).length > 0;
+  });
 
   let scaleControl = 1;
 
@@ -76,26 +86,42 @@
       </p>
     </div>
     <div class="experience">
-      {#if $workStore.length > 0}
+      {#if $anyVisibleWorkItems}
         <h3>Work Experience</h3>
-        <ul>
-          {#each $workStore as w, i}
-            {#if w.visible}
-              <WorkResumeEntry
-                {i}
-                name={w.name}
-                position={w.position}
-                startDate={dateInputToDecoratedString(w.startDate, 'Start date')}
-                endDate={dateInputToDecoratedString(w.endDate, 'End date')}
-                highlights={w.highlights}
-              />
-            {/if}
-          {/each}
-        </ul>
+        {#each $workStore as w, i}
+          {#if w.visible}
+            <WorkResumeEntry
+              {i}
+              name={w.name}
+              position={w.position}
+              startDate={dateInputToDecoratedString(w.startDate, 'Start date')}
+              endDate={dateInputToDecoratedString(w.endDate, 'End date')}
+              highlights={w.highlights}
+            />
+          {/if}
+        {/each}
       {:else}
         <h3 class="placeholder">Your work experience will go here.</h3>
       {/if}
     </div>
+
+    {#if $anyVisibleEducationItems}
+      <div class="education">
+        <h3>Education</h3>
+        {#each $educationStore as edu, i}
+          {#if edu.visible}
+            <EducationResumeEntry
+              {i}
+              name={edu.name}
+              degree={edu.degree}
+              major={edu.major}
+              startDate={dateInputToDecoratedString(edu.startDate, 'Start date')}
+              endDate={dateInputToDecoratedString(edu.endDate, 'End date')}
+            />
+          {/if}
+        {/each}
+      </div>
+    {/if}
   </div>
 </div>
 <div class="controls-container">
@@ -164,8 +190,9 @@
     font-size: 18px;
   }
 
-  ul {
-    font-size: 18px;
+  .experience,
+  .education {
+    font-size: 15px;
   }
 
   .controls-container {
@@ -204,10 +231,6 @@
       top: inital;
       padding: var(--header-height) 0.5rem;
       box-sizing: border-box;
-    }
-
-    ul {
-      padding-inline-start: 0.75rem;
     }
 
     .controls-container {

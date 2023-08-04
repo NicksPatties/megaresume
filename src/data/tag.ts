@@ -1,5 +1,5 @@
 import { writable, get, type Writable } from 'svelte/store';
-import { basicsStore, saveResumeDataToLocalStorage, workStore } from './data';
+import { basicsStore, saveResumeDataToLocalStorage, educationStore, workStore } from './data';
 
 export class Tag {
   readonly name: string;
@@ -62,5 +62,5 @@ export function updateAllTags(visible: boolean, store = tagsStore) {
 }
 
 export function saveTags(tags = tagsStore) {
-  saveResumeDataToLocalStorage(basicsStore, workStore, tags);
+  saveResumeDataToLocalStorage(basicsStore, workStore, educationStore, tags);
 }
