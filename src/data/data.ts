@@ -90,8 +90,8 @@ export function removeTagFromWorkStores(tagName: string, stores = workStore) {
 export type Education = {
   visible: boolean;
   name: string;
-  degree: string; // #2 change to major
-  major: string; // #1 change to major
+  degree: string;
+  major: string;
   startDate: string;
   endDate: string;
 };
