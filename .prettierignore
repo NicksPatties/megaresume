@@ -13,3 +13,6 @@ node_modules
 pnpm-lock.yaml
 package-lock.json
 yarn.lock
+
+# Just in case your updating packages and need to install without a lockfile in a CI
+.pnpm-store
