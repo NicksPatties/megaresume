@@ -27,8 +27,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
-    # Installing without pnpm-lock.yaml, since I'm updating packages and know there will be a mismatch
-    - run: pnpm install
+    - run: pnpm install --frozen-lockfile
     - run: pnpm lint
     - run: pnpm test
     - run: pnpm exec playwright install --with-deps
