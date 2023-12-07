@@ -4,8 +4,6 @@
   import { loadLocalStorageData } from '@src/data/data';
   import { onMount } from 'svelte';
 
-  
-
   onMount(() => {
     loadLocalStorageData();
 
@@ -20,7 +18,7 @@
           const name = target.value
           const theme = document.getElementById('current-theme')
           if (theme) {
-            theme.setAttribute('href', `${base}/static/themes/${name}.css`)
+            theme.setAttribute('href', `${base}/themes/${name}.css`)
           }
         }
       })
