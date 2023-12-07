@@ -3,7 +3,6 @@
   import {
     saveResumeDataToLocalStorage,
     createBlankWork,
-    type Work,
     workStore,
   } from '@src/data/data';
   import { tagsStore } from '@src/data/tag';
@@ -12,18 +11,32 @@
     const target = e.target as HTMLInputElement;
     if (target == null) return;
 
-    const [iStr, propname] = target.id.split('_').slice(1);
-    const prop = propname as keyof Work;
+    const [sectionId, iStr, propname] = target.id.split('_');
+    const prop = propname;
     const i = parseInt(iStr);
 
     workStore.update((workArray) => {
       const value = target.value;
       // I would like to just do something like workArray[i][prop], but
       // that doesn't work, so this is what I have to do instead
-      if (prop == 'name') workArray[i].name = value;
+      if (prop == 'startDate' || prop == 'endDate') {
+        const section = document.getElementById(sectionId)
+        if (section) {
+          const idPrefix = [sectionId, iStr, propname].join('_')
+          const yearField = section.querySelector(`#${idPrefix}_year`) as HTMLInputElement
+          const monthField = section.querySelector(`#${idPrefix}_month`) as HTMLInputElement
+          if (yearField && monthField) {
+            const year = yearField.value
+            const month = monthField.value
+            if (year && month) {
+              const newDate = year + '-' + month
+              workArray[i][prop] = newDate
+            }
+          }
+        }
+      }
+      else if (prop == 'name') workArray[i].name = value;
       else if (prop == 'position') workArray[i].position = value;
-      else if (prop == 'startDate') workArray[i].startDate = value;
-      else if (prop == 'endDate') workArray[i].endDate = value;
       saveResumeDataToLocalStorage();
       return workArray;
     });
@@ -111,11 +124,12 @@
         placeholder="YYYY"
         id={`work_${i}_startDate_year`}
         value={w.startDate.split('-')[0]}
+        on:input={updateWorkProperty}
       />
     </label>
     <label class="has-text-input half-width">
       <span>Start month</span>
-      <select id={`work_${i}_startDate_month`} value={w.startDate.split('-')[1]}>
+      <select id={`work_${i}_startDate_month`} value={w.startDate.split('-')[1]} on:input={updateWorkProperty}>
         <MonthOptions />
       </select>
     </label>
@@ -133,11 +147,12 @@
         placeholder="YYYY"
         id={`work_${i}_endDate_year`}
         value={w.endDate.split('-')[0]}
+        on:input={updateWorkProperty}
       />
     </label>
     <label class="has-text-input half-width">
       <span>End month</span>
-      <select id={`work_${i}_endDate_month`} value={w.startDate.split('-')[1]}>
+      <select id={`work_${i}_endDate_month`} value={w.startDate.split('-')[1]} on:input={updateWorkProperty}>
         <MonthOptions />
       </select>
     </label>
