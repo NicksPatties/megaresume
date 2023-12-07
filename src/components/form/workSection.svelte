@@ -51,17 +51,38 @@
     }
   }
 
-  // function addHighlight() {
-  //   workStore.update((workArray) => {
-  //     workArray[i].highlights.push({
-  //       visible: true,
-  //       content: '',
-  //       tagNames: []
-  //     });
-  //     saveResumeDataToLocalStorage();
-  //     return workArray;
-  //   });
-  // }
+  function addHighlight(i: number) {
+    workStore.update((workArray) => {
+      workArray[i].highlights.push({
+        visible: true,
+        content: '',
+        tagNames: []
+      });
+      saveResumeDataToLocalStorage();
+      return workArray;
+    });
+  }
+
+  function onHighlightInput(e: Event, i: number, k: number) {
+    const target = e.target as HTMLInputElement;
+    if (target) {
+      workStore.update((workArray) => {
+        workArray[i].highlights[k].content = target.value;
+        saveResumeDataToLocalStorage();
+        return workArray;
+      });
+    }
+  }
+
+  function deleteHighlight(i: number, k: number) {
+    if (window.confirm('Are you sure you would like to delete this highlight?')) {
+      workStore.update((workArray) => {
+        workArray[i].highlights.splice(k, 1);
+        saveResumeDataToLocalStorage();
+        return workArray;
+      });
+    }
+  }
 </script>
 
 <section id="work">
@@ -129,12 +150,13 @@
           rows="3"
           value={h.content}
           placeholder="This is an accomplishment..."
+          on:input={(e) => {onHighlightInput(e, i, k)}}
         ></textarea>
       </label>
       <label class="has-text-input">
         <span>Related skills</span>
-        <input id="skills-search" type="search" placeholder="Search skills..." />
-        <select id="skills-select" multiple={true}>
+        <input id={`work_${i}_highlights_${k}_skills-search`} type="search" placeholder="Search skills..." />
+        <select id={`work_${i}_highlights_${k}_skills-select`} multiple={true}>
           {#each $tagsStore as skill}
             <!-- Not really doing anything with the skills right now tbh -->
             <option
@@ -146,9 +168,9 @@
           {/each}
         </select>
       </label>
-      <button id="remove">Remove accomplishment</button>
+      <button id="remove" on:click={() => {deleteHighlight(i, k)}}>Remove accomplishment</button>
     {/each}
-    <button id={`work_${i}_add-highlight`}>Add accomplishment</button>
+    <button id={`work_${i}_add-highlight`} on:click={() => {addHighlight(i)}}>Add accomplishment</button>
     <button id={`work_${i}_remove`} on:click={deleteWork}>Remove work experience</button>
   {/each}
   <button id="add-work" on:click={addWork}>Add work experience</button>
