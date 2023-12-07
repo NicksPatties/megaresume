@@ -1,6 +1,7 @@
 <script lang="ts">
   import WorkSection from '@src/components/form/workSection.svelte';
   import EducationSection from '@src/components/form/educationSection.svelte';
+    import SkillsSection from './skillsSection.svelte';
 </script>
 
 <div class="form">
@@ -49,30 +50,7 @@
     <button id="add-education">Add education</button>
   </section>
 
-  <template id="new-skill-table-row">
-    <tr id="skills-#">
-      <td><label id="skills-#-name" for="skills-#-visibility">Skill name</label></td>
-      <td><input type="checkbox" id="skills-#-visibility" checked></td>
-      <td><button id="skills-#-remove"><i class="fa-solid fa-trash"></i></button></td>
-    </tr>
-  </template>
-
-  <section id="skills">
-    <h1>Skills</h1>
-    <label class="has-text-input">
-      <span>Search</span>
-      <input type="search" placeholder="CSS, Git, etc..." id="skill-search" />
-    </label>
-    <table>
-      <tbody>
-      </tbody>
-    </table>
-    <label class="has-text-input">
-      <span>New skill</span>
-      <input type="text" placeholder="CSS, Git, etc..." id="new-skill-name" />
-    </label>
-    <button id="add-skill">Add skill</button>
-  </section>
+  <SkillsSection/>
 
   <section id="themes">
     <h1>Themes</h1>
