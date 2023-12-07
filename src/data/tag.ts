@@ -1,3 +1,6 @@
+/**
+ * Todo: rename tags to skills
+ */
 import { writable, get, type Writable } from 'svelte/store';
 import { basicsStore, saveResumeDataToLocalStorage, educationStore, workStore } from './data';
 
