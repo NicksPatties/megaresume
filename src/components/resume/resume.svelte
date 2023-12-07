@@ -1,9 +1,7 @@
 <script lang="ts">
-  import IconButton from '@src/components/iconButton.svelte';
   import WorkResumeEntry from '@src/components/resume/workResumeEntry.svelte';
   import EducationResumeEntry from '@src/components/resume/educationResumeEntry.svelte';
   import { basicsStore, workStore, educationStore } from '@src/data/data';
-  import { onMount } from 'svelte';
   import { dateInputToDecoratedString } from '@src/util/resumeUtils';
   import { derived } from 'svelte/store';
 
@@ -22,56 +20,8 @@
     return edu.filter((ed) => ed.visible).length > 0;
   });
 
-  let scaleControl = 1;
-
-  function scaleResume() {
-    const resumeHeight = 1056; // 11in
-    const margin = 42;
-    const fittedResumeHeight = window.innerHeight - margin * 2;
-    const scale = fittedResumeHeight / resumeHeight;
-    const resumeNode: HTMLElement | null = document.querySelector('.resume');
-    const resumeOverflowNode: HTMLElement | null = document.querySelector('.overflow-warning');
-    const newScale = `scale(${scale * scaleControl})`;
-    if (resumeNode != null) {
-      if (window.innerWidth <= 400) {
-        resumeNode.style.transform = `initial`;
-      } else {
-        resumeNode.style.transform = newScale;
-      }
-    }
-
-    if (resumeOverflowNode != null) {
-      if (window.innerWidth <= 400) {
-        resumeOverflowNode.style.transform = `initial`;
-      } else {
-        resumeOverflowNode.style.transform = newScale;
-      }
-    }
-  }
-
-  function fitResumeContainer() {
-    const resumeContainer = document.querySelector('.resume-container') as HTMLElement;
-
-    if (window.innerWidth <= 400) {
-      resumeContainer.style.height = `${window.innerHeight}px`;
-      resumeContainer.style.width = `${window.innerWidth}px`;
-    } else {
-      resumeContainer.style.height = `100%`;
-      resumeContainer.style.width = `100%`;
-    }
-  }
-
-  onMount(() => {
-    fitResumeContainer();
-    scaleResume();
-    onresize = () => {
-      fitResumeContainer();
-      scaleResume();
-    };
-  });
 </script>
 
-<div class="resume-container">
   <div class="resume" data-testid="resume">
     <div class="basics">
       <p class="name" class:placeholder={$name.length == 0}>{$name ? $name : 'Your name'}</p>
@@ -123,118 +73,3 @@
       </div>
     {/if}
   </div>
-</div>
-<div class="controls-container">
-  <IconButton
-    id="zoom-in"
-    iconClass="fa-solid fa-magnifying-glass-plus"
-    onclick={() => {
-      scaleControl += 0.1;
-      scaleResume();
-    }}
-  />
-  <IconButton
-    id="zoom-out"
-    iconClass="fa-solid fa-magnifying-glass-minus"
-    onclick={() => {
-      scaleControl -= 0.1;
-      scaleResume();
-    }}
-  />
-</div>
-
-<style>
-  :root {
-    --A4height: 1056px; /* 11in */
-    --A4width: 816px; /* 8.5in */
-    --pointFiveIn: 48px;
-  }
-
-  .resume-container {
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    height: 100%;
-    width: 100%;
-  }
-
-  .resume {
-    position: absolute;
-    overflow: hidden;
-    top: var(--header-height);
-    z-index: 5;
-    padding: var(--pointFiveIn);
-    width: var(--A4width);
-    height: var(--A4height);
-    background: white;
-    box-shadow: 0px 0px 9px black;
-    box-sizing: border-box;
-    transform: scale(1);
-    transform-origin: center top;
-  }
-
-  /* Theme classes and such */
-  .basics {
-    display: flex;
-    flex-direction: column;
-    width: 75%;
-    margin-bottom: 0.25in;
-  }
-
-  .name {
-    font-size: 24px;
-  }
-
-  .subname {
-    font-size: 18px;
-  }
-
-  .experience,
-  .education {
-    font-size: 15px;
-  }
-
-  .controls-container {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    bottom: 20px;
-    right: 20px;
-    z-index: 10;
-  }
-
-  .placeholder {
-    color: gray;
-  }
-
-  @media only screen and (max-width: 400px) {
-    h3 {
-      font-size: 1rem;
-    }
-
-    .resume-container {
-      display: block;
-      justify-content: initial;
-      align-items: inital;
-      overflow-y: scroll;
-    }
-
-    .resume {
-      position: initial;
-      overflow-x: initial;
-      overflow-y: initial;
-      box-shadow: none;
-      width: 100%;
-      padding: 0;
-      transform: initial;
-      top: inital;
-      padding: var(--header-height) 0.5rem;
-      box-sizing: border-box;
-    }
-
-    .controls-container {
-      display: none;
-    }
-  }
-</style>

@@ -1,45 +1,587 @@
-/* Global app styles */
-html {
-  font-size: 18px;
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
 }
 
-body {
+body,
+:is(h1, h2, h3, h4, h5, h6, p) {
+  margin: 0;
+}
+
+/*
+  Colors
+*/
+
+html {
+  --font-color: black;
+  --font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial,
+    sans-serif;
+  --background-color-primary: hsl(0, 0%, 100%);
+  --background-color-secondary: hsl(0, 0%, 95%);
+
+  /*
+    Nav and panel nav colors
+  */
+
+  --nav-button-width: 50px;
+  --nav-button-color-hover: rgba(255, 255, 255, 0.144);
+  --nav-button-color-click: hsl(0, 0%, 100%, 0.5);
+
+  /*
+    Form text input colors
+  */
+  --form-text-input-background-color: var(--background-color-primary);
+  --form-text-input-font-size: 0.9rem;
+  --form-text-input-padding: 4px;
+  --form-text-input-border-radius: 4px;
+  --form-text-input-border: 1px solid var(--font-color);
+  --form-input-active-border-color: hsl(0, 0%, 0%);
+  --form-input-active-border-color-danger: hsl(0, 100%, 50%);
+
+  /*
+    Form button colors
+  */
+  --form-button-font-weight: bold;
+  --form-button-background-color: var(--background-color-primary);
+  --form-button-background-color-hover: var(--background-color-primary);
+  --form-button-background-color-click: hsl();
+  --form-button-font-size: 1rem;
+  --form-button-padding: 0.75rem;
+  --form-button-column-width: 3;
+  --form-button-border-radius: 4px;
+  --form-button-border: 1px solid var(--font-color);
+
+  /* Skill table colors */
+  --table-header-color: hsl(0, 100%, 50%);
+  --table-row-odd-color: var(--table-header-color);
+
+  color: var(--font-color);
+  background: var(--background-color-primary);
+  font-family: var(--font-family);
+}
+
+a {
+  color: var(--font-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    --font-color: white;
+    --background-color-primary: hsl(0, 0%, 10%);
+    --background-color-secondary: hsl(0, 0%, 15%);
+    --form-text-input-background-color: var(--background-color-secondary);
+    --nav-button-color-hover: hsl(0, 0%, 20%);
+    --nav-button-color-click: hsl(0, 0%, 25%);
+  }
+}
+
+/*
+  App three panel grid container
+*/
+
+.grid-container {
+  height: 100dvh;
+  display: grid;
+  grid-template-columns: 200px 1fr 1fr;
+  grid-template-areas: 'menu main preview';
+}
+
+/*
+  Side navigation menu
+*/
+
+nav.menu {
+  grid-area: menu;
+  background: var(--background-color-secondary);
+  overflow-x: hidden;
+
+  display: grid;
+  grid-template-rows: var(--nav-button-width) 1fr auto;
+  grid-template-areas:
+    'header'
+    'options'
+    'footer';
+}
+
+nav.menu header {
+  grid-area: header;
+  align-self: center;
+  justify-self: center;
+}
+
+nav.menu > ul {
+  grid-area: options;
+}
+
+nav.menu footer {
+  grid-area: footer;
+}
+
+nav.menu ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav.menu li {
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+}
+
+nav.menu a {
+  text-decoration-line: none;
+}
+
+nav.menu a:hover > li {
+  background: var(--nav-button-color-hover);
+}
+
+nav.menu a:active > li {
+  background: var(--nav-button-color-click);
+}
+
+main {
+  grid-area: main;
+}
+
+div.panel {
+  grid-area: preview;
+  background: var(--background-color-secondary);
+}
+
+.panel {
+  display: grid;
+  grid-template-rows: var(--nav-button-width) auto;
+  grid-template-areas: 'panel-header' 'panel-content';
+  overflow-x: hidden;
+}
+
+/*
+  Panel navigation styles
+*/
+
+.panel-nav {
+  display: grid;
+  grid-template-columns: var(--nav-button-width) auto var(--nav-button-width);
+  gap: 10px;
+}
+
+.panel-nav > button {
+  border: none;
+  border-radius: 50%;
+  margin: 0.5rem;
   padding: 0;
   margin: 0;
-  height: 100%;
-  overflow: hidden;
+  background-color: transparent;
+  color: var(--font-color);
+  font-size: 1.33rem;
+  cursor: pointer;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p {
+.panel-nav > button:hover {
+  background-color: var(--nav-button-color-hover);
+}
+
+.panel-nav > button:active {
+  background-color: var(--nav-button-color-click);
+}
+
+/* this should only be visibile when the side menu is invisible */
+.panel-nav > button:first-child,
+#open-preview-button {
+  visibility: hidden;
+}
+
+.panel-nav > :is(span, h1, h2) {
+  align-self: center;
+}
+
+/*
+  Main panel content
+*/
+
+main .panel-nav {
+  grid-row: 1;
+  grid-column: 1;
+  z-index: 2;
+}
+
+main .panel-content {
+  --panel-padding: minmax(2rem, 7rem);
+  grid-row: 1 / -1;
+  grid-column: 1;
+  overflow-y: auto;
+  max-height: calc(100dvh);
+  margin-top: 13px;
+
+  display: grid;
+  grid-template-columns: var(--panel-padding) auto var(--panel-padding);
+  grid-template-areas: 'gutter-left panel-form gutter-right';
+}
+
+main .panel-content > .form {
+  grid-area: panel-form;
+}
+
+/*
+  Form styles
+*/
+
+.form > section {
+  --num-columns: 8;
+  --form-input-gap: 2.5rem;
+  --section-margin-bottom: 20rem;
+
+  display: grid;
+  grid-template-columns: repeat(var(--num-columns), 1fr);
+  row-gap: var(--form-input-gap);
+  column-gap: var(--form-input-gap);
+  margin-bottom: var(--section-margin-bottom);
+}
+
+.form > section:last-child {
+  margin-bottom: var(--section-margin-bottom);
+}
+
+.form > section > :is(h1, h2, h3, h4, h5, h6) {
+  grid-column: span var(--num-columns);
+  background: var(--background-color-primary);
+}
+
+.form > section > :is(h1, h2) {
+  position: sticky;
+}
+
+.form > section > h1 {
+  top: 0;
+}
+
+.form > section > h2 {
+  top: 0rem;
+}
+
+.form > section > label {
+  font-size: 1rem;
+}
+
+.form textarea {
+  font-family: var(--font-family);
+  resize: none;
+}
+
+.form
+  > section
+  > label:has(
+    input[type='text'],
+    input[type='search'],
+    input[type='email'],
+    input[type='number'],
+    select,
+    textarea
+  ) {
+  --label-gap: calc(var(--form-input-gap) / 2);
+
+  display: grid;
+  grid-gap: var(--label-gap);
+  grid-column: span var(--num-columns);
+}
+
+.form > section > label.has-text-input {
+  --label-gap: calc(var(--form-input-gap) / 2);
+
+  display: grid;
+  grid-gap: var(--label-gap);
+  grid-column: span var(--num-columns);
+}
+
+.form
+  > section
+  > label:has(
+    input[type='text'],
+    input[type='search'],
+    input[type='email'],
+    input[type='number'],
+    select,
+    textarea
+  ).half-width {
+  grid-column: span calc(var(--num-columns) / 2);
+}
+
+.form > section > label.has-text-input.half-width {
+  grid-column: span calc(var(--num-columns) / 2);
+}
+
+.form
+  > section
+  > label
+  > :is(
+    input[type='text'],
+    input[type='search'],
+    input[type='email'],
+    input[type='number'],
+    select,
+    textarea
+  ) {
+  width: 100%;
+  font-size: var(--form-text-input-font-size);
+  color: var(--font-color);
+  border: var(--form-text-input-border);
+  padding: var(--form-text-input-padding);
+  border-radius: var(--form-text-input-border-radius);
+  outline-offset: 2px;
+  background: var(--form-text-input-background-color);
+}
+
+.form :is(input, select, textarea, button, a):focus-visible {
+  outline-offset: 2px;
+  outline-color: var(--form-input-active-border-color);
+}
+
+.form :is(input, select, textarea, button, a):focus {
+  outline-offset: 2px;
+  outline-color: var(--form-input-active-border-color);
+}
+
+.form :is(input, button).danger:focus-visible {
+  border-color: var(--form-input-active-border-color-danger);
+  outline-color: var(--form-input-active-border-color-danger);
+}
+
+.form > section .full-width {
+  grid-column: span var(--num-columns);
+}
+
+.form > section > label:has(input[type='checkbox'], input[type='radio']) {
+  grid-column: span var(--num-columns);
+}
+
+.form > section > label.has-checkbox-input {
+  grid-column: span var(--num-columns);
+}
+
+.form > section > .text-input-label {
+  grid-column: span var(--num-columns);
+}
+
+.form > section > button {
+  grid-column: span var(--form-button-column-width);
+  background: var(--form-button-background-color);
+  font-size: var(--form-button-font-size);
+  color: var(--font-color);
+  font-weight: var(--form-button-font-weight);
+  padding: var(--form-button-padding);
+  border: var(--form-button-border);
+  border-radius: var(--form-button-border-radius);
+  cursor: pointer;
+}
+
+.form > section > button:hover {
+  background: hsl(0, 0%, 15%);
+}
+
+.form > section > button:active {
+  background: hsl(0, 0%, 20%);
+}
+
+/*
+  Skill table styles
+*/
+.form > section > table {
+  --table-row-height: 2.5rem;
+  --table-odd-row-color: var(--background-color-secondary);
+  grid-column: span var(--num-columns);
+  border: none;
+  display: none;
+}
+
+.form > section > table:has(tbody > tr) {
+  /* Show the table if there are rows */
+  display: table;
+}
+
+.form > section > table.visible {
+  display: table;
+}
+
+.form > section > table > tbody > tr {
+  height: var(--table-row-height);
+}
+
+.form > section > table > tbody > tr > td {
+  border: none;
+}
+
+.form > section > table > tbody > tr > td:first-child {
+  text-align: center;
+}
+
+.form > section > table > tbody > tr:nth-child(odd) {
+  background: var(--background-color-secondary);
+}
+
+.form > section > table > tbody > tr > td:first-child {
+  text-align: start;
+  width: 66%;
+}
+
+.form > section > table > tbody > tr > :is(td:nth-child(2), td:nth-child(3)) {
+  text-align: center;
+}
+
+.form > section > table > tbody > tr > td:last-child {
+  text-align: end;
+}
+
+.form > section > table > tbody > tr > td > button {
+  background: transparent;
+  border: none;
+  color: var(--font-color);
+  font-size: 1rem;
+}
+
+.align-center {
+  text-align: center;
+}
+
+ul.no-dots {
+  margin: 0;
+  padding: 0;
+}
+
+ul.no-dots > li {
+  list-style-type: none;
+}
+
+/*
+  Resume preview container
+*/
+
+.resume-container {
+  --resume-ratio: 0.8;
+
+  --letter-height: 11in;
+  --letter-width: 8.5in;
+  --pointFiveIn: 0.5in;
+  --resume-width: calc(var(--letter-width) * var(--resume-ratio));
+  --resume-height: calc(var(--letter-height) * var(--resume-ratio));
+  aspect-ratio: var(--letter-width) / var(--letter-height);
+  grid-area: panel-content;
+
+  display: grid;
+  justify-items: center;
+  grid-template-rows: max(auto, 10px) var(--resume-height) max(auto, 10px);
+  grid-template-areas:
+    '.'
+    'resume'
+    '.';
+  overflow-y: scroll;
+}
+
+.resume {
+  --font-size: 24px;
+  box-sizing: border-box;
+  color: black;
+  background: white;
+  padding: calc(var(--pointFiveIn) * var(--resume-ratio));
+  font-size: calc(var(--font-size) * var(--resume-ratio));
+  width: var(--resume-width);
+  height: var(--resume-height);
+  grid-area: resume;
+}
+
+.resume :is(h1, h2, h3, h4, h5, h6) {
   margin: 0;
 }
 
-/* print media queries in here, since I don't want to write them over and over again
-in different components */
+#print-resume {
+  --resume-ratio: 1;
+
+  --letter-height: 11in;
+  --letter-width: 8.5in;
+  --pointFiveIn: 0.5in;
+  --resume-width: calc(var(--letter-width) * var(--resume-ratio));
+  --resume-height: calc(var(--letter-height) * var(--resume-ratio));
+  display: none;
+}
+
+/*
+  tablet size, single panel, side menu open, preview is hidden
+*/
+
+@media screen and (max-width: 1300px) {
+  .grid-container {
+    grid-template-columns: 200px 1fr 0;
+  }
+
+  .grid-container.preview-open {
+    grid-template-columns: 200px 0 1fr;
+  }
+
+  div > .panel-nav > button:first-child,
+  #open-preview-button {
+    visibility: visible;
+  }
+}
+
+/*
+  mobile size, single panel, side menu closed by default
+*/
+
+@media screen and (max-width: 530px) {
+  html {
+    --form-button-column-width: 1;
+  }
+
+  .grid-container {
+    grid-template-columns: 0 1fr 0;
+  }
+
+  .grid-container.menu-open {
+    grid-template-columns: 1fr 0 0;
+  }
+
+  .grid-container.preview-open {
+    grid-template-columns: 0 0 1fr;
+  }
+
+  main > .panel-nav > button:first-child {
+    visibility: visible;
+  }
+
+  main .panel-content {
+    --panel-padding: minmax(5%, 15%);
+  }
+
+  .form > section {
+    --num-columns: 1;
+  }
+
+  .resume-container {
+    --resume-ratio: 0.4;
+  }
+}
 
 @media print {
-  #open-button,
-  .menu,
-  .controls-container {
-    display: none !important;
-  }
-  .resume-container {
-    position: static;
-    overflow: visible;
-    margin: initial;
-    width: initial;
-    height: initial;
-  }
-  .resume {
+  *,
+  *::after,
+  *::before {
     box-sizing: border-box;
-    top: 0 !important;
-    transform: none !important;
-    box-shadow: none !important;
+  }
+
+  body {
+    margin: 0;
+    display: initial;
+  }
+
+  .resume-container {
+    --resume-ratio: 1;
+  }
+
+  #app-div {
+    display: none;
+  }
+
+  #print-resume {
+    display: block;
   }
 }
