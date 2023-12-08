@@ -58,6 +58,11 @@ export type Work = {
   position: string;
   url: string;
   startDate: string;
+  startMonth: string;
+  startYear: string;
+  current: boolean;
+  endMonth: string;
+  endYear: string;
   endDate: string;
   summary: string;
   highlights: Highlight[];
@@ -70,6 +75,11 @@ export function createBlankWork(): Work {
     position: '',
     url: '',
     startDate: '',
+    startMonth: '',
+    startYear: '',
+    current: false,
+    endMonth: '',
+    endYear: '',
     endDate: '',
     summary: '',
     highlights: []
@@ -92,8 +102,11 @@ export type Education = {
   name: string;
   degree: string;
   major: string;
-  startDate: string;
-  endDate: string;
+  startYear: string;
+  startMonth: string;
+  current: boolean;
+  endYear: string;
+  endMonth: string;
 };
 
 export type SaveData = {

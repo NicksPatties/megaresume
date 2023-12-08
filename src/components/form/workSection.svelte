@@ -11,7 +11,7 @@
     const target = e.target as HTMLInputElement;
     if (target == null) return;
 
-    const [sectionId, iStr, propname] = target.id.split('_');
+    const [iStr, propname] = target.id.split('_').slice(1);
     const prop = propname;
     const i = parseInt(iStr);
 
@@ -19,22 +19,11 @@
       const value = target.value;
       // I would like to just do something like workArray[i][prop], but
       // that doesn't work, so this is what I have to do instead
-      if (prop == 'startDate' || prop == 'endDate') {
-        const section = document.getElementById(sectionId)
-        if (section) {
-          const idPrefix = [sectionId, iStr, propname].join('_')
-          const yearField = section.querySelector(`#${idPrefix}_year`) as HTMLInputElement
-          const monthField = section.querySelector(`#${idPrefix}_month`) as HTMLInputElement
-          if (yearField && monthField) {
-            const year = yearField.value
-            const month = monthField.value
-            if (year && month) {
-              const newDate = year + '-' + month
-              workArray[i][prop] = newDate
-            }
-          }
-        }
-      }
+      if (prop == 'startYear') workArray[i].startYear = value
+      else if (prop == 'startMonth') workArray[i].startMonth = value
+      else if (prop == 'endYear') workArray[i].endYear = value
+      else if (prop == 'endMonth') workArray[i].endMonth = value
+      else if (prop == 'current') workArray[i].current = target.checked
       else if (prop == 'name') workArray[i].name = value;
       else if (prop == 'position') workArray[i].position = value;
       saveResumeDataToLocalStorage();
@@ -122,20 +111,20 @@
         min="1900"
         max="2023"
         placeholder="YYYY"
-        id={`work_${i}_startDate_year`}
-        value={w.startDate.split('-')[0]}
+        id={`work_${i}_startYear`}
+        value={w.startYear}
         on:input={updateWorkProperty}
       />
     </label>
     <label class="has-text-input half-width">
       <span>Start month</span>
-      <select id={`work_${i}_startDate_month`} value={w.startDate.split('-')[1]} on:input={updateWorkProperty}>
+      <select id={`work_${i}_startMonth`} value={w.startMonth} on:input={updateWorkProperty}>
         <MonthOptions />
       </select>
     </label>
     <label class="has-checkbox-input">
       <!-- current doens't actually exist in a work object, btw-->
-      <input type="checkbox" id={`work_${i}_current`} />
+      <input type="checkbox" id={`work_${i}_current`} value={w.current} on:input={updateWorkProperty}/>
       <span>I currently work here</span>
     </label>
     <label class="has-text-input half-width">
@@ -145,14 +134,15 @@
         min="1900"
         max="2023"
         placeholder="YYYY"
-        id={`work_${i}_endDate_year`}
-        value={w.endDate.split('-')[0]}
+        disabled={w.current}
+        id={`work_${i}_endYear`}
+        value={w.endYear}
         on:input={updateWorkProperty}
       />
     </label>
     <label class="has-text-input half-width">
       <span>End month</span>
-      <select id={`work_${i}_endDate_month`} value={w.startDate.split('-')[1]} on:input={updateWorkProperty}>
+      <select id={`work_${i}_endMonth`} value={w.endMonth} disabled={w.current} on:input={updateWorkProperty}>
         <MonthOptions />
       </select>
     </label>

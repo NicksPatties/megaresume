@@ -2,8 +2,7 @@
   import MonthOptions from "@src/components/monthOptions.svelte";
   import {
     educationStore,
-    saveResumeDataToLocalStorage, 
-    type Education 
+    saveResumeDataToLocalStorage
   } from "@src/data/data";
 
   function updateEducationProperty(e: Event) {
@@ -11,18 +10,21 @@
     if (target == null) return;
 
     const [iStr, propname] = target.id.split('_').slice(1);
-    const prop = propname as keyof Education;
+    const prop = propname;
     const i = parseInt(iStr);
 
     educationStore.update((eduArray) => {
       const value = target.value;
       // I would like to just do something like workArray[i][prop], but
       // that doesn't work, so this is what I have to do instead
-      if (prop == 'name') eduArray[i].name = value;
+      if (prop == 'startYear') eduArray[i].startYear = value
+      else if (prop == 'startMonth') eduArray[i].startMonth = value
+      else if (prop == 'endYear') eduArray[i].endYear = value
+      else if (prop == 'endMonth') eduArray[i].endMonth = value
+      else if (prop == 'current') eduArray[i].current = target.checked
+      else if (prop == 'name') eduArray[i].name = value;
       else if (prop == 'degree') eduArray[i].degree = value;
       else if (prop == 'major') eduArray[i].major = value;
-      else if (prop == 'startDate') eduArray[i].startDate = value;
-      else if (prop == 'endDate') eduArray[i].endDate = value;
       saveResumeDataToLocalStorage();
       return eduArray;
     });
@@ -35,8 +37,11 @@
         name: '',
         degree: '',
         major: '',
-        startDate: '',
-        endDate: ''
+        startMonth: '',
+        startYear: '',
+        current: false,
+        endMonth: '',
+        endYear: '',
       });
       return edu;
     });
@@ -82,17 +87,18 @@
         max="2023" 
         placeholder="YYYY" 
         id={`education_${i}_startDate_year`}
-        value={e.startDate.split('-')[0]}
+        value={e.startYear}
+        on:input={updateEducationProperty}
       />
     </label>
     <label class="has-text-input half-width">
       <span>Start month</span>
-      <select id={`education_${i}_startDate_month`} value={e.startDate.split('-')[1]}>
+      <select id={`education_${i}_startDate_month`} value={e.startMonth} on:input={updateEducationProperty}>
         <MonthOptions/>
       </select>
     </label>
     <label class="has-checkbox-input half-width">
-      <input type="checkbox" id={`education_${i}_current`} />
+      <input type="checkbox" id={`education_${i}_current`} value={e.current} on:input={updateEducationProperty}/>
       <span>I am currently attending</span>
     </label>
     <label class="has-text-input half-width">
@@ -101,14 +107,16 @@
         type="number" 
         min="1900" 
         max="2023" 
-        placeholder="YYYY" 
+        placeholder="YYYY"
+        disabled={e.current}
         id={`education_${i}_endDate_year`}
-        value={e.endDate.split('-')[0]}
+        value={e.endYear}
+        on:input={updateEducationProperty}
       />
     </label>
     <label class="has-text-input half-width">
       <span>End month</span>
-      <select id={`education_${i}_endDate_month`} value={e.endDate.split('-')[1]}>
+      <select id={`education_${i}_endDate_month`} disabled={e.current} value={e.endMonth} on:input={updateEducationProperty}>
         <MonthOptions/>
       </select>
     </label>
