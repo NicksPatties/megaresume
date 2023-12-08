@@ -84,6 +84,15 @@
     }
   }
 
+  function toggleHighlightVisibility(i:number, k: number) {
+    workStore.update((workArray) => {
+      const visible = workArray[i].highlights[k].visible;
+      workArray[i].highlights[k].visible = !visible;
+      saveResumeDataToLocalStorage();
+      return workArray;
+    });
+  }
+
   function deleteHighlight(i: number, k: number) {
     if (window.confirm('Are you sure you would like to delete this highlight?')) {
       workStore.update((workArray) => {
@@ -225,6 +234,9 @@
           {/each}
         </ul>
       </label>
+      <button id={`work_${i}_highlight_${k}_toggle-visibility`} on:click={() => {toggleHighlightVisibility(i, k)}}>
+        {h.visible ? 'Hide accomplishment' : 'Show accomplishment'}
+      </button>
       <button id="remove" on:click={() => {deleteHighlight(i, k)}}>Remove accomplishment</button>
     {/each}
 
