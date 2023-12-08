@@ -453,6 +453,31 @@ ul.no-dots > li {
 }
 
 /*
+  Skill bubbles under accomplishments
+*/
+ul.related-skills-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 0.5rem;
+  row-gap: 0.5rem;
+  padding: 0;
+}
+
+ul.related-skills-list li {
+  border: 1px solid var(--font-color);
+  border-radius: 26px;
+  padding: var(--form-button-padding);
+}
+
+ul.related-skills-list li button {
+  border: none;
+  background: var(--background-color-primary);
+  color: var(--font-color);
+  margin-left: 0.25rem;
+}
+
+/*
   Resume preview container
 */
 

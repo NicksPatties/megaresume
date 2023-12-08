@@ -5,7 +5,7 @@
     createBlankWork,
     workStore,
   } from '@src/data/data';
-  import { tagsStore } from '@src/data/tag';
+  import { Tag, addTag, getTag } from '@src/data/tag';
 
   function updateWorkProperty(e: Event) {
     const target = e.target as HTMLInputElement;
@@ -85,6 +85,37 @@
       });
     }
   }
+
+  function onTagKeydown(e: KeyboardEvent, i: number, k: number) {
+    const target: HTMLInputElement = e.target as HTMLInputElement;
+    const currValue = target ? target.value : '';
+    if (e.key == 'Enter' && currValue.length > 0) {
+      // if the tag is not in the tags, add the tag into the store
+      if (getTag(currValue) == undefined) {
+        addTag(new Tag(currValue));
+      }
+
+      // add tag to the highlight
+      workStore.update((workArray) => {
+        let tagNames = workArray[i].highlights[k].tagNames;
+        if (tagNames == undefined) tagNames = [];
+        tagNames.push(currValue);
+        workArray[i].highlights[k].tagNames = tagNames;
+        saveResumeDataToLocalStorage();
+        return workArray;
+      });
+
+      target.value = '';
+    }
+  }
+
+  function onHighlightSkillDelete(i: number, k: number, tagI: number) {
+    workStore.update((workArray) => {
+      workArray[i].highlights[k].tagNames.splice(tagI, 1);
+      saveResumeDataToLocalStorage();
+      return workArray;
+    });
+  }
 </script>
 
 <section id="work">
@@ -147,6 +178,8 @@
       </select>
     </label>
     <h3 id="highlights">Accomplishments</h3>
+
+    <!-- Highlights start here -->
     {#each w.highlights as h, k}
       <label class="has-text-input">
         <span>Accomplishment</span>
@@ -159,22 +192,34 @@
         ></textarea>
       </label>
       <label class="has-text-input">
-        <span>Related skills</span>
-        <input id={`work_${i}_highlights_${k}_skills-search`} type="search" placeholder="Search skills..." />
-        <select id={`work_${i}_highlights_${k}_skills-select`} multiple={true}>
-          {#each $tagsStore as skill}
-            <!-- Not really doing anything with the skills right now tbh -->
-            <option
-              value={skill.name}
-              selected={h.tagNames.find((elem) => elem == skill.name) !== undefined}
-            >
-              {skill.name}
-            </option>
+        <span>Related skills <span style="font-size: x-small"><i>Press Enter to add your skill</i></span></span>
+        <!-- Enables searching the skills in the skillsSection -->
+        <input
+          id={`work_${i}_highlights_${k}_skills-search`}
+          type="search"
+          placeholder="Search skills..."
+          list="existing-skills"
+          enterkeyhint="enter"
+          autocapitalize="none"
+          on:keydown={(e) => onTagKeydown(e, i, k)}
+        />
+        <ul class="related-skills-list">
+          {#each h.tagNames as name, si}
+            <li id={`work_${i}_highlight_${k}_skill_${name}`}>
+              {name}
+              <button
+                id={`work_${i}_highlight_${k}_skill_${name}_remove`}
+                on:click={() => onHighlightSkillDelete(i, k, si)}
+              >
+                <i class="fa-regular fa-x"></i>
+              </button>
+            </li>
           {/each}
-        </select>
+        </ul>
       </label>
       <button id="remove" on:click={() => {deleteHighlight(i, k)}}>Remove accomplishment</button>
     {/each}
+
     <button id={`work_${i}_add-highlight`} on:click={() => {addHighlight(i)}}>Add accomplishment</button>
     <button id={`work_${i}_remove`} on:click={deleteWork}>Remove work experience</button>
   {/each}

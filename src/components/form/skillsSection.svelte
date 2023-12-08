@@ -104,3 +104,9 @@
   </label>
   <button id="add-skill" on:click={addSkill}>Add skill</button>
 </section>
+<!-- Used for suggesting skills for highlights -->
+<datalist id='existing-skills'>
+  {#each $tagsStore as tag}
+    <option value={tag.name}/>
+  {/each}
+</datalist>
