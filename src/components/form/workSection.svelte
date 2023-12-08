@@ -38,6 +38,14 @@
     });
   }
 
+  function toggleWorkVisibility(i: number) {
+    workStore.update((workArray) => {
+      workArray[i].visible = !workArray[i].visible;
+      saveResumeDataToLocalStorage();
+      return workArray;
+    });
+  }
+
   function deleteWork(e: Event) {
     const target = e.target as HTMLButtonElement;
     const nameId = [...target.id.split('_').slice(0, 2), 'name'].join('_');
@@ -185,7 +193,7 @@
         <span>Accomplishment</span>
         <textarea
           id={`work_${i}_highlights_${k}_content`}
-          rows="3"
+          rows="5"
           value={h.content}
           placeholder="This is an accomplishment..."
           on:input={(e) => {onHighlightInput(e, i, k)}}
@@ -221,7 +229,11 @@
     {/each}
 
     <button id={`work_${i}_add-highlight`} on:click={() => {addHighlight(i)}}>Add accomplishment</button>
+    <button id={`work_${i}_toggle-visibility`} on:click={() => {toggleWorkVisibility(i)}}>
+      {w.visible ? 'Hide work experience' : 'Show work experience'}
+    </button>
     <button id={`work_${i}_remove`} on:click={deleteWork}>Remove work experience</button>
+    <div class='full-width' style={'margin: 4rem'}></div>
   {/each}
   <button id="add-work" on:click={addWork}>Add work experience</button>
 </section>
