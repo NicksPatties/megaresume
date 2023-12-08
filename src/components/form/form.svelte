@@ -1,4 +1,5 @@
 <script lang="ts">
+  import BasicsSection from '@src/components/form/basicsSection.svelte';
   import WorkSection from '@src/components/form/workSection.svelte';
   import EducationSection from '@src/components/form/educationSection.svelte';
   import SkillsSection from '@src/components/form/skillsSection.svelte';
@@ -43,33 +44,7 @@
     <button id="import-json-resume">Import JSON Resume</button>
   </section>
 
-  <section id="basics">
-    <h1>About Me</h1>
-    <label class="has-text-input half-width">
-      <span>Full name</span>
-      <input type="text" id="basics-name" />
-    </label>
-    <label class="has-text-input half-width">
-      <span>Job title</span>
-      <input type="text" id="basics-label" />
-    </label>
-    <label class="has-text-input half-width">
-      <span>Email</span>
-      <input type="email" id="basics-email" />
-    </label>
-    <label class="has-text-input half-width">
-      <span>Phone</span>
-      <input type="text" id="basics-phone" />
-    </label>
-    <label class="has-text-input">
-      <span>Location</span>
-      <input type="text" id="basics-location" />
-    </label>
-    <label class="has-text-input ">
-      <span>Summary</span>
-      <input type="text" id="basics-summary" />
-    </label>
-  </section>
+  <BasicsSection/>
 
   <WorkSection/>
 

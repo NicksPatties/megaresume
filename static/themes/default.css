@@ -1,4 +1,27 @@
 .resume {
-  --font-size: 24px;
+  --font-size: 12px;
   font-family: sans-serif;
+  overflow: hidden;
+  font-size: var(--font-size);
+  display: grid;
+  grid-template-columns: auto 200px;
+  grid-template-rows: auto;
+  row-gap: 0.5rem;
+}
+
+.basics {
+  grid-column: 1;
+}
+
+.experience {
+  grid-column: 1;
+}
+
+.education {
+  grid-column: 1;
+}
+
+.skills {
+  grid-row: 0;
+  grid-column: 2;
 }
