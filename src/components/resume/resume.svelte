@@ -22,7 +22,7 @@
 
 </script>
 
-  <div class="resume" data-testid="resume">
+  <div id="resume" class="resume" data-testid="resume">
     <div class="basics">
       <p class="name" class:placeholder={$name.length == 0}>{$name ? $name : 'Your name'}</p>
       <p class="subname" class:placeholder={$label.length == 0}>

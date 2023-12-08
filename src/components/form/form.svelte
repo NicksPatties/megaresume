@@ -1,7 +1,37 @@
 <script lang="ts">
   import WorkSection from '@src/components/form/workSection.svelte';
   import EducationSection from '@src/components/form/educationSection.svelte';
-    import SkillsSection from './skillsSection.svelte';
+  import SkillsSection from '@src/components/form/skillsSection.svelte';
+
+  window.addEventListener('beforeprint', createResumePrintPreview)
+
+  window.addEventListener('afterprint', destroyResumePrintPreview)
+
+  function createResumePrintPreview() {
+    console.log('in createResumePrintPreview')
+    const resumePreview = document.getElementById('resume')
+    if (!resumePreview) {
+      console.error("There is no resume for some reason!")
+      return
+    }
+    const previewCopy = resumePreview.cloneNode(true) as HTMLElement
+    previewCopy.id = 'print-resume'
+    document.body.appendChild(previewCopy)
+  }
+
+  function destroyResumePrintPreview() {
+    console.log('in destroyResumePrintPreview')
+    const attachedPreview = document.getElementById('print-resume')
+    if(!attachedPreview) {
+      console.error("I can't find the resume print preview!")
+      return
+    }
+    document.body.removeChild(attachedPreview)
+  }
+
+  function printResume() {
+    window.print()
+  }
 </script>
 
 <div class="form">
@@ -62,6 +92,17 @@
       <input type="radio" name="resume-theme" value="monospace" />
       <span>Monospace</span>
     </label>
+  </section>
+
+  <section id="export">
+    <h1>Export Resume</h1>
+    <p class='full-width'>Prepare a printed copy or a saved PDF of your resume to submit to your job application.</p>
+    <button on:click={printResume}>Print or Save PDF</button>
+    <p class='full-width'>Save your MegaResume data to move to another device.</p>
+    <button disabled>Save MegaResume Data (Coming soon)</button>
+    <p class='full-width'>Export your resume as a JSON Resume to use in another application.</p>
+    <button disabled>Save MegaResume Data (Coming soon)</button>
+
   </section>
 
   <section id="settings">

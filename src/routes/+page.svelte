@@ -114,6 +114,9 @@
       <a href="#themes">
         <li>Themes</li>
       </a>
+      <a href="#export">
+        <li>Export Resume</li>
+      </a>
       <div class="separator"></div>
     </ul>
     <footer>
