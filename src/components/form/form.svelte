@@ -4,32 +4,6 @@
   import EducationSection from '@src/components/form/educationSection.svelte';
   import SkillsSection from '@src/components/form/skillsSection.svelte';
 
-  window.addEventListener('beforeprint', createResumePrintPreview)
-
-  window.addEventListener('afterprint', destroyResumePrintPreview)
-
-  function createResumePrintPreview() {
-    console.log('in createResumePrintPreview')
-    const resumePreview = document.getElementById('resume')
-    if (!resumePreview) {
-      console.error("There is no resume for some reason!")
-      return
-    }
-    const previewCopy = resumePreview.cloneNode(true) as HTMLElement
-    previewCopy.id = 'print-resume'
-    document.body.appendChild(previewCopy)
-  }
-
-  function destroyResumePrintPreview() {
-    console.log('in destroyResumePrintPreview')
-    const attachedPreview = document.getElementById('print-resume')
-    if(!attachedPreview) {
-      console.error("I can't find the resume print preview!")
-      return
-    }
-    document.body.removeChild(attachedPreview)
-  }
-
   function printResume() {
     window.print()
   }
@@ -49,11 +23,6 @@
   <WorkSection/>
 
   <EducationSection/>
-
-  <section id="education">
-    <h1>Education</h1> 
-    <button id="add-education">Add education</button>
-  </section>
 
   <SkillsSection/>
 

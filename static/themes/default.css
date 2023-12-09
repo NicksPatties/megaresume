@@ -1,27 +1,31 @@
 .resume {
-  --font-size: 12px;
+  --font-size: calc(var(--resume-ratio) * 16px);
+  --font-color: black;
   font-family: sans-serif;
   overflow: hidden;
   font-size: var(--font-size);
-  display: grid;
-  grid-template-columns: auto 200px;
-  grid-template-rows: auto;
-  row-gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  row-gap: calc(var(--resume-ratio) * 0.6rem);
 }
 
-.basics {
-  grid-column: 1;
+.basics .name {
+  font-size: calc(var(--resume-ratio) * 1.5rem);
+  font-weight: bold;
 }
 
-.experience {
-  grid-column: 1;
+.skills ul {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
 }
 
-.education {
-  grid-column: 1;
-}
-
-.skills {
-  grid-row: 0;
-  grid-column: 2;
+.skills ul li {
+  margin-inline-end: calc(var(--resume-ratio) * 1rem);
+  padding-inline: calc(var(--resume-ratio) * 10px);
+  padding-block: calc(var(--resume-ratio) * 5px);
+  border: 1px solid var(--font-color);
+  border-radius: calc(var(--resume-ratio) * 50px);
 }

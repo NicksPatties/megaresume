@@ -152,3 +152,4 @@
     </div>
   </div>
 </div>
+<Resume print={true}/>

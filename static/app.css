@@ -484,10 +484,10 @@ ul.related-skills-list li button {
 
 .resume-container {
   --resume-ratio: 0.8;
-
+  --font-size: 24px;
   --letter-height: 11in;
   --letter-width: 8.5in;
-  --pointFiveIn: 0.5in;
+  --pointFiveIn: 44px;
   --resume-width: calc(var(--letter-width) * var(--resume-ratio));
   --resume-height: calc(var(--letter-height) * var(--resume-ratio));
   aspect-ratio: var(--letter-width) / var(--letter-height);
@@ -504,7 +504,6 @@ ul.related-skills-list li button {
 }
 
 .resume {
-  --font-size: 24px;
   box-sizing: border-box;
   color: black;
   background: white;
@@ -524,7 +523,6 @@ ul.related-skills-list li button {
 
   --letter-height: 11in;
   --letter-width: 8.5in;
-  --pointFiveIn: 0.5in;
   --resume-width: calc(var(--letter-width) * var(--resume-ratio));
   --resume-height: calc(var(--letter-height) * var(--resume-ratio));
   display: none;
@@ -608,6 +606,10 @@ ul.related-skills-list li button {
   }
 
   #print-resume {
-    display: block;
+    --sort-of-font-size: calc(var(--font-size) + 0.14rem);
+    /* This may need to change once I start working on themes */
+    padding: 0;
+    display: flex;
+    font-size: var(--sort-of-font-size);
   }
 }

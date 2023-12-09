@@ -6,12 +6,15 @@
   import { dateInputToDecoratedString } from '@src/util/resumeUtils';
   import { derived } from 'svelte/store';
 
+  export let print = false
+
   let basics = basicsStore;
 
   const name = basics.name;
   const label = basics.label;
   const phone = basics.phone;
   const email = basics.email;
+  const location = basics.location;
   const summary = basics.summary;
 
   let anyVisibleWorkItems = derived(workStore, (work) => {
@@ -27,11 +30,14 @@
   });
 </script>
 
-<div id="resume" class="resume" data-testid="resume">
+<div id="{print ? 'print-resume' : 'resume'}" class="resume" data-testid="resume">
   <div class="basics">
     <p class="name" class:placeholder={$name.length == 0}>{$name ? $name : 'Your name'}</p>
     <p class="subname" class:placeholder={$label.length == 0}>
       {$label ? $label : 'Your profession'}
+    </p>
+    <p class="subname" class:placeholder={$location.length == 0}>
+      {$location ? $location : 'Location'}
     </p>
     <p class="subname" class:placeholder={$phone.length == 0}>
       {$phone ? $phone : '(555) 555-5555'}
@@ -40,6 +46,25 @@
       {$email ? $email : 'youremail@email.com'}
     </p>
   </div>
+
+  {#if $summary.length > 0}
+    <div class="summary">
+      <h3>Summary</h3>
+      <span>{$summary}</span>
+    </div>
+  {/if}
+
+  {#if $visibleSkills.length > 0}
+    <div class="skills">
+      <h3>Skills</h3>
+      <ul>
+        {#each $visibleSkills as skill}
+          <li>{skill.name}</li>
+        {/each}
+      </ul>
+    </div>
+  {/if}
+
   <div class="experience">
     {#if $anyVisibleWorkItems}
       <h3>Work Experience</h3>
@@ -78,21 +103,9 @@
     </div>
   {/if}
 
-  {#if $summary.length > 0}
-    <div class="summary">
-      <h3>Summary</h3>
-      <span>{$summary}</span>
-    </div>
-  {/if}
-
-  {#if $visibleSkills.length > 0}
-    <div class="skills">
-      <h3>Skills</h3>
-      <ul>
-        {#each $visibleSkills as skill}
-          <li>{skill.name}</li>
-        {/each}
-      </ul>
-    </div>
-  {/if}
+  
 </div>
+
+<style>
+
+</style>
