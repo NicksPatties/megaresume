@@ -1,4 +1,9 @@
 .resume {
+  /*
+    todo need to find a better way to create a function to calc things
+    by pixel size so I don't have to multiply everything by --resume-ratio all
+    the time
+  */
   --font-size: calc(var(--resume-ratio) * 16px);
   --font-color: black;
   font-family: sans-serif;

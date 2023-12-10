@@ -15,7 +15,7 @@
     <p class="full-width">MegaResume uses the JSON Resume format to import your resume. <a
         id="what-is-json-resume" href="https://jsonresume.org/schema/">Learn more about JSON Resume.</a></p>
     <input id="import-json-input" type="file" accept=".json" style="display:none">
-    <button id="import-json-resume">Import JSON Resume</button>
+    <button id="import-json-resume">Import JSON Resume (Coming soon)</button>
   </section>
 
   <BasicsSection/>
@@ -60,15 +60,10 @@
 
   <section id="about" class="align-center">
     <h1>About MegaResume</h1>
-    <i class="full-width">version <span id="version-number">0.0.1</span></i>
-    <p class="full-width">Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel quam quae veritatis earum
-      illum dolorem cumque quo nam, magnam labore itaque culpa at adipisci voluptates perspiciatis, laborum
-      iusto quisquam? Earum.</p>
-    <h2>Any questions?</h2>
-    <p class="full-width">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, non.</p>
+    <i class="full-width">Version <span id="version-number">0.0.1</span></i>
+    <i class="full-width">Created by <a href="https://github.com/NicksPatties">NicksPatties</a></i>
     <ul class="full-width no-dots">
-      <li><span>Submit a bug report on Github</span></li>
-      <li><span>Follow MegaResume on social media</span></li>
+      <li>Found something wrong? <a href="https://github.com/NicksPatties/megaresume/issues/new">Submit a bug report here.</a></li>
     </ul>
   </section>
 </div>

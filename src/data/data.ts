@@ -61,13 +61,11 @@ export type Work = {
   name: string;
   position: string;
   url: string;
-  startDate: string;
   startMonth: string;
   startYear: string;
   current: boolean;
   endMonth: string;
   endYear: string;
-  endDate: string;
   summary: string;
   highlights: Highlight[];
 };
@@ -78,13 +76,11 @@ export function createBlankWork(): Work {
     name: '',
     position: '',
     url: '',
-    startDate: '',
     startMonth: '',
     startYear: '',
     current: false,
     endMonth: '',
     endYear: '',
-    endDate: '',
     summary: '',
     highlights: []
   };

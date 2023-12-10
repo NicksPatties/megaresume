@@ -57,6 +57,7 @@
     document.querySelectorAll('nav.menu a').forEach((elem) => {
       elem.addEventListener('click', () => {
         closeMenu();
+        closePreview()
       });
     });
 
