@@ -3,20 +3,30 @@
   import WorkSection from '@src/components/form/workSection.svelte';
   import EducationSection from '@src/components/form/educationSection.svelte';
   import SkillsSection from '@src/components/form/skillsSection.svelte';
+  import ImportSection from './importSection.svelte';
+  import { type SaveData, saveData } from '@src/data/data';
 
+   /**
+   * Saves the contents of the resume in a MegaResume Json file
+   */
+   function saveDataToJsonFile() {
+    const data: SaveData = saveData();
+    const blob: Blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${data.basics.name} ${data.basics.label}`;
+    a.dispatchEvent(new MouseEvent('click'));
+    URL.revokeObjectURL(a.href);
+    a.remove();
+  }
+  
   function printResume() {
     window.print()
   }
 </script>
 
 <div class="form">
-  <section id="import">
-    <h1>Import Resume</h1>
-    <p class="full-width">MegaResume uses the JSON Resume format to import your resume. <a
-        id="what-is-json-resume" href="https://jsonresume.org/schema/">Learn more about JSON Resume.</a></p>
-    <input id="import-json-input" type="file" accept=".json" style="display:none">
-    <button id="import-json-resume">Import JSON Resume (Coming soon)</button>
-  </section>
+  <ImportSection/>
 
   <BasicsSection/>
 
@@ -43,9 +53,9 @@
     <p class='full-width'>Prepare a printed copy or a saved PDF of your resume to submit to your job application.</p>
     <button on:click={printResume}>Print or Save PDF</button>
     <p class='full-width'>Save your MegaResume data to move to another device.</p>
-    <button disabled>Save MegaResume Data (Coming soon)</button>
+    <button on:click={saveDataToJsonFile}>Save as MegaResume Data</button>
     <p class='full-width'>Export your resume as a JSON Resume to use in another application.</p>
-    <button disabled>Save MegaResume Data (Coming soon)</button>
+    <button disabled>Save as JSON Resume</button>
 
   </section>
 
