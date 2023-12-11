@@ -94,8 +94,10 @@ describe('loadLocalStorageData', () => {
     expect(actualWorkStore.position).toBe('');
     expect(actualWorkStore.position).toBe('');
     expect(actualWorkStore.url).toBe('');
-    expect(actualWorkStore.startDate).toBe('');
-    expect(actualWorkStore.endDate).toBe('');
+    expect(actualWorkStore.startMonth).toBe('');
+    expect(actualWorkStore.startYear).toBe('');
+    expect(actualWorkStore.endMonth).toBe('');
+    expect(actualWorkStore.endYear).toBe('');
     expect(actualWorkStore.summary).toBe('');
     expect(actualWorkStore.highlights).toStrictEqual([]);
 
