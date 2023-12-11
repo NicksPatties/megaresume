@@ -1,0 +1,36 @@
+.resume {
+  /*
+    todo need to find a better way to create a function to calc things
+    by pixel size so I don't have to multiply everything by --resume-ratio all
+    the time
+  */
+  --font-size: calc(var(--resume-ratio) * 16px);
+  --font-color: black;
+  font-family: sans-serif;
+  overflow: hidden;
+  font-size: var(--font-size);
+  display: flex;
+  flex-direction: column;
+  row-gap: calc(var(--resume-ratio) * 0.6rem);
+}
+
+.basics .name {
+  font-size: calc(var(--resume-ratio) * 1.5rem);
+  font-weight: bold;
+}
+
+.skills ul {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+}
+
+.skills ul li {
+  margin-inline-end: calc(var(--resume-ratio) * 1rem);
+  padding-inline: calc(var(--resume-ratio) * 10px);
+  padding-block: calc(var(--resume-ratio) * 5px);
+  border: 1px solid var(--font-color);
+  border-radius: calc(var(--resume-ratio) * 50px);
+}

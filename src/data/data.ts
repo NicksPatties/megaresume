@@ -8,6 +8,7 @@ type Basics = {
   phone: string;
   email: string;
   summary: string;
+  location: string;
 };
 
 export const blankBasics: Basics = {
@@ -16,7 +17,8 @@ export const blankBasics: Basics = {
   image: '',
   phone: '',
   email: '',
-  summary: ''
+  summary: '',
+  location: ''
 };
 
 export class BasicsStore {
@@ -26,6 +28,7 @@ export class BasicsStore {
   phone = writable('');
   email = writable('');
   summary = writable('');
+  location = writable('');
 
   constructor(params: Basics = blankBasics) {
     this.name.set(params.name);
@@ -34,6 +37,7 @@ export class BasicsStore {
     this.phone.set(params.phone);
     this.email.set(params.email);
     this.summary.set(params.summary);
+    this.location.set(params.location);
   }
 }
 
@@ -57,8 +61,11 @@ export type Work = {
   name: string;
   position: string;
   url: string;
-  startDate: string;
-  endDate: string;
+  startMonth: string;
+  startYear: string;
+  current: boolean;
+  endMonth: string;
+  endYear: string;
   summary: string;
   highlights: Highlight[];
 };
@@ -69,8 +76,11 @@ export function createBlankWork(): Work {
     name: '',
     position: '',
     url: '',
-    startDate: '',
-    endDate: '',
+    startMonth: '',
+    startYear: '',
+    current: false,
+    endMonth: '',
+    endYear: '',
     summary: '',
     highlights: []
   };
@@ -92,8 +102,11 @@ export type Education = {
   name: string;
   degree: string;
   major: string;
-  startDate: string;
-  endDate: string;
+  startYear: string;
+  startMonth: string;
+  current: boolean;
+  endYear: string;
+  endMonth: string;
 };
 
 export type SaveData = {
@@ -116,7 +129,8 @@ export function saveData(
       image: get(basics.image),
       phone: get(basics.phone),
       email: get(basics.email),
-      summary: get(basics.summary)
+      summary: get(basics.summary),
+      location: get(basics.location)
     },
     work: [],
     education: [],
