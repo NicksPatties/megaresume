@@ -5,6 +5,7 @@
   import { tagsStore } from '@src/data/tag';
   import { dateInputToDecoratedString } from '@src/util/resumeUtils';
   import { derived } from 'svelte/store';
+  import isWorkVisible from '@src/data/isWorkVisible';
 
   export let print = false
 
@@ -17,8 +18,9 @@
   const location = basics.location;
   const summary = basics.summary;
 
-  let anyVisibleWorkItems = derived(workStore, (work) => {
-    return work.filter((w) => w.visible).length > 0;
+  let visibleWorkStores = derived([workStore, tagsStore], ($values) => {
+    const [work, tags] = $values
+    return work.filter(w => isWorkVisible(w, tags))
   });
 
   let anyVisibleEducationItems = derived(educationStore, (edu) => {
@@ -66,9 +68,9 @@
   {/if}
 
   <div class="experience">
-    {#if $anyVisibleWorkItems}
+    {#if $visibleWorkStores.length > 0}
       <h3>Work Experience</h3>
-      {#each $workStore as w, i}
+      {#each $visibleWorkStores as w, i}
         {#if w.visible}
           <WorkResumeEntry
             {i}
