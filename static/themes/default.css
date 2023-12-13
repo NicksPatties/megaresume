@@ -1,6 +1,6 @@
 .resume {
   --name-font-size: 1.5rem;
-  --gap-size: 10px;
+  --gap-size: 1rem;
   /*
     todo need to find a better way to create a function to calc things
     by pixel size so I don't have to multiply everything by --resume-ratio all
@@ -14,8 +14,13 @@
 
   display: grid;
   grid-template-rows: [header-start] auto [content-start] 1fr [content-end];
-  grid-template-columns: [primary-content-start] 75% [secondary-content-start] auto;
+  grid-template-columns: [primary-content-start] 70% [secondary-content-start] auto;
   gap: calc(var(--resume-ratio) * var(--gap-size));
+}
+
+.resume :is(h1, h2) {
+  --margin-bottom: 0.5rem;
+  margin-bottom: calc(var(--resume-ratio) * var(--margin-bottom));
 }
 
 .resume .left {
@@ -29,8 +34,18 @@
 .resume .right {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   grid-row: content-start;
   grid-column: secondary-content-start;
+}
+
+.experience ul {
+  list-style: none;
+  padding-left: calc(var(--resume-ratio) * 0.3rem);
+}
+
+.experience ul li {
+  margin-top: calc(var(--resume-ratio) * 0.4rem);
 }
 
 .basics .name {

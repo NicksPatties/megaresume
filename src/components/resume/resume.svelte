@@ -1,9 +1,7 @@
 <script lang="ts">
   import WorkResumeEntry from '@src/components/resume/workResumeEntry.svelte';
-  import EducationResumeEntry from '@src/components/resume/educationResumeEntry.svelte';
   import { basicsStore, workStore, educationStore } from '@src/data/data';
   import { tagsStore } from '@src/data/tag';
-  import { dateInputToDecoratedString } from '@src/util/resumeUtils';
   import { derived } from 'svelte/store';
   import isWorkVisible from '@src/data/isWorkVisible';
 
@@ -34,7 +32,7 @@
 
 <div id={print ? 'print-resume' : 'resume'} class="resume" data-testid="resume">
   <div class="basics">
-    <p class="name" class:placeholder={$name.length == 0}>{$name ? $name : 'Your name'}</p>
+    <h1 class:placeholder={$name.length == 0}>{$name ? $name : 'Your name'}</h1>
     <p class="subname" class:placeholder={$label.length == 0}>
       {$label ? $label : 'Your profession'}
     </p>
@@ -46,78 +44,72 @@
   <div class="left">
     <div class="experience">
       {#if $visibleWorkStores.length > 0}
-        <h3>Work Experience</h3>
+        <h2>Work Experience</h2>
         {#each $visibleWorkStores as w, i}
           {#if w.visible}
             <WorkResumeEntry
               {i}
               name={w.name}
               position={w.position}
-              startDate={dateInputToDecoratedString(w.startDate, 'Start date')}
-              endDate={dateInputToDecoratedString(w.endDate, 'End date')}
+              startYear={w.startYear}
+              endYear={w.endYear}
               highlights={w.highlights}
             />
           {/if}
         {/each}
       {:else}
-        <h3 class="placeholder">Your work experience will go here.</h3>
+        <h2 class="placeholder">Your work experience will go here.</h2>
       {/if}
     </div>
-
-    {#if $anyVisibleEducationItems}
-      <div class="education">
-        <h3>Education</h3>
-        {#each $educationStore as edu, i}
-          {#if edu.visible}
-            <EducationResumeEntry
-              {i}
-              name={edu.name}
-              degree={edu.degree}
-              major={edu.major}
-              startDate={dateInputToDecoratedString(edu.startDate, 'Start date')}
-              endDate={dateInputToDecoratedString(edu.endDate, 'End date')}
-            />
-          {/if}
-        {/each}
-      </div>
-    {/if}
   </div>
 
   <div class="right">
     {#if $summary.length > 0}
       <div class="summary">
-        <h3>Summary</h3>
+        <h2>Summary</h2>
         <span>{$summary}</span>
-      </div>
-    {/if}
-
-    {#if $visibleSkills.length > 0}
-      <div class="skills">
-        <h3>Skills</h3>
-        <ul>
-          {#each $visibleSkills as skill}
-            <li>{skill.name}</li>
-          {/each}
-        </ul>
       </div>
     {/if}
 
     {#if $phone.length > 0 || $email.length > 0}
       <div class='contact'>
-        <h3>Contact</h3>
+        <h2>Contact</h2>
         {#if $phone.length > 0}
-          <p>Phone</p>
+          <p><b>Phone</b></p>
           <p>{$phone}</p>
         {/if}
         <br/>
         {#if $email.length > 0}
-          <p>Email</p>
+          <p><b>Email</b></p>
           <p>{$email}</p>
         {/if}
       </div>
     {/if}
+
+    {#if $visibleSkills.length > 0}
+      <div class="skills">
+        <h2>Skills</h2>
+        <ul>
+          {#each $visibleSkills as skill}
+            <li><b>{skill.name}</b></li>
+          {/each}
+        </ul>
+      </div>
+    {/if}
+
+    {#if $anyVisibleEducationItems}
+      <div class="education">
+        <h2>Education</h2>
+        {#each $educationStore as edu}
+          {#if edu.visible}
+            <p><b>{edu.degree}</b></p>
+            <p>{edu.major}</p>
+            <p>{edu.name}</p>
+            <p>{edu.startYear || 'start year'} - {edu.endYear || 'end year'}</p>
+            <br>
+          {/if}
+        {/each}
+      </div>
+    {/if}
   </div>
 </div>
-
-<style>
-</style>

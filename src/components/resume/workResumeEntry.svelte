@@ -6,26 +6,27 @@
   export let i: number;
   export let name: string;
   export let position: string;
-  export let startDate: string;
-  export let endDate: string;
+  export let startYear: string;
+  export let endYear: string;
   export let highlights: Highlight[];
 </script>
 
 <p>
+  <b><span id={`resume_work_${i}_name`} class:placeholder={name.length == 0}>
+    {name || 'Name'}
+  </span></b>
   <span id={`resume_work_${i}_position`} class:placeholder={position.length == 0}
     >{position || 'Position'}</span
-  >,
-  <span id={`resume_work_${i}_name`} class:placeholder={name.length == 0}>
-    {name || 'Name'}
-  </span>
+  >
+  
 </p>
 
 <p>
-  <span id={`resume_work_${i}_startDate`} class:placeholder={startDate == 'Start date'}
-    >{startDate}</span
+  <span id={`resume_work_${i}_startDate`} class:placeholder={startYear == 'Start date'}
+    >{startYear}</span
   >
   -
-  <span id={`resume_work_${i}_endDate`} class:placeholder={endDate == 'End date'}>{endDate}</span>
+  <span id={`resume_work_${i}_endDate`} class:placeholder={endYear == 'End date'}>{endYear}</span>
 </p>
 
 <ul>
