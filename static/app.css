@@ -609,7 +609,7 @@ ul.related-skills-list li button {
     --sort-of-font-size: calc(var(--font-size) + 0.14rem);
     /* This may need to change once I start working on themes */
     padding: 0;
-    display: flex;
+    display: grid;
     font-size: var(--sort-of-font-size);
   }
 }

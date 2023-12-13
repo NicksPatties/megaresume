@@ -1,30 +1,60 @@
 .resume {
+  --name-font-size: 1.5rem;
+  --gap-size: 10px;
+  /*
+    todo need to find a better way to create a function to calc things
+    by pixel size so I don't have to multiply everything by --resume-ratio all
+    the time
+  */
   --font-size: calc(var(--resume-ratio) * 16px);
   --font-color: black;
   font-family: monospace;
   overflow: hidden;
   font-size: var(--font-size);
+
+  display: grid;
+  grid-template-rows: [header-start] auto [content-start] 1fr [content-end];
+  grid-template-columns: [primary-content-start] 75% [secondary-content-start] auto;
+  gap: calc(var(--resume-ratio) * var(--gap-size));
+}
+
+.resume .left {
   display: flex;
   flex-direction: column;
-  row-gap: calc(var(--resume-ratio) * 0.6rem);
+  grid-row: content-start;
+  grid-column: primary-content-start;
+  overflow: hidden;
+}
+
+.resume .right {
+  display: flex;
+  flex-direction: column;
+  grid-row: content-start;
+  grid-column: secondary-content-start;
 }
 
 .basics .name {
-  font-size: calc(var(--resume-ratio) * 1.5rem);
+  font-size: calc(var(--resume-ratio) * var(--name-font-size));
   font-weight: bold;
 }
 
+.skills {
+  margin-bottom: calc(var(--resume-ratio) * var(--gap-size));
+}
+
 .skills ul {
+  --skills-gap-size: 5px;
+
   padding: 0;
   display: flex;
   flex-wrap: wrap;
   list-style: none;
+  gap: calc(var(--resume-ratio) * var(--skills-gap-size));
   margin: 0;
 }
 
 .skills ul li {
-  margin-inline-end: calc(var(--resume-ratio) * 1rem);
-  padding-inline: calc(var(--resume-ratio) * 10px);
+  padding-inline: calc(var(--resume-ratio) * 7px);
   padding-block: calc(var(--resume-ratio) * 5px);
   border: 1px solid var(--font-color);
   border-radius: calc(var(--resume-ratio) * 50px);
