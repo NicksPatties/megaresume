@@ -1,21 +1,47 @@
+.resume-container {
+  --font-size: 24px;
+  --body-font-size: font-size: calc(var(--resume-scale) * var(--font-size));
+}
+
 .resume {
   --name-font-size: 1.5rem;
-  --gap-size: 10px;
-  /*
-    todo need to find a better way to create a function to calc things
-    by pixel size so I don't have to multiply everything by --resume-ratio all
-    the time
-  */
-  --font-size: calc(var(--resume-ratio) * 16px);
+  --gap-size: 1rem;
+  --body-font-size: 0.8rem;
   --font-color: black;
+  --primary-content-width: calc(var(--resume-scale) * 70%);
   font-family: monospace;
   overflow: hidden;
-  font-size: var(--font-size);
+  font-size: calc(var(--resume-scale) * var(--body-font-size));
 
   display: grid;
-  grid-template-rows: [header-start] auto [content-start] 1fr [content-end];
-  grid-template-columns: [primary-content-start] 75% [secondary-content-start] auto;
-  gap: calc(var(--resume-ratio) * var(--gap-size));
+  grid-template-rows: [header-start] auto [content-start] auto [content-end];
+  grid-template-columns: [primary-content-start] 70% [secondary-content-start] auto;
+  gap: calc(var(--resume-scale) * var(--gap-size));
+}
+
+.resume :is(h1, h2) {
+  --margin-bottom: 0.5rem;
+  margin-bottom: calc(var(--resume-scale) * var(--margin-bottom));
+}
+
+.resume h1 {
+  --h1-font-size: 2rem;
+  font-size: calc(var(--resume-scale) * var(--h1-font-size));
+}
+
+.resume h2 {
+  --h2-font-size: 1.5rem;
+  font-size: calc(var(--resume-scale) * var(--h2-font-size));
+}
+
+.resume span {
+  font-size: calc(var(--resume-scale) * var(--body-font-size));
+}
+
+.resume p {
+  --p-margin-bottom: 2px;
+  font-size: calc(var(--resume-scale) * var(--body-font-size));
+  margin-bottom: calc(var(--resume-scale) * var(--p-margin-bottom));
 }
 
 .resume .left {
@@ -29,17 +55,29 @@
 .resume .right {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   grid-row: content-start;
   grid-column: secondary-content-start;
 }
 
-.basics .name {
-  font-size: calc(var(--resume-ratio) * var(--name-font-size));
-  font-weight: bold;
+.experience ul {
+  --padding-left: 0;
+  --margin-bottom: 1.33rem;
+
+  list-style: none;
+  padding-left: calc(var(--resume-scale) * var(--padding-left));
+  font-size: calc(var(--resume-scale) * var(--body-font-size));
+  margin-top: 0;
+  margin-bottom: calc(var(--resume-scale) * var(--margin-bottom));
+}
+
+.experience ul li {
+  --margin-top: 0.6rem;
+  margin-top: calc(var(--resume-scale) * var(--margin-top));
 }
 
 .skills {
-  margin-bottom: calc(var(--resume-ratio) * var(--gap-size));
+  margin-bottom: calc(var(--resume-scale) * var(--gap-size));
 }
 
 .skills ul {
@@ -49,13 +87,13 @@
   display: flex;
   flex-wrap: wrap;
   list-style: none;
-  gap: calc(var(--resume-ratio) * var(--skills-gap-size));
+  gap: calc(var(--resume-scale) * var(--skills-gap-size));
   margin: 0;
 }
 
 .skills ul li {
-  padding-inline: calc(var(--resume-ratio) * 7px);
-  padding-block: calc(var(--resume-ratio) * 5px);
+  padding-inline: calc(var(--resume-scale) * 7px);
+  padding-block: calc(var(--resume-scale) * 5px);
   border: 1px solid var(--font-color);
-  border-radius: calc(var(--resume-ratio) * 50px);
+  border-radius: calc(var(--resume-scale) * 50px);
 }

@@ -62,9 +62,9 @@ html {
   --letter-height: 11in;
   --letter-width: 8.5in;
   --pointFiveIn: 44px;
-  --resume-ratio: 0.8;
-  --resume-width: calc(var(--letter-width) * var(--resume-ratio));
-  --resume-height: calc(var(--letter-height) * var(--resume-ratio));
+  --resume-scale: 1; /* Find a way to have a smaller scale without messing with ratios */
+  --resume-width: calc(var(--letter-width) * var(--resume-scale));
+  --resume-height: calc(var(--letter-height) * var(--resume-scale));
 
   color: var(--font-color);
   background: var(--background-color-primary);
@@ -510,8 +510,8 @@ ul.related-skills-list li button {
   box-sizing: border-box;
   color: black;
   background: white;
-  padding: calc(var(--pointFiveIn) * var(--resume-ratio));
-  font-size: calc(var(--font-size) * var(--resume-ratio));
+  padding: calc(var(--pointFiveIn) * var(--resume-scale));
+  font-size: calc(var(--font-size) * var(--resume-scale));
   width: var(--resume-width);
   height: var(--resume-height);
   grid-area: resume;
@@ -522,12 +522,12 @@ ul.related-skills-list li button {
 }
 
 #print-resume {
-  --resume-ratio: 1;
+  --resume-scale: 1;
 
   --letter-height: 11in;
   --letter-width: 8.5in;
-  --resume-width: calc(var(--letter-width) * var(--resume-ratio));
-  --resume-height: calc(var(--letter-height) * var(--resume-ratio));
+  --resume-width: calc(var(--letter-width) * var(--resume-scale));
+  --resume-height: calc(var(--letter-height) * var(--resume-scale));
   display: none;
 }
 
@@ -584,7 +584,9 @@ ul.related-skills-list li button {
   }
 
   .resume-container {
-    --resume-ratio: 0.4;
+    --resume-scale: 0.4;
+    --resume-width: calc(var(--letter-width) * var(--resume-scale));
+    --resume-height: calc(var(--letter-height) * var(--resume-scale));
   }
 }
 
@@ -601,7 +603,7 @@ ul.related-skills-list li button {
   }
 
   .resume-container {
-    --resume-ratio: 1;
+    --resume-scale: 1;
   }
 
   #app-div {
