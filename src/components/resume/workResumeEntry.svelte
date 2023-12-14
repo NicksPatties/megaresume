@@ -9,24 +9,28 @@
   export let startYear: string;
   export let endYear: string;
   export let highlights: Highlight[];
+  export let current: boolean;
 </script>
 
 <p>
-  <b><span id={`resume_work_${i}_name`} class:placeholder={name.length == 0}>
-    {name || 'Name'}
-  </span></b>
+  <b
+    ><span id={`resume_work_${i}_name`} class:placeholder={name.length == 0}>
+      {name || 'Name'}
+    </span></b
+  >
   <span id={`resume_work_${i}_position`} class:placeholder={position.length == 0}
     >{position || 'Position'}</span
   >
-  
 </p>
 
 <p>
-  <span id={`resume_work_${i}_startDate`} class:placeholder={startYear == 'Start date'}
-    >{startYear}</span
-  >
+  <i><span id={`resume_work_${i}_startDate`}>{startYear ? startYear : 'Start year'}</span></i>
   -
-  <span id={`resume_work_${i}_endDate`} class:placeholder={endYear == 'End date'}>{endYear}</span>
+  <i
+    ><span id={`resume_work_${i}_endDate`}
+      >{current ? 'Present' : endYear ? endYear : 'End year'}</span
+    ></i
+  >
 </p>
 
 <ul>

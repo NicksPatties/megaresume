@@ -33,12 +33,12 @@
 <div id={print ? 'print-resume' : 'resume'} class="resume" data-testid="resume">
   <div class="basics">
     <h1 class:placeholder={$name.length == 0}>{$name ? $name : 'Your name'}</h1>
-    <p class="subname" class:placeholder={$label.length == 0}>
-      {$label ? $label : 'Your profession'}
-    </p>
-    <p class="subname" class:placeholder={$location.length == 0}>
-      {$location ? $location : 'Location'}
-    </p>
+    {#if $label.length > 0}
+      <p class="subname">{$label}</p>
+    {/if}  
+    {#if $location.length > 0}
+      <p class="subname">{$location}</p>
+    {/if} 
   </div>
 
   <div class="left">
@@ -54,6 +54,7 @@
               startYear={w.startYear}
               endYear={w.endYear}
               highlights={w.highlights}
+              current={w.current}
             />
           {/if}
         {/each}
@@ -105,7 +106,7 @@
             <p><b>{edu.degree}</b></p>
             <p>{edu.major}</p>
             <p>{edu.name}</p>
-            <p>{edu.startYear || 'start year'} - {edu.endYear || 'end year'}</p>
+            <p><i>{edu.startYear || 'start year'} - {edu.endYear || 'end year'}</i></p>
             <br>
           {/if}
         {/each}

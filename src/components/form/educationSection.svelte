@@ -84,16 +84,15 @@
       <input
         type="number" 
         min="1900" 
-        max="2023" 
         placeholder="YYYY" 
-        id={`education_${i}_startDate_year`}
+        id={`education_${i}_startYear`}
         value={e.startYear}
         on:input={updateEducationProperty}
       />
     </label>
     <label class="has-text-input half-width">
       <span>Start month</span>
-      <select id={`education_${i}_startDate_month`} value={e.startMonth} on:input={updateEducationProperty}>
+      <select id={`education_${i}_startMonth`} value={e.startMonth} on:input={updateEducationProperty}>
         <MonthOptions/>
       </select>
     </label>
@@ -106,17 +105,16 @@
       <input
         type="number" 
         min="1900" 
-        max="2023" 
         placeholder="YYYY"
         disabled={e.current}
-        id={`education_${i}_endDate_year`}
+        id={`education_${i}_endYear`}
         value={e.endYear}
         on:input={updateEducationProperty}
       />
     </label>
     <label class="has-text-input half-width">
       <span>End month</span>
-      <select id={`education_${i}_endDate_month`} disabled={e.current} value={e.endMonth} on:input={updateEducationProperty}>
+      <select id={`education_${i}_endMonth`} disabled={e.current} value={e.endMonth} on:input={updateEducationProperty}>
         <MonthOptions/>
       </select>
     </label>
