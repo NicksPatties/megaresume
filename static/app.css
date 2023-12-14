@@ -56,6 +56,16 @@ html {
   --table-header-color: hsl(0, 100%, 50%);
   --table-row-odd-color: var(--table-header-color);
 
+  /*
+    Resume dimensions
+  */
+  --letter-height: 11in;
+  --letter-width: 8.5in;
+  --pointFiveIn: 44px;
+  --resume-ratio: 0.8;
+  --resume-width: calc(var(--letter-width) * var(--resume-ratio));
+  --resume-height: calc(var(--letter-height) * var(--resume-ratio));
+
   color: var(--font-color);
   background: var(--background-color-primary);
   font-family: var(--font-family);
@@ -483,13 +493,6 @@ ul.related-skills-list li button {
 */
 
 .resume-container {
-  --resume-ratio: 0.8;
-  --font-size: 24px;
-  --letter-height: 11in;
-  --letter-width: 8.5in;
-  --pointFiveIn: 44px;
-  --resume-width: calc(var(--letter-width) * var(--resume-ratio));
-  --resume-height: calc(var(--letter-height) * var(--resume-ratio));
   aspect-ratio: var(--letter-width) / var(--letter-height);
   grid-area: panel-content;
 
@@ -606,10 +609,7 @@ ul.related-skills-list li button {
   }
 
   #print-resume {
-    --sort-of-font-size: calc(var(--font-size) + 0.14rem);
     /* This may need to change once I start working on themes */
-    padding: 0;
     display: grid;
-    font-size: var(--sort-of-font-size);
   }
 }

@@ -182,6 +182,7 @@ export function loadData(
     basics.phone.set(saveData.basics.phone);
     basics.email.set(saveData.basics.email);
     basics.summary.set(saveData.basics.summary);
+    basics.location.set(saveData.basics.location);
 
     // load work data
     const workStoresArray: Work[] = [];

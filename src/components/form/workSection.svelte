@@ -157,7 +157,6 @@
       <input
         type="number"
         min="1900"
-        max="2023"
         placeholder="YYYY"
         id={`work_${i}_startYear`}
         value={w.startYear}
@@ -180,7 +179,6 @@
       <input
         type="number"
         min="1900"
-        max="2023"
         placeholder="YYYY"
         disabled={w.current}
         id={`work_${i}_endYear`}
