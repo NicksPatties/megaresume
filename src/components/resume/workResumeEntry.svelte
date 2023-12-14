@@ -44,23 +44,3 @@
     <li id={`resume_work_${i}_highlight_placeholder`} class="placeholder">Highlights</li>
   {/if}
 </ul>
-
-<style>
-  .placeholder {
-    color: gray;
-  }
-
-  ul {
-    margin-top: 0;
-  }
-
-  li {
-    padding-left: 10px;
-  }
-
-  @media only screen and (max-width: 400px) {
-    ul {
-      padding-inline-start: 0.75rem;
-    }
-  }
-</style>

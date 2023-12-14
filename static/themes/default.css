@@ -1,16 +1,17 @@
+.resume-container {
+  --font-size: 24px;
+  --body-font-size: font-size: calc(var(--resume-ratio) * var(--font-size));
+}
+
 .resume {
   --name-font-size: 1.5rem;
   --gap-size: 1rem;
-  /*
-    todo need to find a better way to create a function to calc things
-    by pixel size so I don't have to multiply everything by --resume-ratio all
-    the time
-  */
-  --font-size: calc(var(--resume-ratio) * 16px);
+  --body-font-size: 0.5rem;
   --font-color: black;
+  --primary-content-width: calc(var(--resume-ratio) * 70%);
   font-family: sans-serif;
   overflow: hidden;
-  font-size: var(--font-size);
+  font-size: calc(var(--resume-ratio) * var(--body-font-size));
 
   display: grid;
   grid-template-rows: [header-start] auto [content-start] 1fr [content-end];
@@ -21,6 +22,20 @@
 .resume :is(h1, h2) {
   --margin-bottom: 0.5rem;
   margin-bottom: calc(var(--resume-ratio) * var(--margin-bottom));
+}
+
+.resume h1 {
+  --h1-font-size: 2rem;
+  font-size: calc(var(--resume-ratio) * var(--h1-font-size));
+}
+
+.resume h2 {
+  --h2-font-size: 1.5rem;
+  font-size: calc(var(--resume-ratio) * var(--h2-font-size));
+}
+
+.resume span {
+  font-size: calc(var(--resume-ratio) * var(--body-font-size));
 }
 
 .resume .left {
@@ -40,12 +55,19 @@
 }
 
 .experience ul {
+  --padding-left: 0.3rem;
+
   list-style: none;
-  padding-left: calc(var(--resume-ratio) * 0.3rem);
+  padding-left: calc(var(--resume-ratio) * var(--padding-left));
+  margin: 0;
+  font-size: calc(var(--resume-ratio) * var(--body-font-size));
 }
 
 .experience ul li {
-  margin-top: calc(var(--resume-ratio) * 0.4rem);
+  --margin-top: 0.4rem;
+  --margin-bottom: 1rem;
+  margin-top: calc(var(--resume-ratio) * var(--margin-top));
+  margin-bottom: calc(var(--resume-ratio) * var(--margin-bottom));
 }
 
 .basics .name {
