@@ -6,7 +6,7 @@
 .resume {
   --name-font-size: 1.5rem;
   --gap-size: 1rem;
-  --body-font-size: 0.5rem;
+  --body-font-size: 0.8rem;
   --font-color: black;
   --primary-content-width: calc(var(--resume-ratio) * 70%);
   font-family: sans-serif;
@@ -36,6 +36,12 @@
 
 .resume span {
   font-size: calc(var(--resume-ratio) * var(--body-font-size));
+}
+
+.resume p {
+  --p-margin-bottom: 2px;
+  font-size: calc(var(--resume-ratio) * var(--body-font-size));
+  margin-bottom: calc(var(--resume-ratio) * var(--p-margin-bottom));
 }
 
 .resume .left {
