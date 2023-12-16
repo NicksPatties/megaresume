@@ -14,7 +14,7 @@
   font-size: calc(var(--resume-scale) * var(--body-font-size));
 
   display: grid;
-  grid-template-rows: [header-start] auto [content-start] auto [content-end];
+  grid-template-rows: [header-start] 10% [content-start] auto [content-end];
   grid-template-columns: [primary-content-start] 70% [secondary-content-start] auto;
   gap: calc(var(--resume-scale) * var(--gap-size));
 }
