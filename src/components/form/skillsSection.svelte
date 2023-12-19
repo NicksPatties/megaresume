@@ -5,7 +5,7 @@
 
   let searchTerm = writable('');
   let filteredTags = derived([tagsStore, searchTerm], ([$tagsStore, $searchTerm]) =>
-    $tagsStore.filter((tag) => tag.name.includes($searchTerm))
+    $tagsStore.filter((tag) => tag.name.toLowerCase().includes($searchTerm))
   );
 
   function updateSearchTerm(e: Event) {
