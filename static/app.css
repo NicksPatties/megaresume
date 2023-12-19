@@ -275,8 +275,11 @@ main .panel-content > .form {
 }
 
 .form > section > :is(h1, h2) {
-  /*position: sticky;*/
-  box-shadow: 0px 15px 6px 5px var(--background-color-primary);
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .form > section > h1 {

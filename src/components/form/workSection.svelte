@@ -138,7 +138,8 @@
 <section id="work">
   <h1>Work Experience</h1>
   {#each $workStore as w, i}
-    <h2 id={`work-${i}`}>{w.name || `Work ${i + 1}`}</h2>
+    <h2>{w.name || `Work ${i + 1}`}</h2>
+    <div class="full-width" id={`work-${i}`}></div>
     <label class="has-text-input half-width">
       <span>Company</span>
       <input type="text" id={`work_${i}_name`} value={w.name} on:input={updateWorkProperty} />
