@@ -57,12 +57,18 @@ html {
   --table-row-odd-color: var(--table-header-color);
 
   /*
+    Grid container dimensions
+  */
+  --grid-container-nav-width: 200px;
+
+  /*
     Resume dimensions
   */
   --letter-height: 11in;
   --letter-width: 8.5in;
   --pointFiveIn: 44px;
-  --resume-scale: 1; /* Find a way to have a smaller scale without messing with ratios */
+  --resume-scale: 1;
+  /* Find a way to have a smaller scale without messing with ratios */
   --resume-width: calc(var(--letter-width) * var(--resume-scale));
   --resume-height: calc(var(--letter-height) * var(--resume-scale));
 
@@ -93,7 +99,7 @@ a {
 .grid-container {
   height: 100dvh;
   display: grid;
-  grid-template-columns: 200px 1fr 1fr;
+  grid-template-columns: var(--grid-container-nav-width) 1fr 1fr;
   grid-template-areas: 'menu main preview';
 }
 
@@ -136,6 +142,16 @@ nav.menu ul {
 nav.menu li {
   padding: 0.5rem 1rem;
   font-size: 1.2rem;
+  height: 38px;
+  width: var(--grid-container-nav-width);
+  /* Should be width of the nav container */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+nav.menu li.indent {
+  padding-left: 2rem;
 }
 
 nav.menu a {
@@ -260,7 +276,10 @@ main .panel-content > .form {
 
 .form > section > :is(h1, h2) {
   position: sticky;
-  box-shadow: 0px 15px 6px 5px var(--background-color-primary);
+  top: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .form > section > h1 {
@@ -537,11 +556,11 @@ ul.related-skills-list li button {
 
 @media screen and (max-width: 1300px) {
   .grid-container {
-    grid-template-columns: 200px 1fr 0;
+    grid-template-columns: var(--grid-container-nav-width) 1fr 0;
   }
 
   .grid-container.preview-open {
-    grid-template-columns: 200px 0 1fr;
+    grid-template-columns: var(--grid-container-nav-width) 0 1fr;
   }
 
   div > .panel-nav > button:first-child,
@@ -557,6 +576,7 @@ ul.related-skills-list li button {
 @media screen and (max-width: 530px) {
   html {
     --form-button-column-width: 1;
+    --grid-container-nav-width: 1fr;
   }
 
   .grid-container {
@@ -564,7 +584,7 @@ ul.related-skills-list li button {
   }
 
   .grid-container.menu-open {
-    grid-template-columns: 1fr 0 0;
+    grid-template-columns: var(--grid-container-nav-width) 0 0;
   }
 
   .grid-container.preview-open {

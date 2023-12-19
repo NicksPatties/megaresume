@@ -4,6 +4,7 @@
   import { base } from '$app/paths';
   import { loadLocalStorageData } from '@src/data/data';
   import { onMount } from 'svelte';
+  import { workStore } from '@src/data/data';
 
   function openMenu() {
     let appDiv = document.getElementById('app-div');
@@ -34,7 +35,9 @@
     loadLocalStorageData();
 
     const themeInputs = document.querySelectorAll('input[type="radio"][name="resume-theme"');
+    // put information in the size bar
 
+     
     // update theme??
     console.log(themeInputs);
     themeInputs.forEach((elem) => {
@@ -105,7 +108,12 @@
       </a>
       <a href="#work">
         <li>Work Experience</li>
-      </a>
+      </a>     
+      {#each $workStore as w, i}
+        <a href="#work-{i}">
+          <li class="indent">{w.name}</li>
+        </a>
+      {/each}
       <a href="#education">
         <li>Education</li>
       </a>
