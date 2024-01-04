@@ -34,7 +34,6 @@ function importBasics(jsonResume: JsonResume, basicsStore: BasicsStore) {
     console.warn('No basic information. Ignoring import');
     return;
   }
-  Object.getOwnPropertyNames(basicsStore);
   if (jsonResume.basics.name) {
     basicsStore.name.set(jsonResume.basics.name);
   }
