@@ -11,8 +11,8 @@
     if (appDiv) appDiv.classList.add('menu-open');
     let navElement = document.querySelector('#app-div nav');
     if (navElement) {
-      const firstNav = navElement.querySelector('a')
-      if (firstNav) firstNav.focus()
+      const firstNav = navElement.querySelector('a');
+      if (firstNav) firstNav.focus();
     }
   }
 
@@ -31,13 +31,17 @@
     if (appDiv) appDiv.classList.remove('preview-open');
   }
 
+  function onMenuClick() {
+    closeMenu();
+    closePreview();
+  }
+
   onMount(() => {
     loadLocalStorageData();
 
     const themeInputs = document.querySelectorAll('input[type="radio"][name="resume-theme"');
     // put information in the size bar
 
-     
     // update theme??
     console.log(themeInputs);
     themeInputs.forEach((elem) => {
@@ -50,17 +54,6 @@
             theme.setAttribute('href', `${base}/themes/${name}.css`);
           }
         }
-      });
-    });
-
-    /**
-     * Nav menu bar event listeners 
-    */
-
-    document.querySelectorAll('nav.menu a').forEach((elem) => {
-      elem.addEventListener('click', () => {
-        closeMenu();
-        closePreview()
       });
     });
 
@@ -100,40 +93,40 @@
       <h1><i class="fa-solid fa-file-lines"></i> MegaResume</h1>
     </header>
     <ul>
-      <a href="#import">
+      <a on:click={onMenuClick} href="#import">
         <li>Import Resume</li>
       </a>
-      <a href="#basics">
+      <a on:click={onMenuClick} href="#basics">
         <li>About Me</li>
       </a>
-      <a href="#work">
+      <a on:click={onMenuClick} href="#work">
         <li>Work Experience</li>
-      </a>     
+      </a>
       {#each $workStore as w, i}
-        <a href="#work-{i}">
+        <a on:click={onMenuClick} href="#work-{i}">
           <li class="indent">{w.name}</li>
         </a>
       {/each}
-      <a href="#education">
+      <a on:click={onMenuClick} href="#education">
         <li>Education</li>
       </a>
-      <a href="#skills">
+      <a on:click={onMenuClick} href="#skills">
         <li>Skills</li>
       </a>
-      <a href="#themes">
+      <a on:click={onMenuClick} href="#themes">
         <li>Themes</li>
       </a>
-      <a href="#export">
+      <a on:click={onMenuClick} href="#export">
         <li>Export Resume</li>
       </a>
       <div class="separator"></div>
     </ul>
     <footer>
       <ul class="bottom-menu">
-        <a href="#settings">
+        <a on:click={onMenuClick} href="#settings">
           <li>Settings</li>
         </a>
-        <a href="#about">
+        <a on:click={onMenuClick} href="#about">
           <li>About</li>
         </a>
       </ul>
@@ -161,4 +154,4 @@
     </div>
   </div>
 </div>
-<Resume print={true}/>
+<Resume print={true} />
