@@ -12,12 +12,12 @@ import { Tag, tagsStore } from './tag';
 import type { JsonResume } from './JsonResume';
 
 /**
-Imports the contents of a JSON Resume and adds the contents into the appropriate stores.
+  Imports the contents of a JSON Resume and adds the contents into the appropriate stores.
 
-@param jsonResume {JsonResume} The json resume as defined by the [following schema](https://jsonresume.org/schema/)
-@param [basics=basicsStore] {BasicsStore} The stores for the basic information
-@param [work=workStore] {Writable<Work[]>} The store for the work array
-@param [education=educationStore] {Writable<Education[]>} The store for the education array
+  @param jsonResume {JsonResume} The json resume as defined by the [following schema](https://jsonresume.org/schema/)
+  @param [basics=basicsStore] {BasicsStore} The stores for the basic information
+  @param [work=workStore] {Writable<Work[]>} The store for the work array
+  @param [education=educationStore] {Writable<Education[]>} The store for the education array
 */
 export default function importJsonResume(
   jsonResume: JsonResume,

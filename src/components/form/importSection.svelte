@@ -52,6 +52,7 @@
         } else {
           const jsonResume = JSON.parse(e.target.result as string) as JsonResume;
           importJsonResume(jsonResume);
+          saveResumeDataToLocalStorage();
         }
       };
       fr.readAsText(file);
@@ -68,9 +69,7 @@
     >
   </p>
 
-  <button on:click={requestJsonResumeFile} id="import-jsonresume-data"
-    >Import JSON Resume</button
-  >
+  <button on:click={requestJsonResumeFile} id="import-jsonresume-data">Import JSON Resume</button>
   <input
     id="import-jsonresume-data-input"
     type="file"
