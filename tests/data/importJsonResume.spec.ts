@@ -3,6 +3,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import { type Writable, writable, get } from 'svelte/store';
 import importJsonResume from '@src/data/importJsonResume';
 import type { JsonResume } from '@src/data/JsonResume';
+import type { Tag } from '@src/data/tag';
 
 const testResumeJson: JsonResume = {
   basics: {
@@ -45,6 +46,13 @@ const testResumeJson: JsonResume = {
       score: '4.0',
       courses: ['DB1101 - Basic SQL']
     }
+  ],
+  skills: [
+    {
+      name: 'Web Development',
+      level: 'Master',
+      keywords: ['HTML', 'CSS', 'JavaScript']
+    }
   ]
 };
 
@@ -52,9 +60,10 @@ describe('Import JSON Resume', () => {
   const mockBasicsStore = new BasicsStore();
   const mockWork: Writable<Work[]> = writable([]);
   const mockEducation: Writable<Education[]> = writable([]);
+  const mockSkills: Writable<Tag[]> = writable([]);
 
   beforeAll(() => {
-    importJsonResume(testResumeJson, mockBasicsStore, mockWork, mockEducation);
+    importJsonResume(testResumeJson, mockBasicsStore, mockWork, mockEducation, mockSkills);
     console.log('finished importJsonResume');
   });
 
@@ -100,6 +109,20 @@ describe('Import JSON Resume', () => {
       expect(edu.current).toBe(false);
       expect(edu.endYear).toBe('2013');
       expect(edu.endMonth).toBe('01');
+    }
+  });
+
+  it('should assign the skills in the JSON resume to the tagsStore', () => {
+    const isExpectedSkillName = (name: string) =>
+      name === 'HTML' || name === 'CSS' || name === 'JavaScript' || name === 'Web Development';
+    const actualSkills = get(mockSkills);
+    expect(actualSkills.length).toBe(4); // HTML, CSS, JS, and Web Development
+    for (let i = 0; i < actualSkills.length; i++) {
+      const skill = actualSkills[i];
+      expect(skill.visible).toBe(true);
+      console.log('skill.name', skill.name);
+      console.log(isExpectedSkillName(skill.name));
+      expect(isExpectedSkillName(skill.name)).toBe(true);
     }
   });
 });

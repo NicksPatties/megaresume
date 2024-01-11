@@ -8,6 +8,7 @@ import {
   educationStore,
   type Education
 } from './data';
+import { Tag, tagsStore } from './tag';
 import type { JsonResume } from './JsonResume';
 
 /**
@@ -22,11 +23,13 @@ export default function importJsonResume(
   jsonResume: JsonResume,
   basics: BasicsStore = basicsStore,
   work: Writable<Work[]> = workStore,
-  education: Writable<Education[]> = educationStore
+  education: Writable<Education[]> = educationStore,
+  skills: Writable<Tag[]> = tagsStore
 ) {
   importBasics(jsonResume, basics);
   importWork(jsonResume, work);
   importEducation(jsonResume, education);
+  importSkills(jsonResume, skills);
 }
 
 function importBasics(jsonResume: JsonResume, basicsStore: BasicsStore) {
@@ -114,4 +117,25 @@ function importEducation(jsonResume: JsonResume, educationStore: Writable<Educat
     newEducation.push(outEdu);
   }
   educationStore.set(newEducation);
+}
+
+function importSkills(jsonResume: JsonResume, skillsStore: Writable<Tag[]>) {
+  if (!jsonResume.skills) {
+    return;
+  }
+  const newSkillNames: Set<string> = new Set();
+  const newSkills: Array<Tag> = [];
+  for (const inSkill of jsonResume.skills) {
+    if (inSkill.name) {
+      newSkillNames.add(inSkill.name);
+    }
+    if (inSkill.keywords) {
+      inSkill.keywords.forEach((kw) => newSkillNames.add(kw));
+    }
+  }
+
+  for (const newSkillName of newSkillNames) {
+    newSkills.push(new Tag(newSkillName));
+  }
+  skillsStore.set(newSkills);
 }
