@@ -69,7 +69,7 @@
   </p>
 
   <button on:click={requestJsonResumeFile} id="import-jsonresume-data"
-    >Import JSON Resume (Coming soon)</button
+    >Import JSON Resume</button
   >
   <input
     id="import-jsonresume-data-input"
