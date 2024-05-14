@@ -5,6 +5,7 @@
 
   export let i: number;
   export let name: string;
+  export let role: string;
   export let startYear: string;
   export let endYear: string;
   export let highlights: Highlight[];
@@ -16,6 +17,9 @@
     ><span id={`resume_project_${i}_name`} class:placeholder={name.length == 0}>
       {name || 'Name'}
     </span></b
+  >
+  <span id={`resume_projects_${i}_role`} class:placeholder={role.length == 0}
+    >{role}</span
   >
 </p>
 

@@ -100,6 +100,7 @@ export function removeTagFromWorkStores(tagName: string, stores = workStore) {
 export type Project = {
   visible: boolean;
   name: string;
+  role: string;
   url: string;
   startMonth: string;
   startYear: string;
@@ -114,6 +115,7 @@ export function createBlankProject(): Project {
   return {
     visible: true,
     name: '',
+    role: '',
     url: '',
     startMonth: '',
     startYear: '',

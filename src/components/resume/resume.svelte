@@ -76,6 +76,7 @@
             <ProjectsResumeEntry
               {i}
               name={p.name}
+              role={p.role}
               startYear={p.startYear}
               endYear={p.endYear}
               highlights={p.highlights}

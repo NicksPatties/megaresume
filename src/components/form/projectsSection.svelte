@@ -2,9 +2,9 @@
   import MonthOptions from '@src/components/monthOptions.svelte';
   import {
     saveResumeDataToLocalStorage,
-    createBlankWork,
     projectsStore,
     type Project,
+    createBlankProject,
   } from '@src/data/data';
   import { Tag, addTag, getTag } from '@src/data/tag';
 
@@ -21,6 +21,7 @@
       // I would like to just do something like workArray[i][prop], but
       // that doesn't work, so this is what I have to do instead
       if (prop == 'startYear') projectsArray[i].startYear = value
+      else if (prop == 'role') projectsArray[i].role = value
       else if (prop == 'startMonth') projectsArray[i].startMonth = value
       else if (prop == 'endYear') projectsArray[i].endYear = value
       else if (prop == 'endMonth') projectsArray[i].endMonth = value
@@ -33,7 +34,7 @@
 
   function addProject() {
     projectsStore.update((p: Project[]) => {
-      p.push(createBlankWork());
+      p.push(createBlankProject());
       return p;
     });
   }
@@ -140,9 +141,13 @@
   {#each $projectsStore as p, i}
     <h2>{p.name || `Project ${i + 1}`}</h2>
     <div class="full-width" id={`projects-${i}`}></div>
-    <label class="has-text-input full-width">
+    <label class="has-text-input half-width">
       <span>Name</span>
       <input type="text" id={`projects_${i}_name`} value={p.name} on:input={updateProjectProperty} />
+    </label>    
+    <label class="has-text-input half-width">
+      <span>Role</span>
+      <input type="text" id={`projects_${i}_role`} value={p.role} on:input={updateProjectProperty} />
     </label>
     <label class="has-text-input half-width">
       <span>Start year</span>
