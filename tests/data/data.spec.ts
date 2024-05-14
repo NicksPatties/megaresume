@@ -6,25 +6,33 @@ import {
   blankBasics,
   createBlankWork,
   removeTagFromWorkStores,
-  type Work
+  type Work,
+  type SaveData,
+  type Project
 } from '@src/data/data';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { type Writable, writable, get } from 'svelte/store';
 import { Tag } from '@src/data/tag';
 
-const blankSaveData = JSON.stringify({
+const blankSaveDataObject: SaveData = {
   basics: blankBasics,
   work: [],
+  projects: [],
   education: [],
   tags: []
-});
+};
 
-const blankSaveDataWithWork = JSON.stringify({
+const blankSaveData = JSON.stringify(blankSaveDataObject);
+
+const blankSaveDataWithWorkObject: SaveData = {
   basics: blankBasics,
   work: [createBlankWork()],
+  projects: [],
   education: [],
   tags: [new Tag('tag', true)]
-});
+};
+
+const blankSaveDataWithWork = JSON.stringify(blankSaveDataWithWorkObject);
 
 describe('saveResumeDataToLocalStorage', () => {
   beforeEach(() => {
@@ -49,8 +57,9 @@ describe('saveResumeDataToLocalStorage', () => {
     const basicsStore = new BasicsStore();
     const educationStore = writable([]);
     const workStore: Writable<Work[]> = writable([createBlankWork()]);
+    const projectsStore: Writable<Project[]> = writable([]);
     const tagsStore: Writable<Tag[]> = writable([new Tag('tag', true)]);
-    saveResumeDataToLocalStorage(basicsStore, workStore, educationStore, tagsStore);
+    saveResumeDataToLocalStorage(basicsStore, workStore, projectsStore, educationStore, tagsStore);
     expect(localStorage.setItem).toHaveBeenCalledOnce();
     expect(localStorage.setItem).toHaveBeenCalledWith('saveData', expectedSaveData);
   });
@@ -66,16 +75,17 @@ describe('loadLocalStorageData', () => {
     const basicsStore = new BasicsStore();
     const educationStore = writable([]);
     const workStores: Writable<Work[]> = writable([]);
+    const projectsStore: Writable<Project[]> = writable([]);
     const tagsStore: Writable<Tag[]> = writable([]);
 
     vi.stubGlobal('localStorage', {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      getItem: (key: string) => {
+      getItem: () => {
         return fakeLocalStorage;
       }
     });
 
-    loadLocalStorageData(basicsStore, workStores, educationStore, tagsStore);
+    loadLocalStorageData(basicsStore, workStores, projectsStore, educationStore, tagsStore);
 
     // test basicsStore loaded properly
     expect(get(basicsStore.name)).toBe('');
@@ -109,7 +119,7 @@ describe('loadLocalStorageData', () => {
   it('errors in the console if no save data is loaded', () => {
     vi.stubGlobal('localStorage', {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      getItem: (key: string) => {
+      getItem: () => {
         return null;
       }
     });
@@ -139,9 +149,10 @@ describe('loadData', () => {
     const basicsStore = new BasicsStore();
     const educationStore = writable([]);
     const workStores: Writable<Work[]> = writable([]);
+    const projectStore: Writable<Project[]> = writable([]);
     const tagsStore: Writable<Tag[]> = writable([]);
 
-    loadData(garbageData, basicsStore, workStores, educationStore, tagsStore);
+    loadData(garbageData, basicsStore, workStores, projectStore, educationStore, tagsStore);
 
     expect(console.error).toHaveBeenCalledOnce();
     expect(console.error).toHaveBeenCalledWith(

@@ -64,7 +64,6 @@ describe('Import JSON Resume', () => {
 
   beforeAll(() => {
     importJsonResume(testResumeJson, mockBasicsStore, mockWork, mockEducation, mockSkills);
-    console.log('finished importJsonResume');
   });
 
   it('should assign the contents of the JSON Resume to the correct stores', () => {
@@ -120,8 +119,6 @@ describe('Import JSON Resume', () => {
     for (let i = 0; i < actualSkills.length; i++) {
       const skill = actualSkills[i];
       expect(skill.visible).toBe(true);
-      console.log('skill.name', skill.name);
-      console.log(isExpectedSkillName(skill.name));
       expect(isExpectedSkillName(skill.name)).toBe(true);
     }
   });

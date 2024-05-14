@@ -97,6 +97,47 @@ export function removeTagFromWorkStores(tagName: string, stores = workStore) {
   });
 }
 
+export type Project = {
+  visible: boolean;
+  name: string;
+  role: string;
+  url: string;
+  startMonth: string;
+  startYear: string;
+  current: boolean;
+  endMonth: string;
+  endYear: string;
+  summary: string;
+  highlights: Highlight[];
+};
+
+export function createBlankProject(): Project {
+  return {
+    visible: true,
+    name: '',
+    role: '',
+    url: '',
+    startMonth: '',
+    startYear: '',
+    current: false,
+    endMonth: '',
+    endYear: '',
+    summary: '',
+    highlights: []
+  };
+}
+
+export function removeTagFromProjectStores(tagName: string, stores = projectsStore) {
+  stores.update((projectArray: Project[]) => {
+    projectArray.forEach((project: Project) => {
+      project.highlights.forEach((highlight: Highlight) => {
+        highlight.tagNames = highlight.tagNames.filter((t: string) => t !== tagName);
+      });
+    });
+    return projectArray;
+  });
+}
+
 export type Education = {
   visible: boolean;
   name: string;
@@ -112,6 +153,7 @@ export type Education = {
 export type SaveData = {
   basics: Basics;
   work: Work[];
+  projects: Project[];
   education: Education[];
   tags: Tag[];
 };
@@ -119,6 +161,7 @@ export type SaveData = {
 export function saveData(
   basics = basicsStore,
   work = workStore,
+  projects = projectsStore,
   edu = educationStore,
   tags = tagsStore
 ): SaveData {
@@ -133,12 +176,17 @@ export function saveData(
       location: get(basics.location)
     },
     work: [],
+    projects: [],
     education: [],
     tags: []
   };
 
   get(work).forEach((w) => {
     saveData.work.push(w);
+  });
+
+  get(projects).forEach((p) => {
+    saveData.projects.push(p);
   });
 
   get(edu).forEach((ed) => {
@@ -158,10 +206,11 @@ export function saveData(
 export function saveResumeDataToLocalStorage(
   basics = basicsStore,
   work = workStore,
+  projects = projectsStore,
   education = educationStore,
   tags = tagsStore
 ) {
-  const data: SaveData = saveData(basics, work, education, tags);
+  const data: SaveData = saveData(basics, work, projects, education, tags);
   window.localStorage.setItem('saveData', JSON.stringify(data));
 }
 
@@ -169,6 +218,7 @@ export function loadData(
   saveDataString: string,
   basics = basicsStore,
   work = workStore,
+  projects = projectsStore,
   edu = educationStore,
   tags = tagsStore
 ) {
@@ -193,6 +243,16 @@ export function loadData(
       workStoresArray.push(work);
     });
     work.set(workStoresArray);
+
+    // load projects data
+    const projectsStoreArray: Project[] = [];
+    if (saveData.projects == undefined) {
+      saveData.projects = [];
+    }
+    saveData.projects.forEach((project) => {
+      projectsStoreArray.push(project);
+    });
+    projects.set(projectsStoreArray);
 
     // load education data
     const educationStoresArray: Education[] = [];
@@ -224,12 +284,13 @@ export function loadData(
 export function loadLocalStorageData(
   basics: BasicsStore = basicsStore,
   work = workStore,
+  projects = projectsStore,
   edu = educationStore,
   tags = tagsStore
 ) {
   const saveDataString = localStorage.getItem('saveData');
   if (saveDataString != null) {
-    loadData(saveDataString, basics, work, edu, tags);
+    loadData(saveDataString, basics, work, projects, edu, tags);
   } else {
     console.error('Failed to load resume save data from localStorage!');
   }
@@ -238,6 +299,7 @@ export function loadLocalStorageData(
 export function clearResumeStores(
   basics = basicsStore,
   work = workStore,
+  projects = projectsStore,
   edu = educationStore,
   tags = tagsStore
 ) {
@@ -250,12 +312,14 @@ export function clearResumeStores(
   basics.summary.set('');
 
   work.set([]);
+  projects.set([]);
   edu.set([]);
   tags.set([]);
 }
 
 export const basicsStore = new BasicsStore();
 export const workStore: Writable<Work[]> = writable([]);
+export const projectsStore: Writable<Project[]> = writable([]);
 export const educationStore: Writable<Education[]> = writable([]);
 /**
  * The index to determine which highlights to show in the highlights menu

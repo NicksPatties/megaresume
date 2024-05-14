@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { createBlankWork } from '@src/data/data';
 import type { Tag } from '@src/data/tag';
-import isWorkVisible from '@src/data/isWorkVisible';
+import { isWorkVisible } from '@src/data/isWorkVisible';
 
 describe('isWorkVisible', () => {
   it("returns true if there's a tag that is visible and matches", () => {

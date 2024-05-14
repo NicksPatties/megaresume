@@ -2,7 +2,7 @@
   import Form from '@src/components/form/form.svelte';
   import Resume from '@src/components/resume/resume.svelte';
   import { base } from '$app/paths';
-  import { loadLocalStorageData } from '@src/data/data';
+  import { loadLocalStorageData, projectsStore } from '@src/data/data';
   import { onMount } from 'svelte';
   import { workStore } from '@src/data/data';
 
@@ -43,7 +43,6 @@
     // put information in the size bar
 
     // update theme??
-    console.log(themeInputs);
     themeInputs.forEach((elem) => {
       elem.addEventListener('click', (e) => {
         const target = e.target as HTMLInputElement;
@@ -105,6 +104,14 @@
       {#each $workStore as w, i}
         <a on:click={onMenuClick} href="#work-{i}">
           <li class="indent">{w.name}</li>
+        </a>
+      {/each}
+      <a on:click={onMenuClick} href="#projects">
+        <li>Projects</li>
+      </a>
+      {#each $projectsStore as p, i}
+        <a on:click={onMenuClick} href="#projects-{i}">
+          <li class="indent">{p.name}</li>
         </a>
       {/each}
       <a on:click={onMenuClick} href="#education">
