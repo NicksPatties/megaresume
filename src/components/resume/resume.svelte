@@ -1,9 +1,10 @@
 <script lang="ts">
   import WorkResumeEntry from '@src/components/resume/workResumeEntry.svelte';
-  import { basicsStore, workStore, educationStore } from '@src/data/data';
+  import ProjectsResumeEntry from '@src/components/resume/projectsResumeEntry.svelte';
+  import { basicsStore, workStore, educationStore, projectsStore } from '@src/data/data';
   import { tagsStore } from '@src/data/tag';
   import { derived } from 'svelte/store';
-  import isWorkVisible from '@src/data/isWorkVisible';
+  import {isProjectVisible, isWorkVisible} from '@src/data/isWorkVisible';
 
   export let print = false;
 
@@ -19,6 +20,11 @@
   let visibleWorkStores = derived([workStore, tagsStore], ($values) => {
     const [work, tags] = $values;
     return work.filter((w) => isWorkVisible(w, tags));
+  });
+
+  let visibleProjectStores = derived([projectsStore, tagsStore], ($values) => {
+    const [projects, tags] = $values;
+    return projects.filter((p) => isProjectVisible(p, tags));
   });
 
   let anyVisibleEducationItems = derived(educationStore, (edu) => {
@@ -62,7 +68,27 @@
         <h2 class="placeholder">Your work experience will go here.</h2>
       {/if}
     </div>
+    <div class="experience">
+      {#if $visibleProjectStores.length > 0}
+        <h2>Projects</h2>
+        {#each $visibleProjectStores as p, i}
+          {#if p.visible}
+            <ProjectsResumeEntry
+              {i}
+              name={p.name}
+              startYear={p.startYear}
+              endYear={p.endYear}
+              highlights={p.highlights}
+              current={p.current}
+            />
+          {/if}
+        {/each}
+      {:else}
+        <h2 class="placeholder">Your projects will go here.</h2>
+      {/if}
+    </div>
   </div>
+
 
   <div class="right">
     {#if $summary.length > 0}

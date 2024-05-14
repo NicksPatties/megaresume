@@ -1,6 +1,7 @@
 <script lang="ts">
   import BasicsSection from '@src/components/form/basicsSection.svelte';
   import WorkSection from '@src/components/form/workSection.svelte';
+  import ProjectsSection from '@src/components/form/projectsSection.svelte';
   import EducationSection from '@src/components/form/educationSection.svelte';
   import SkillsSection from '@src/components/form/skillsSection.svelte';
   import ImportSection from './importSection.svelte';
@@ -31,6 +32,8 @@
   <BasicsSection/>
 
   <WorkSection/>
+
+  <ProjectsSection/>
 
   <EducationSection/>
 
