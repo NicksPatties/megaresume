@@ -1,4 +1,4 @@
-import { blankBasics } from '@src/data/data';
+import { blankBasics, type SaveData } from '@src/data/data';
 import { Tag, addTag, deleteTag, updateTag, saveTags } from '@src/data/tag';
 import { type Writable, writable, get } from 'svelte/store';
 import { describe, it, expect, vi } from 'vitest';
@@ -71,9 +71,10 @@ describe('Tag', () => {
       const mockStore = writable([new Tag('js', true), new Tag('css', false)]);
       saveTags(mockStore);
       // order of the props matter because how it stringifies
-      const expectedSaveData = {
+      const expectedSaveData: SaveData = {
         basics: blankBasics,
         work: [],
+        projects: [],
         education: [],
         tags: get(mockStore)
       };
